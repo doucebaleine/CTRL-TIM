@@ -3,10 +3,10 @@ body{
     margin: 0;
     padding: 0;
     
-    color: var(--couleurTexte);
+    color: var(--couleur-texte-pale);
     background-color: var(--couleurBackground);
     font-family: var(--policeTexte);
-    font-size: 24px;
+    font-size: var(--font-size-md);
 }
 
 header{
@@ -19,7 +19,7 @@ main{
 }
 
 h1{
-    color: var(--couleurTitre);
+    color: var(--couleur-titre-pale);
     font-family: var(--policeTitre);
-    font-size: 48px;
+    font-size: var(--font-size-large);
 }

@@ -7,8 +7,14 @@ VARIABLES COULEURS GÉNÉRALES
     --policeTexte: "Bai Jamjuree";    /* La police des textes du site web */
 
     /* couleurs des polices */
-    --couleurTitre: #FFFFFF; /* Couleur des titres généraux du site */
-    --couleurTexte: #FFFFFF; /* Couleur du texte d'information du site */
+    --couleur-titre-pale: #FFFFFF; /* Couleur des titres généraux du site */
+    --couleur-texte-pale: #FFFFFF; /* Couleur du texte d'information du site */
+
+    --font-size-xs: 0.75rem;
+    --font-size-small:0.875rem;
+    --font-size-md: 1rem;
+    --font-size-large: 1.25rem;
+    --font-size-xl: 1.5rem;
 
 }
 
@@ -24,12 +30,44 @@ VARIABLES COULEURS GÉNÉRALES
 }
 
 
+/* -------------------------------------------------
+STRUCTURE DU SITE
+---------------------------------------------------- */
+
+/* Header */
+:root{
+    /* --header-couleur-bg: */
+    --header-couleur-texte: var(var(--couleur-texte-pale));
+    --header-font-size: var(var(--font-size-large));
+    --barreRecherche-couleur-texte: var(var(--couleur-texte-pale));
+    --barreRecherche-couleur-bg: var(var(--couleurBoiteGrise));
+    --barreRecherche-couleur-icone: var(var(--couleurAccentRouge));
+
+}
+
+/* Navigation */
+:root{
+    --nav-couleur-texte:var(var(--couleur-texte-pale));
+    --nav-font-size: var(var(--font-size-large));
+    --nav-couleur-bg:var(var(--couleurBackground));
+}
+
+/* Section */
+
+
+/* Footer */
+:root{
+    --footer-couleur-bg: var(var(--couleurBackground));
+    --footer-couleur-texte: var(var(--couleur-texte-pale));
+    --footer-font-size: var(var(--font-size-md));
+}
+
 /*-------------------------------------------------
 DESIGN
 -------------------------------------------------*/
 
 :root{
-    /* NE FONCTIONNE PAS LORS DE L'UTILISATION voir ligne 50 */
+    /* NE FONCTIONNE PAS LORS DE L'UTILISATION */
     --boxShadowAccentRouge: 3px var(--couleurAccentRouge, 0.4) ; 
     --boxShadowAccentRose: 3px var(--couleurAccentRose, 0.4) ;
     --boxShadowAccentJaune: 3px var(--couleurAccentJaune, 0.4) ;
@@ -47,7 +85,7 @@ DESIGN
     padding-left: 200px;
     padding-right: 200px;
 
-    /* Test voir ligne 32*/
+    /* NE FONCTIONNE PAS */
     box-shadow: var(--boxShadowAccentRose);
 }
 
@@ -57,6 +95,7 @@ DESIGN
 
 .boutonNoir{
     background-color: var(--couleurBackground);
+    padding: 1.5rem;
 }
 
 .boutonCouleur{
@@ -84,5 +123,4 @@ MÉDIAS
 /* -------------------------------------------------
 ANIMATIONS
 ---------------------------------------------------*/
-
 

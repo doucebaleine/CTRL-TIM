@@ -1,0 +1,35 @@
+/*
+Theme Name: CTRL+TIM
+Theme URI: https://gftnth00.mywhc.ca/5w5_06/
+Author: Samuel César
+Author URI: https://github.com/doucebaleine/CTRL-TIM
+Description: Thème développé dans le cadre du cours Projet Web en équipe
+Version: 1.0
+Requires at least: 6.0
+Tested up to: 5.3
+Requires PHP: 7.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: tp1-em
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+*/
+
+/* /////////////////////////////////
+Les variables
+//////////////////////////////////// */
+@import "variables/main";
+
+/* /////////////////////////////////
+Les balise de bases
+//////////////////////////////////// */
+@import "base/autres";
+
+/* /////////////////////////////////
+Les composants
+//////////////////////////////////// */
+
+/* /////////////////////////////////
+Les layouts
+//////////////////////////////////// */
+@import "layout/flexbox";

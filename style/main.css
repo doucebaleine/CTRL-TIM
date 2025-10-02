@@ -76,15 +76,11 @@ DESIGN
 
 .barreRecherche{
     /* Couleur de la barre de recherche */
-    background-color: var(--couleurAccentRouge);
+    /*background-color: var(--couleurAccentRouge); */
     color: var(--couleurBackground);
-
     /* Forme de la barre de recherche */
     height: 25px;
     border-radius: 5px;
-    padding-left: 200px;
-    padding-right: 200px;
-
     /* NE FONCTIONNE PAS */
     box-shadow: var(--boxShadowAccentRose);
 }
@@ -109,7 +105,7 @@ MÉDIAS
 ---------------------------------------------------*/
 
 .iconeLogo{
-
+    
 }
 
 .iconeRecherche{

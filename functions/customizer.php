@@ -1,4 +1,9 @@
 <?php
+/**
+ * Configuration du WordPress Customizer pour CTRL-TIM
+ * Gestion des projets et étudiants via l'interface d'administration
+ */
+
 function theme_ctrltim_customize_register($wp_customize) {
     
     // =====================
@@ -10,7 +15,7 @@ function theme_ctrltim_customize_register($wp_customize) {
         'priority' => 30,
     ));
 
-    // Ajouter
+    // Champs pour ajouter/modifier un projet
     $wp_customize->add_setting('titre_projet', array('default' => '', 'sanitize_callback' => 'sanitize_text_field'));
     $wp_customize->add_control('titre_projet', array('label' => __('Titre', 'theme_ctrltim'), 'section' => 'projets_section', 'type' => 'text'));
 
@@ -20,10 +25,13 @@ function theme_ctrltim_customize_register($wp_customize) {
     $wp_customize->add_setting('video_projet', array('default' => '', 'sanitize_callback' => 'esc_url_raw'));
     $wp_customize->add_control('video_projet', array('label' => __('Vidéo (URL)', 'theme_ctrltim'), 'section' => 'projets_section', 'type' => 'url'));
 
+    $wp_customize->add_setting('image_projet', array('default' => '', 'sanitize_callback' => 'esc_url_raw'));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'image_projet', array('label' => __('Image principale', 'theme_ctrltim'), 'section' => 'projets_section')));
+
     $wp_customize->add_setting('cat_exposition', array('default' => 'cat_arcade', 'sanitize_callback' => 'sanitize_text_field'));
     $wp_customize->add_control('cat_exposition', array('label' => __('Catégorie', 'theme_ctrltim'), 'section' => 'projets_section', 'type' => 'select', 'choices' => array('cat_arcade' => 'Arcade', 'cat_finissants' => 'Finissants', 'cat_terre' => 'Terre')));
 
-    // Filtres
+    // Filtres (checkboxes multiples)
     $wp_customize->add_setting('filtre_jeux', array('default' => false, 'sanitize_callback' => 'wp_validate_boolean'));
     $wp_customize->add_control('filtre_jeux', array('label' => __('Jeux vidéo', 'theme_ctrltim'), 'section' => 'projets_section', 'type' => 'checkbox'));
 
@@ -36,7 +44,7 @@ function theme_ctrltim_customize_register($wp_customize) {
     $wp_customize->add_setting('filtre_web', array('default' => false, 'sanitize_callback' => 'wp_validate_boolean'));
     $wp_customize->add_control('filtre_web', array('label' => __('Web', 'theme_ctrltim'), 'section' => 'projets_section', 'type' => 'checkbox'));
 
-    // Modifier/Supprimer
+    // Sélection et actions pour modifier/supprimer
     $projets = ctrltim_get_all_projects();
     $projets_choices = array('' => 'Nouveau projet');
     if (!empty($projets)) {
@@ -61,7 +69,7 @@ function theme_ctrltim_customize_register($wp_customize) {
         'priority' => 40,
     ));
 
-    // Ajouter
+    // Champs pour ajouter/modifier un étudiant
     $wp_customize->add_setting('nom_etudiant', array('default' => '', 'sanitize_callback' => 'sanitize_text_field'));
     $wp_customize->add_control('nom_etudiant', array('label' => __('Nom', 'theme_ctrltim'), 'section' => 'etudiants_section', 'type' => 'text'));
 
@@ -71,7 +79,7 @@ function theme_ctrltim_customize_register($wp_customize) {
     $wp_customize->add_setting('annee_etudiant', array('default' => 'premiere', 'sanitize_callback' => 'sanitize_text_field'));
     $wp_customize->add_control('annee_etudiant', array('label' => __('Année', 'theme_ctrltim'), 'section' => 'etudiants_section', 'type' => 'select', 'choices' => array('premiere' => '1ère', 'deuxieme' => '2ème', 'troisieme' => '3ème')));
 
-    // Modifier/Supprimer
+    // Sélection et actions pour modifier/supprimer
     $etudiants = ctrltim_get_all_students();
     $etudiants_choices = array('' => 'Nouvel étudiant');
     if (!empty($etudiants)) {
@@ -88,161 +96,7 @@ function theme_ctrltim_customize_register($wp_customize) {
     $wp_customize->add_control('action_etudiant', array('label' => __('Action', 'theme_ctrltim'), 'section' => 'etudiants_section', 'type' => 'select', 'choices' => array('modifier' => 'Modifier', 'supprimer' => 'Supprimer')));
 }
 
+// Enregistrer la fonction de customizer
 add_action('customize_register', 'theme_ctrltim_customize_register');
-
-// =====================
-// TABLES
-// =====================
-
-function ctrltim_create_tables() {
-    global $wpdb;
-    $charset = $wpdb->get_charset_collate();
-    
-    // Projets
-    $sql1 = "CREATE TABLE {$wpdb->prefix}ctrltim_projets (
-        id mediumint(9) NOT NULL AUTO_INCREMENT,
-        titre_projet varchar(255) NOT NULL,
-        description_projet text,
-        video_projet varchar(500),
-        cat_exposition varchar(50) DEFAULT 'cat_arcade',
-        filtre_projet text DEFAULT NULL,
-        date_creation datetime DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY (id)
-    ) $charset;";
-    
-    // Étudiants
-    $sql2 = "CREATE TABLE {$wpdb->prefix}ctrltim_etudiants (
-        id mediumint(9) NOT NULL AUTO_INCREMENT,
-        nom varchar(255) NOT NULL,
-        image_etudiant varchar(500),
-        annee varchar(50) NOT NULL,
-        date_creation datetime DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY (id)
-    ) $charset;";
-    
-    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-    dbDelta($sql1);
-    dbDelta($sql2);
-}
-
-add_action('after_switch_theme', 'ctrltim_create_tables');
-
-// =====================
-// FONCTIONS
-// =====================
-
-function ctrltim_get_all_projects() {
-    global $wpdb;
-    return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_projets ORDER BY id DESC");
-}
-
-function ctrltim_get_all_students() {
-    global $wpdb;
-    return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_etudiants ORDER BY id DESC");
-}
-
-// =====================
-// SAUVEGARDE
-// =====================
-
-function ctrltim_save_data() {
-    global $wpdb;
-    
-    // PROJETS
-    $titre = get_theme_mod('titre_projet');
-    $description = get_theme_mod('description_projet');
-    $video = get_theme_mod('video_projet');
-    $cat = get_theme_mod('cat_exposition');
-    $projet_id = get_theme_mod('projet_id');
-    $action_p = get_theme_mod('action_projet');
-    
-    // Collecter les filtres
-    $filtres = array();
-    if (get_theme_mod('filtre_jeux')) $filtres[] = 'filtre_jeux';
-    if (get_theme_mod('filtre_3d')) $filtres[] = 'filtre_3d';
-    if (get_theme_mod('filtre_video')) $filtres[] = 'filtre_video';
-    if (get_theme_mod('filtre_web')) $filtres[] = 'filtre_web';
-    
-    if (!empty($titre) && empty($projet_id)) {
-        // Ajouter projet
-        $wpdb->insert("{$wpdb->prefix}ctrltim_projets", array(
-            'titre_projet' => $titre, 
-            'description_projet' => $description,
-            'video_projet' => $video,
-            'cat_exposition' => $cat,
-            'filtre_projet' => json_encode($filtres)
-        ));
-        remove_theme_mod('titre_projet');
-        remove_theme_mod('description_projet');
-        remove_theme_mod('video_projet');
-        remove_theme_mod('filtre_jeux');
-        remove_theme_mod('filtre_3d');
-        remove_theme_mod('filtre_video');
-        remove_theme_mod('filtre_web');
-    } elseif (!empty($projet_id)) {
-        if ($action_p === 'supprimer') {
-            // Supprimer projet
-            $wpdb->delete("{$wpdb->prefix}ctrltim_projets", array('id' => $projet_id), array('%d'));
-        } elseif ($action_p === 'modifier') {
-            // Modifier projet - récupérer les données existantes si certains champs sont vides
-            $existing = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}ctrltim_projets WHERE id = %d", $projet_id));
-            if ($existing) {
-                $wpdb->update("{$wpdb->prefix}ctrltim_projets", array(
-                    'titre_projet' => !empty($titre) ? $titre : $existing->titre_projet, 
-                    'description_projet' => $description, // Peut être vide
-                    'video_projet' => $video, // Peut être vide
-                    'cat_exposition' => $cat,
-                    'filtre_projet' => json_encode($filtres)
-                ), array('id' => $projet_id), array('%s', '%s', '%s', '%s', '%s'), array('%d'));
-            }
-        }
-        remove_theme_mod('projet_id');
-        remove_theme_mod('titre_projet');
-        remove_theme_mod('description_projet');
-        remove_theme_mod('video_projet');
-        remove_theme_mod('filtre_jeux');
-        remove_theme_mod('filtre_3d');
-        remove_theme_mod('filtre_video');
-        remove_theme_mod('filtre_web');
-    }
-    
-    // ÉTUDIANTS
-    $nom = get_theme_mod('nom_etudiant');
-    $image = get_theme_mod('image_etudiant');
-    $annee = get_theme_mod('annee_etudiant');
-    $etudiant_id = get_theme_mod('etudiant_id');
-    $action_e = get_theme_mod('action_etudiant');
-    
-    if (!empty($nom) && empty($etudiant_id)) {
-        // Ajouter étudiant
-        $wpdb->insert("{$wpdb->prefix}ctrltim_etudiants", array(
-            'nom' => $nom, 
-            'image_etudiant' => $image,
-            'annee' => $annee
-        ));
-        remove_theme_mod('nom_etudiant');
-        remove_theme_mod('image_etudiant');
-    } elseif (!empty($etudiant_id)) {
-        if ($action_e === 'supprimer') {
-            // Supprimer étudiant
-            $wpdb->delete("{$wpdb->prefix}ctrltim_etudiants", array('id' => $etudiant_id), array('%d'));
-        } elseif ($action_e === 'modifier') {
-            // Modifier étudiant - récupérer les données existantes si certains champs sont vides
-            $existing = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}ctrltim_etudiants WHERE id = %d", $etudiant_id));
-            if ($existing) {
-                $wpdb->update("{$wpdb->prefix}ctrltim_etudiants", array(
-                    'nom' => !empty($nom) ? $nom : $existing->nom, 
-                    'image_etudiant' => $image, // Peut être vide
-                    'annee' => $annee
-                ), array('id' => $etudiant_id), array('%s', '%s', '%s'), array('%d'));
-            }
-        }
-        remove_theme_mod('etudiant_id');
-        remove_theme_mod('nom_etudiant');
-        remove_theme_mod('image_etudiant');
-    }
-}
-
-add_action('customize_save_after', 'ctrltim_save_data');
 
 ?>

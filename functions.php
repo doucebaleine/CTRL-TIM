@@ -1,13 +1,12 @@
 <?php
 
-include_once get_template_directory() . "/functions/customizer.php";
-
 // Définir le chemin vers le dossier "functions"
 $functions_dir = get_template_directory() . '/functions/';
 
 // Liste des fichiers à inclure
 $function_files = array(
     'customizer.php',
+    'base-de-donnees.php',
 );
 
 // Boucle pour inclure tous les fichiers

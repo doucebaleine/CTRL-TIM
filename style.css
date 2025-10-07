@@ -23,7 +23,7 @@ VARIABLES COULEURS GÉNÉRALES
 -------------------------------------------------*/
 /* Polices */
 :root {
-  --policeTitre: "Jersey 15", ; /* La police des titres du site web */
+  --policeTitre: "Jersey 15"; /* La police des titres du site web */
   --policeTexte: "Bai Jamjuree"; /* La police des textes du site web */
   /* couleurs des polices */
   --couleur-titre-pale: #FFFFFF; /* Couleur des titres généraux du site */
@@ -38,10 +38,12 @@ VARIABLES COULEURS GÉNÉRALES
 /* Couleurs globales */
 :root {
   --couleurBackground: #000000; /* Couleur d'arrière-plan du site */
-  --couleurAccentRouge:#FF0037 ; /* Première couleur d'accent du site */
-  --couleurAccentRose:#FF00DC ; /* Deuxième couleur d'accent du site */
-  --couleurAccentJaune:linear-gradient(#FFF600,#FFAE00) ; /* Troisième couleur d'accent du site */
-  --couleurBoiteGrise: linear-gradient(#302F2F,#000000) ; /* Couleur gradient de boîtes d'information */
+  --couleurAccentRouge: #FF0037; /* Première couleur d'accent du site */
+  --couleurAccentRose: #FF00DC; /* Deuxième couleur d'accent du site */
+  --couleurAccentJaune: #FFF600; /* Troisième couleur d'accent du site (jaune principal) */
+  --couleurAccentJaune-gradient: linear-gradient(#FFF600,#FFAE00); /* Variante gradient */
+  --couleurBoiteGrise: #302F2F; /* Couleur principale de boîte grise */
+  --couleurBoiteGrise-gradient: linear-gradient(#302F2F,#000000); /* Variante gradient */
 }
 
 /* -------------------------------------------------
@@ -50,26 +52,26 @@ STRUCTURE DU SITE
 /* Header */
 :root {
   /* --header-couleur-bg: */
-  --header-couleur-texte: var(var(--couleur-texte-pale));
-  --header-font-size: var(var(--font-size-large));
-  --barreRecherche-couleur-texte: var(var(--couleur-texte-pale));
-  --barreRecherche-couleur-bg: var(var(--couleurBoiteGrise));
-  --barreRecherche-couleur-icone: var(var(--couleurAccentRouge));
+  --header-couleur-texte: var(--couleur-texte-pale);
+  --header-font-size: var(--font-size-large);
+  --barreRecherche-couleur-texte: var(--couleur-texte-pale);
+  --barreRecherche-couleur-bg: var(--couleurBoiteGrise);
+  --barreRecherche-couleur-icone: var(--couleurAccentRouge);
 }
 
 /* Navigation */
 :root {
-  --nav-couleur-texte:var(var(--couleur-texte-pale));
-  --nav-font-size: var(var(--font-size-large));
-  --nav-couleur-bg:var(var(--couleurBackground));
+  --nav-couleur-texte: var(--couleur-texte-pale);
+  --nav-font-size: var(--font-size-large);
+  --nav-couleur-bg: var(--couleurBackground);
 }
 
 /* Section */
 /* Footer */
 :root {
-  --footer-couleur-bg: var(var(--couleurBackground));
-  --footer-couleur-texte: var(var(--couleur-texte-pale));
-  --footer-font-size: var(var(--font-size-md));
+  --footer-couleur-bg: var(--couleurBackground);
+  --footer-couleur-texte: var(--couleur-texte-pale);
+  --footer-font-size: var(--font-size-md);
 }
 
 /*-------------------------------------------------
@@ -77,9 +79,10 @@ DESIGN
 -------------------------------------------------*/
 :root {
   /* NE FONCTIONNE PAS LORS DE L'UTILISATION */
-  --boxShadowAccentRouge: 3px var(--couleurAccentRouge, 0.4) ;
-  --boxShadowAccentRose: 3px var(--couleurAccentRose, 0.4) ;
-  --boxShadowAccentJaune: 3px var(--couleurAccentJaune, 0.4) ;
+  /* Pour les box-shadow, il faut utiliser la syntaxe complète dans la propriété, pas dans la variable couleur */
+  --boxShadowAccentRouge: 0 0 3px 0 rgba(255,0,55,0.4);
+  --boxShadowAccentRose: 0 0 3px 0 rgba(255,0,220,0.4);
+  --boxShadowAccentJaune: 0 0 3px 0 rgba(255,246,0,0.4);
 }
 
 .barreRecherche {

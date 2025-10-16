@@ -1,6 +1,6 @@
 <?php
 // Ajouter les sections et contrôles dans le Customizer WordPress
-function ctrltim_customize_register($wp_customize) {
+function ctrltim_enregistrer_customizer($wp_customize) {
     global $wpdb;
     
     // SECTION PROJETS
@@ -9,26 +9,20 @@ function ctrltim_customize_register($wp_customize) {
         'priority' => 30,
     ));
 
-    // Récupérer les projets existants
+    // Récupérer les projets existants et créer les choix
     $projets_existing = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_projets ORDER BY id DESC");
     
+    $projets_choices = array('' => '-- Nouveau projet --');
     $projets_list = "<h4>Projets existants :</h4>";
+    
     if ($projets_existing) {
         $projets_list .= "<ul style='margin-left: 20px;'>";
         foreach ($projets_existing as $p) {
             $cat = ($p->cat_exposition == 'cat_arcade') ? 'arcade' : (($p->cat_exposition == 'cat_bibliotheque') ? 'bibliothèque' : 'événement');
             $projets_list .= "<li style='margin-bottom: 5px;'>" . esc_html($p->titre_projet) . " <span style='color: #666;'>(" . ucfirst($cat) . ")</span></li>";
-        }
-        $projets_list .= "</ul>";
-    }
-
-    // Créer les choix pour le select de modification
-    $projets_choices = array('' => '-- Nouveau projet --');
-    if ($projets_existing) {
-        foreach ($projets_existing as $p) {
-            $cat = ($p->cat_exposition == 'cat_arcade') ? 'arcade' : (($p->cat_exposition == 'cat_bibliotheque') ? 'bibliothèque' : 'événement');
             $projets_choices[$p->id] = $p->titre_projet . " (" . ucfirst($cat) . ")";
         }
+        $projets_list .= "</ul>";
     }
 
     // Contrôle pour sélectionner le projet à modifier
@@ -44,38 +38,24 @@ function ctrltim_customize_register($wp_customize) {
         'description' => $projets_list,
     ));
 
-    // Titre du projet
-    $wp_customize->add_setting('titre_projet', array(
-        'default' => '',
-        'sanitize_callback' => 'sanitize_text_field',
-    ));
-    $wp_customize->add_control('titre_projet', array(
-        'label' => __('Titre du projet', 'ctrltim'),
-        'section' => 'ctrltim_projets',
-        'type' => 'text',
-    ));
+    // Champs du projet
+    $project_fields = array(
+        'titre_projet' => array('label' => 'Titre du projet', 'type' => 'text', 'sanitize' => 'sanitize_text_field'),
+        'description_projet' => array('label' => 'Description du projet', 'type' => 'textarea', 'sanitize' => 'sanitize_textarea_field'),
+        'video_projet' => array('label' => 'URL de la vidéo', 'type' => 'url', 'sanitize' => 'esc_url_raw'),
+    );
 
-    // Description du projet
-    $wp_customize->add_setting('description_projet', array(
-        'default' => '',
-        'sanitize_callback' => 'sanitize_textarea_field',
-    ));
-    $wp_customize->add_control('description_projet', array(
-        'label' => __('Description du projet', 'ctrltim'),
-        'section' => 'ctrltim_projets',
-        'type' => 'textarea',
-    ));
-
-    // Vidéo du projet
-    $wp_customize->add_setting('video_projet', array(
-        'default' => '',
-        'sanitize_callback' => 'esc_url_raw',
-    ));
-    $wp_customize->add_control('video_projet', array(
-        'label' => __('URL de la vidéo', 'ctrltim'),
-        'section' => 'ctrltim_projets',
-        'type' => 'url',
-    ));
+    foreach ($project_fields as $field => $config) {
+        $wp_customize->add_setting($field, array(
+            'default' => '',
+            'sanitize_callback' => $config['sanitize'],
+        ));
+        $wp_customize->add_control($field, array(
+            'label' => __($config['label'], 'ctrltim'),
+            'section' => 'ctrltim_projets',
+            'type' => $config['type'],
+        ));
+    }
 
     // Image du projet
     $wp_customize->add_setting('image_projet', array(
@@ -104,22 +84,21 @@ function ctrltim_customize_register($wp_customize) {
     ));
 
     // Filtres
-    $filtres = array('filtre_jeux', 'filtre_3d', 'filtre_video', 'filtre_web');
-    $filtres_labels = array('Jeux', '3D', 'Vidéo', 'Web');
+    $filtres = array('filtre_jeux' => 'Jeux', 'filtre_3d' => '3D', 'filtre_video' => 'Vidéo', 'filtre_web' => 'Web');
     
-    for ($i = 0; $i < count($filtres); $i++) {
-        $wp_customize->add_setting($filtres[$i], array(
+    foreach ($filtres as $filtre => $label) {
+        $wp_customize->add_setting($filtre, array(
             'default' => false,
             'sanitize_callback' => 'wp_validate_boolean',
         ));
-        $wp_customize->add_control($filtres[$i], array(
-            'label' => __($filtres_labels[$i], 'ctrltim'),
+        $wp_customize->add_control($filtre, array(
+            'label' => __($label, 'ctrltim'),
             'section' => 'ctrltim_projets',
             'type' => 'checkbox',
         ));
     }
 
-    // Bouton pour sauvegarder/supprimer le projet
+    // Action projet
     $wp_customize->add_setting('action_projet', array(
         'default' => 'sauvegarder',
         'sanitize_callback' => 'sanitize_text_field',
@@ -144,30 +123,23 @@ function ctrltim_customize_register($wp_customize) {
         }
     }
 
-    $wp_customize->add_setting('etudiants_selectionnes', array(
-        'default' => '',
-        'sanitize_callback' => 'sanitize_text_field',
-    ));
-    $wp_customize->add_control('etudiants_selectionnes', array(
-        'label' => __('Associer/Retirer un étudiant', 'ctrltim'),
-        'section' => 'ctrltim_projets',
-        'type' => 'select',
-        'choices' => $students_choices,
-    ));
+    $association_fields = array(
+        'etudiants_selectionnes' => array('label' => 'Associer/Retirer un étudiant', 'type' => 'select', 'choices' => $students_choices),
+        'action_etudiant_projet' => array('label' => 'Action sur l\'étudiant', 'type' => 'select', 'choices' => array('ajouter' => 'Associer au projet', 'retirer' => 'Retirer du projet')),
+    );
 
-    $wp_customize->add_setting('action_etudiant_projet', array(
-        'default' => 'ajouter',
-        'sanitize_callback' => 'sanitize_text_field',
-    ));
-    $wp_customize->add_control('action_etudiant_projet', array(
-        'label' => __('Action sur l\'étudiant', 'ctrltim'),
-        'section' => 'ctrltim_projets',
-        'type' => 'select',
-        'choices' => array(
-            'ajouter' => 'Associer au projet',
-            'retirer' => 'Retirer du projet',
-        ),
-    ));
+    foreach ($association_fields as $field => $config) {
+        $wp_customize->add_setting($field, array(
+            'default' => $field == 'action_etudiant_projet' ? 'ajouter' : '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+        $wp_customize->add_control($field, array(
+            'label' => __($config['label'], 'ctrltim'),
+            'section' => 'ctrltim_projets',
+            'type' => $config['type'],
+            'choices' => $config['choices'],
+        ));
+    }
 
     $wp_customize->add_setting('trigger_student_action', array(
         'default' => false,
@@ -197,26 +169,20 @@ function ctrltim_customize_register($wp_customize) {
         'priority' => 35,
     ));
 
-    // Récupérer les étudiants existants
+    // Récupérer les étudiants existants et créer les choix
     $etudiants_existing = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_etudiants ORDER BY nom");
     
+    $etudiants_choices = array('' => '-- Nouvel étudiant --');
     $etudiants_list = "<h4>Étudiants existants :</h4>";
+    
     if ($etudiants_existing) {
         $etudiants_list .= "<ul style='margin-left: 20px;'>";
         foreach ($etudiants_existing as $e) {
             $annee = ($e->annee == 'premiere') ? '1ère année' : (($e->annee == 'deuxieme') ? '2ème année' : '3ème année');
             $etudiants_list .= "<li style='margin-bottom: 5px;'>" . esc_html($e->nom) . " <span style='color: #666;'>(" . $annee . ")</span></li>";
-        }
-        $etudiants_list .= "</ul>";
-    }
-
-    // Créer les choix pour le select de modification
-    $etudiants_choices = array('' => '-- Nouvel étudiant --');
-    if ($etudiants_existing) {
-        foreach ($etudiants_existing as $e) {
-            $annee = ($e->annee == 'premiere') ? '1ère année' : (($e->annee == 'deuxieme') ? '2ème année' : '3ème année');
             $etudiants_choices[$e->id] = $e->nom . " (" . $annee . ")";
         }
+        $etudiants_list .= "</ul>";
     }
 
     // Contrôle pour sélectionner l'étudiant à modifier
@@ -284,10 +250,10 @@ function ctrltim_customize_register($wp_customize) {
         ),
     ));
 }
-add_action('customize_register', 'ctrltim_customize_register');
+add_action('customize_register', 'ctrltim_enregistrer_customizer');
 
 // JavaScript pour améliorer l'expérience utilisateur
-function ctrltim_customizer_script() {
+function ctrltim_script_customizer() {
     wp_enqueue_script('ctrltim-customizer', get_template_directory_uri() . '/js/customizer.js', array('jquery', 'customize-controls'), '1.0.0', true);
     
     // Passer les données nécessaires au JavaScript
@@ -296,6 +262,6 @@ function ctrltim_customizer_script() {
         'nonce' => wp_create_nonce('ctrltim_nonce')
     ));
 }
-add_action('customize_controls_enqueue_scripts', 'ctrltim_customizer_script');
+add_action('customize_controls_enqueue_scripts', 'ctrltim_script_customizer');
 
 ?>

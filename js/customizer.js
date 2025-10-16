@@ -5,7 +5,7 @@
     var selectedAction = 'ajouter';
 
     // Fonction pour mettre à jour l'affichage des étudiants associés
-    function updateStudentsList(studentsHtml) {
+    function mettreAJourListeEtudiants(studentsHtml) {
         var control = wp.customize.control('etudiants_associes_info');
         
         if (control && control.container) {
@@ -62,7 +62,7 @@
                             wp.customize('filtre_web').set(filtres.indexOf('filtre_web') !== -1);
                             
                             // Étudiants associés
-                            updateStudentsList(data.etudiants_associes || '');
+                            mettreAJourListeEtudiants(data.etudiants_associes || '');
                         }
                     });
                 } else {
@@ -76,7 +76,7 @@
                     wp.customize('filtre_3d').set(false);
                     wp.customize('filtre_video').set(false);
                     wp.customize('filtre_web').set(false);
-                    updateStudentsList('');
+                    mettreAJourListeEtudiants('');
                 }
             });
         });
@@ -101,7 +101,7 @@
                                     nonce: ctrlTimData.nonce
                                 }, function(projectResponse) {
                                     if (projectResponse.success) {
-                                        updateStudentsList(projectResponse.data.etudiants_associes || '');
+                                        mettreAJourListeEtudiants(projectResponse.data.etudiants_associes || '');
                                     }
                                 });
                                 

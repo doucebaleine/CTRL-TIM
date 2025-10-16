@@ -137,7 +137,7 @@ function theme_ctrltim_customize_register($wp_customize) {
     ));
 
     // =====================
-    // ÉTUDIANTS
+    // ÉTUDIANTS - LISTE ET GESTION
     // =====================
     
     $wp_customize->add_section('etudiants_section', array(
@@ -145,19 +145,31 @@ function theme_ctrltim_customize_register($wp_customize) {
         'priority' => 40,
     ));
 
-    // Champs pour ajouter/modifier un étudiant
-    $wp_customize->add_setting('nom_etudiant', array('default' => '', 'sanitize_callback' => 'sanitize_text_field'));
-    $wp_customize->add_control('nom_etudiant', array('label' => __('Nom', 'theme_ctrltim'), 'section' => 'etudiants_section', 'type' => 'text'));
-
-    $wp_customize->add_setting('image_etudiant', array('default' => '', 'sanitize_callback' => 'esc_url_raw'));
-    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'image_etudiant', array('label' => __('Photo de l\'étudiant', 'theme_ctrltim'), 'section' => 'etudiants_section')));
-
-    $wp_customize->add_setting('annee_etudiant', array('default' => 'premiere', 'sanitize_callback' => 'sanitize_text_field'));
-    $wp_customize->add_control('annee_etudiant', array('label' => __('Année', 'theme_ctrltim'), 'section' => 'etudiants_section', 'type' => 'select', 'choices' => array('premiere' => '1ère', 'deuxieme' => '2ème', 'troisieme' => '3ème')));
-
-    // Sélection et actions pour modifier/supprimer
+    // Liste des étudiants existants
     $etudiants = ctrltim_get_all_students();
-    $etudiants_choices = array('' => 'Nouvel étudiant');
+    $etudiants_list = "";
+    if (empty($etudiants)) {
+        $etudiants_list = "<p><em>Aucun étudiant pour le moment</em></p>";
+    } else {
+        $etudiants_list .= "<p><strong>Étudiants existants :</strong></p><ul style='margin-left: 20px;'>";
+        foreach ($etudiants as $e) {
+            $annee = str_replace(array('premiere', 'deuxieme', 'troisieme'), array('1ère', '2ème', '3ème'), $e->annee);
+            $etudiants_list .= "<li style='margin-bottom: 5px;'>" . esc_html($e->nom) . " <span style='color: #666;'>(" . $annee . ")</span></li>";
+        }
+        $etudiants_list .= "</ul>";
+    }
+
+    $wp_customize->add_setting('etudiants_info', array('default' => '', 'sanitize_callback' => 'wp_kses_post'));
+    $wp_customize->add_control('etudiants_info', array(
+        'label' => __('Étudiants', 'theme_ctrltim'), 
+        'section' => 'etudiants_section', 
+        'type' => 'textarea',
+        'description' => $etudiants_list,
+        'input_attrs' => array('readonly' => 'readonly', 'style' => 'display:none;')
+    ));
+
+    // Sélection pour modifier/supprimer un étudiant existant
+    $etudiants_choices = array('' => '+ Nouvel étudiant');
     if (!empty($etudiants)) {
         foreach ($etudiants as $e) {
             $annee = str_replace(array('premiere', 'deuxieme', 'troisieme'), array('1ère', '2ème', '3ème'), $e->annee);
@@ -165,11 +177,51 @@ function theme_ctrltim_customize_register($wp_customize) {
         }
     }
 
-    $wp_customize->add_setting('etudiant_id', array('default' => '', 'sanitize_callback' => 'sanitize_text_field'));
-    $wp_customize->add_control('etudiant_id', array('label' => __('Sélectionner', 'theme_ctrltim'), 'section' => 'etudiants_section', 'type' => 'select', 'choices' => $etudiants_choices));
+    $wp_customize->add_setting('etudiant_a_modifier', array('default' => '', 'sanitize_callback' => 'sanitize_text_field'));
+    $wp_customize->add_control('etudiant_a_modifier', array(
+        'label' => __('Étudiant à modifier/supprimer', 'theme_ctrltim'), 
+        'section' => 'etudiants_section', 
+        'type' => 'select', 
+        'choices' => $etudiants_choices
+    ));
 
+    // Champs du formulaire étudiant (pour ajouter ou modifier)
+    $wp_customize->add_setting('nom_etudiant', array('default' => '', 'sanitize_callback' => 'sanitize_text_field'));
+    $wp_customize->add_control('nom_etudiant', array(
+        'label' => __('Nom de l\'étudiant *', 'theme_ctrltim'), 
+        'section' => 'etudiants_section', 
+        'type' => 'text'
+    ));
+
+    $wp_customize->add_setting('image_etudiant', array('default' => '', 'sanitize_callback' => 'esc_url_raw'));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'image_etudiant', array(
+        'label' => __('Photo de l\'étudiant', 'theme_ctrltim'), 
+        'section' => 'etudiants_section'
+    )));
+
+    $wp_customize->add_setting('annee_etudiant', array('default' => 'premiere', 'sanitize_callback' => 'sanitize_text_field'));
+    $wp_customize->add_control('annee_etudiant', array(
+        'label' => __('Année', 'theme_ctrltim'), 
+        'section' => 'etudiants_section', 
+        'type' => 'select', 
+        'choices' => array(
+            'premiere' => '1ère', 
+            'deuxieme' => '2ème', 
+            'troisieme' => '3ème'
+        )
+    ));
+
+    // Action à effectuer (pour étudiants existants seulement)
     $wp_customize->add_setting('action_etudiant', array('default' => 'modifier', 'sanitize_callback' => 'sanitize_text_field'));
-    $wp_customize->add_control('action_etudiant', array('label' => __('Action', 'theme_ctrltim'), 'section' => 'etudiants_section', 'type' => 'select', 'choices' => array('modifier' => 'Modifier', 'supprimer' => 'Supprimer')));
+    $wp_customize->add_control('action_etudiant', array(
+        'label' => __('Action', 'theme_ctrltim'), 
+        'section' => 'etudiants_section', 
+        'type' => 'select', 
+        'choices' => array(
+            'modifier' => 'Modifier', 
+            'supprimer' => 'Supprimer'
+        )
+    ));
 }
 
 // Enregistrer la fonction de customizer
@@ -221,6 +273,32 @@ function ctrltim_customizer_script() {
                     }
                 });
             });
+
+            // Quand on sélectionne un étudiant à modifier, pré-remplir les champs
+            wp.customize('etudiant_a_modifier', function(control) {
+                control.bind(function(value) {
+                    if (value && value !== '') {
+                        // Faire un appel AJAX pour récupérer les données de l'étudiant
+                        $.post(ajaxurl, {
+                            action: 'load_student_data',
+                            student_id: value,
+                            nonce: '<?php echo wp_create_nonce('ctrltim_nonce'); ?>'
+                        }, function(response) {
+                            if (response.success) {
+                                var data = response.data;
+                                wp.customize('nom_etudiant').set(data.nom || '');
+                                wp.customize('image_etudiant').set(data.image_etudiant || '');
+                                wp.customize('annee_etudiant').set(data.annee || 'premiere');
+                            }
+                        });
+                    } else {
+                        // Vider les champs pour un nouvel étudiant
+                        wp.customize('nom_etudiant').set('');
+                        wp.customize('image_etudiant').set('');
+                        wp.customize('annee_etudiant').set('premiere');
+                    }
+                });
+            });
         });
     })(jQuery);
     </script>
@@ -254,5 +332,27 @@ function ctrltim_ajax_load_project_data() {
     }
 }
 add_action('wp_ajax_load_project_data', 'ctrltim_ajax_load_project_data');
+
+// AJAX pour charger les données d'un étudiant
+function ctrltim_ajax_load_student_data() {
+    if (!wp_verify_nonce($_POST['nonce'], 'ctrltim_nonce')) {
+        wp_die('Erreur de sécurité');
+    }
+    
+    global $wpdb;
+    $student_id = intval($_POST['student_id']);
+    $student = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}ctrltim_etudiants WHERE id = %d", $student_id));
+    
+    if ($student) {
+        wp_send_json_success(array(
+            'nom' => $student->nom,
+            'image_etudiant' => $student->image_etudiant,
+            'annee' => $student->annee
+        ));
+    } else {
+        wp_send_json_error('Étudiant non trouvé');
+    }
+}
+add_action('wp_ajax_load_student_data', 'ctrltim_ajax_load_student_data');
 
 ?>

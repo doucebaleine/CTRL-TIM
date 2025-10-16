@@ -64,6 +64,14 @@ function ctrltim_clear_project_fields() {
     remove_theme_mod('filtre_web');
 }
 
+// Fonction pour nettoyer les champs du formulaire étudiant
+function ctrltim_clear_student_fields() {
+    remove_theme_mod('etudiant_a_modifier');
+    remove_theme_mod('nom_etudiant');
+    remove_theme_mod('image_etudiant');
+    remove_theme_mod('annee_etudiant');
+}
+
 // Fonction pour pré-remplir les champs lors de la modification
 function ctrltim_load_project_data($project_id) {
     global $wpdb;
@@ -153,43 +161,48 @@ function ctrltim_save_data() {
         }
     }
     
-    // ÉTUDIANTS
+    // ÉTUDIANTS - Gestion simple
     $nom = get_theme_mod('nom_etudiant');
     $image = get_theme_mod('image_etudiant');
     $annee = get_theme_mod('annee_etudiant');
-    $etudiant_id = get_theme_mod('etudiant_id');
+    $etudiant_a_modifier = get_theme_mod('etudiant_a_modifier');
     $action_e = get_theme_mod('action_etudiant');
     
-    if (!empty($nom) && empty($etudiant_id)) {
-        // Ajouter étudiant
+    // CAS 1: AJOUTER un nouvel étudiant (pas d'ID sélectionné + nom rempli)
+    if (empty($etudiant_a_modifier) && !empty($nom)) {
         $wpdb->insert("{$wpdb->prefix}ctrltim_etudiants", array(
             'nom' => $nom, 
             'image_etudiant' => $image,
             'annee' => $annee
         ));
         
-        remove_theme_mod('nom_etudiant');
-        remove_theme_mod('image_etudiant');
-        remove_theme_mod('annee_etudiant');
-    } elseif (!empty($etudiant_id)) {
+        // Nettoyer les champs après ajout
+        ctrltim_clear_student_fields();
+    }
+    // CAS 2: MODIFIER ou SUPPRIMER un étudiant existant (ID sélectionné)
+    elseif (!empty($etudiant_a_modifier)) {
         if ($action_e === 'supprimer') {
-            // Supprimer étudiant
-            $wpdb->delete("{$wpdb->prefix}ctrltim_etudiants", array('id' => $etudiant_id), array('%d'));
+            // Supprimer l'étudiant
+            $wpdb->delete("{$wpdb->prefix}ctrltim_etudiants", array('id' => $etudiant_a_modifier), array('%d'));
+            
+            // Nettoyer les champs après suppression
+            ctrltim_clear_student_fields();
         } elseif ($action_e === 'modifier') {
-            // Modifier étudiant - récupérer les données existantes si certains champs sont vides
-            $existing = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}ctrltim_etudiants WHERE id = %d", $etudiant_id));
+            // Récupérer l'étudiant existant
+            $existing = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}ctrltim_etudiants WHERE id = %d", $etudiant_a_modifier));
+            
             if ($existing) {
+                // Modifier avec les nouvelles données (garder les anciennes si champ vide)
                 $wpdb->update("{$wpdb->prefix}ctrltim_etudiants", array(
                     'nom' => !empty($nom) ? $nom : $existing->nom, 
-                    'image_etudiant' => $image, // Peut être vide
+                    'image_etudiant' => $image !== '' ? $image : $existing->image_etudiant,
                     'annee' => $annee
-                ), array('id' => $etudiant_id), array('%s', '%s', '%s'), array('%d'));
+                ), array('id' => $etudiant_a_modifier), array('%s', '%s', '%s'), array('%d'));
+                
+                // Nettoyer les champs après modification
+                ctrltim_clear_student_fields();
             }
         }
-        remove_theme_mod('etudiant_id');
-        remove_theme_mod('nom_etudiant');
-        remove_theme_mod('image_etudiant');
-        remove_theme_mod('annee_etudiant');
     }
 }
 

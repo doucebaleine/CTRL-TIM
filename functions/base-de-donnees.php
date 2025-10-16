@@ -51,21 +51,57 @@ function ctrltim_get_all_students() {
     return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_etudiants ORDER BY id DESC");
 }
 
+// Fonction pour nettoyer les champs du formulaire projet
+function ctrltim_clear_project_fields() {
+    remove_theme_mod('projet_a_modifier');
+    remove_theme_mod('titre_projet');
+    remove_theme_mod('description_projet');
+    remove_theme_mod('video_projet');
+    remove_theme_mod('image_projet');
+    remove_theme_mod('filtre_jeux');
+    remove_theme_mod('filtre_3d');
+    remove_theme_mod('filtre_video');
+    remove_theme_mod('filtre_web');
+}
+
+// Fonction pour pré-remplir les champs lors de la modification
+function ctrltim_load_project_data($project_id) {
+    global $wpdb;
+    $project = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}ctrltim_projets WHERE id = %d", $project_id));
+    
+    if ($project) {
+        set_theme_mod('titre_projet', $project->titre_projet);
+        set_theme_mod('description_projet', $project->description_projet);
+        set_theme_mod('video_projet', $project->video_projet);
+        set_theme_mod('image_projet', $project->image_projet);
+        set_theme_mod('cat_exposition', $project->cat_exposition);
+        
+        // Charger les filtres
+        $filtres = json_decode($project->filtre_projet, true);
+        if (is_array($filtres)) {
+            set_theme_mod('filtre_jeux', in_array('filtre_jeux', $filtres));
+            set_theme_mod('filtre_3d', in_array('filtre_3d', $filtres));
+            set_theme_mod('filtre_video', in_array('filtre_video', $filtres));
+            set_theme_mod('filtre_web', in_array('filtre_web', $filtres));
+        }
+    }
+}
+
 // =====================
-// SAUVEGARDE
+// SAUVEGARDE SIMPLE
 // =====================
 
 function ctrltim_save_data() {
     global $wpdb;
     
-    // PROJETS
+    // PROJETS - Gestion simple
     $titre = get_theme_mod('titre_projet');
     $description = get_theme_mod('description_projet');
     $video = get_theme_mod('video_projet');
     $image = get_theme_mod('image_projet');
     $cat = get_theme_mod('cat_exposition');
-    $projet_id = get_theme_mod('projet_id');
-    $action_p = get_theme_mod('action_projet');
+    $projet_a_modifier = get_theme_mod('projet_a_modifier');
+    $action = get_theme_mod('action_projet');
     
     // Collecter les filtres
     $filtres = array();
@@ -74,8 +110,8 @@ function ctrltim_save_data() {
     if (get_theme_mod('filtre_video')) $filtres[] = 'filtre_video';
     if (get_theme_mod('filtre_web')) $filtres[] = 'filtre_web';
     
-    if (!empty($titre) && empty($projet_id)) {
-        // Ajouter projet
+    // CAS 1: AJOUTER un nouveau projet (pas d'ID sélectionné + titre rempli)
+    if (empty($projet_a_modifier) && !empty($titre)) {
         $wpdb->insert("{$wpdb->prefix}ctrltim_projets", array(
             'titre_projet' => $titre, 
             'description_projet' => $description,
@@ -84,40 +120,37 @@ function ctrltim_save_data() {
             'cat_exposition' => $cat,
             'filtre_projet' => json_encode($filtres)
         ));
-        remove_theme_mod('titre_projet');
-        remove_theme_mod('description_projet');
-        remove_theme_mod('video_projet');
-        remove_theme_mod('filtre_jeux');
-        remove_theme_mod('filtre_3d');
-        remove_theme_mod('filtre_video');
-        remove_theme_mod('filtre_web');
-    } elseif (!empty($projet_id)) {
-        if ($action_p === 'supprimer') {
-            // Supprimer projet
-            $wpdb->delete("{$wpdb->prefix}ctrltim_projets", array('id' => $projet_id), array('%d'));
-        } elseif ($action_p === 'modifier') {
-            // Modifier projet - récupérer les données existantes si certains champs sont vides
-            $existing = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}ctrltim_projets WHERE id = %d", $projet_id));
+        
+        // Nettoyer les champs après ajout
+        ctrltim_clear_project_fields();
+    } 
+    // CAS 2: MODIFIER ou SUPPRIMER un projet existant (ID sélectionné)
+    elseif (!empty($projet_a_modifier)) {
+        if ($action === 'supprimer') {
+            // Supprimer le projet
+            $wpdb->delete("{$wpdb->prefix}ctrltim_projets", array('id' => $projet_a_modifier), array('%d'));
+            
+            // Nettoyer les champs après suppression
+            ctrltim_clear_project_fields();
+        } elseif ($action === 'modifier') {
+            // Récupérer le projet existant
+            $existing = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}ctrltim_projets WHERE id = %d", $projet_a_modifier));
+            
             if ($existing) {
+                // Modifier avec les nouvelles données (garder les anciennes si champ vide)
                 $wpdb->update("{$wpdb->prefix}ctrltim_projets", array(
                     'titre_projet' => !empty($titre) ? $titre : $existing->titre_projet, 
-                    'description_projet' => $description, // Peut être vide
-                    'video_projet' => $video, // Peut être vide
-                    'image_projet' => $image, // Peut être vide
+                    'description_projet' => $description !== '' ? $description : $existing->description_projet,
+                    'video_projet' => $video !== '' ? $video : $existing->video_projet,
+                    'image_projet' => $image !== '' ? $image : $existing->image_projet,
                     'cat_exposition' => $cat,
                     'filtre_projet' => json_encode($filtres)
-                ), array('id' => $projet_id), array('%s', '%s', '%s', '%s', '%s', '%s'), array('%d'));
+                ), array('id' => $projet_a_modifier), array('%s', '%s', '%s', '%s', '%s', '%s'), array('%d'));
+                
+                // Nettoyer les champs après modification
+                ctrltim_clear_project_fields();
             }
         }
-        remove_theme_mod('projet_id');
-        remove_theme_mod('titre_projet');
-        remove_theme_mod('description_projet');
-        remove_theme_mod('video_projet');
-        remove_theme_mod('image_projet');
-        remove_theme_mod('filtre_jeux');
-        remove_theme_mod('filtre_3d');
-        remove_theme_mod('filtre_video');
-        remove_theme_mod('filtre_web');
     }
     
     // ÉTUDIANTS

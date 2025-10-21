@@ -1,7 +1,9 @@
-/* Footer layout and theme colors (barre sombre, icônes, recherche et logo central) */
 .site-footer{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
   background: linear-gradient(180deg,#0B0E21,#070713);
-  color: #222640; /* darker text per palette */
+  color: #222640;
   padding: 34px 18px;
 }
 .footer-inner{

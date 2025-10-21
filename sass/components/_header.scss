@@ -11,7 +11,7 @@
   min-height: 44px;
 }
 
-.logo{position:fixed;left:8px;top:12px;z-index:9999}
+.logo{position:fixed;left:8px;top:50px;z-index:9999}
 .logo .logo-link{display:inline-block}
 .logo-icon{width:44px;height:34px;display:flex;align-items:center;justify-content:center}
 
@@ -20,7 +20,7 @@
 .barreRecherche input{flex:1;background:transparent;border:none;outline:none;color:var(--couleur-texte-pale);padding:6px 4px}
 .iconeRecherche{color:var(--couleur-texte-pale);opacity:0.95}
 
-.menu-burger{position:fixed;right:8px;top:12px;z-index:9999;background:transparent;border:none;display:flex;flex-direction:column;gap:5px;padding:8px;align-items:center}
+.menu-burger{cursor: pointer;position:fixed;right:8px;top:50px;z-index:9999;background:transparent;border:none;display:flex;flex-direction:column;gap:5px;padding:8px;align-items:center}
 .menu-burger span{display:block;width:22px;height:2px;background:linear-gradient(90deg,#b47bff,#7cd0ff);border-radius:2px}
 
 @media (max-width:900px){

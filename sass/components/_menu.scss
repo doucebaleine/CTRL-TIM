@@ -10,7 +10,7 @@
 }
 .offcanvas-menu.open{ transform: translateX(0%); }
 .offcanvas-content{ width:420px; padding:48px; color:var(--couleur-texte-pale); }
-.offcanvas-close{ position:absolute; top:18px; right:18px; background:transparent;border:none;color:#D167FF;font-size:20px }
+.offcanvas-close{ cursor: pointer;position:absolute; top:50px; right:18px; background:transparent;border:none;color:#D167FF;font-size:20px }
 .offcanvas-search{ display:flex; gap:12px; align-items:center; background: linear-gradient(90deg, rgba(50,50,70,0.6), rgba(30,20,40,0.4)); padding:10px 14px;border-radius:22px; margin-bottom:32px }
 .offcanvas-search input{ background:transparent;border:none;color:var(--couleur-texte-pale);outline:none }
 .offcanvas-nav{ display:flex; flex-direction:column; gap:22px }

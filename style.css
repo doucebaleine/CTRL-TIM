@@ -119,8 +119,6 @@ Les balise de bases
 //////////////////////////////////// */
 body {
   height: 100%;
-  margin: 0;
-  padding: 0;
   color: var(--couleur-texte-pale);
   background-color: var(--couleurBackground);
   font-family: var(--policeTexte);
@@ -132,7 +130,6 @@ header {
 }
 
 main {
-  min-height: 100vh;
   padding: 2em;
 }
 
@@ -191,7 +188,7 @@ body::before {
 .logo {
   position: fixed;
   left: 8px;
-  top: 12px;
+  top: 50px;
   z-index: 9999;
 }
 
@@ -242,9 +239,10 @@ body::before {
 }
 
 .menu-burger {
+  cursor: pointer;
   position: fixed;
   right: 8px;
-  top: 12px;
+  top: 50px;
   z-index: 9999;
   background: transparent;
   border: none;
@@ -298,8 +296,9 @@ body::before {
 }
 
 .offcanvas-close {
+  cursor: pointer;
   position: absolute;
-  top: 18px;
+  top: 50px;
   right: 18px;
   background: transparent;
   border: none;
@@ -476,10 +475,12 @@ body::before {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
 }
 
-/* Footer layout and theme colors (barre sombre, icônes, recherche et logo central) */
 .site-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
   background: linear-gradient(180deg, #0B0E21, #070713);
-  color: #222640; /* darker text per palette */
+  color: #222640;
   padding: 34px 18px;
 }
 
@@ -604,4 +605,4 @@ footer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-}
+}/*# sourceMappingURL=style.css.map */

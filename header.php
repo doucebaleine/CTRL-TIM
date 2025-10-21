@@ -6,7 +6,7 @@
 	<title><?php wp_title('|', true, 'right'); ?></title>
 	<!-- Polices Google -->
 	<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400;700&display=swap" rel="stylesheet">
-	<!-- Jersey 15 n'est pas une police Google standard; si elle n'est pas disponible, une police de secours sera utilisée via CSS -->
+	<link href="https://fonts.googleapis.com/css2?family=Jersey+15&display=swap" rel="stylesheet">
 	<?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>

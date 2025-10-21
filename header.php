@@ -23,6 +23,6 @@
 
 	<!-- BOUTON NAVIGATION -->
 	<section class="menuBoiteGlobale">
-		<p>MENU</p>
+		<p>MENU <?php 	wp_nav_menu();	?></p>
 	</section>
 </header>

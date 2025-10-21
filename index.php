@@ -143,36 +143,11 @@
          ?>
       </section>
 
-<?php get_footer(); ?>
+
 
    </main>
    <footer>
-      <!-- MÉDIAS SOCIAUX -->
-      <section class="mediasSociauxFooter">
-         <p>Média 1</p>
-         <p>Média 2</p>
-      </section>
-
-      <!-- DESCRIPTION DE L'ÉVÈNEMENT?? OU DE NOUS?? -->
-      <section class="creditFooter">
-         <p>Ce site a été fait par blablabla</p>
-      </section>
-
-
-      <!-- LOGO -->
-      <section class="logoFooter">
-         <p>LOGO</p>
-      </section>
-
-      <!-- ADRESSE -->
-      <section class="adresseFooter">
-         <p>ADRESSE</p>
-      </section>
-
-      <!-- LIEN VERS LE SITE WEB -->
-      <section class="lienFooter">
-         <p>LIEN SITE DU COLLÈGE</p>
-      </section>
+     <?php get_footer(); ?>
    </footer>
 </body>
 

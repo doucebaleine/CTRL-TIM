@@ -10,11 +10,7 @@ function ctrltim_creer_tables() {
     // Projets
     $sql1 = "CREATE TABLE {$wpdb->prefix}ctrltim_projets (
         id mediumint(9) NOT NULL AUTO_INCREMENT,
-   }
-add_action('wp_ajax_load_student_data', 'ctrltim_ajax_charger_donnees_etudiant');
-
-// AJAX pour gérer l'association des étudiants aux projets
-function ctrltim_ajax_gerer_etudiants_projet() {titre_projet varchar(255) NOT NULL,
+        titre_projet varchar(255) NOT NULL,
         description_projet text,
         video_projet varchar(500),
         image_projet varchar(500),
@@ -40,11 +36,9 @@ function ctrltim_ajax_gerer_etudiants_projet() {titre_projet varchar(255) NOT NU
     dbDelta($sql2);
 }
 
-add_action('after_switch_theme', 'ctrltim_create_tables');
+add_action('after_switch_theme', 'ctrltim_creer_tables');
 
 // Fonction pour mettre à jour les tables existantes
-}
-
 function ctrltim_mettre_a_jour_tables() {
     global $wpdb;
     
@@ -77,12 +71,9 @@ function ctrltim_mettre_a_jour_tables() {
     }
 }
 
-add_action('after_switch_theme', 'ctrltim_create_tables');
-add_action('after_switch_theme', 'ctrltim_update_tables');
+add_action('after_switch_theme', 'ctrltim_mettre_a_jour_tables');
 
 // Fonction pour récupérer les étudiants associés à un projet
-}
-
 function ctrltim_obtenir_etudiants_projet($project_id) {
     global $wpdb;
     
@@ -98,13 +89,12 @@ function ctrltim_obtenir_etudiants_projet($project_id) {
         return array();
     }
     
-    if (!empty($project->etudiants_associes) && $project->etudiants_associes !== 'null') {
-        $student_ids = json_decode($project->etudiants_associes, true);
+    $student_ids = json_decode($project->etudiants_associes, true);
+    
+    if (is_array($student_ids) && !empty($student_ids)) {
+        $etudiants_associes = $student_ids;
         
-        if (is_array($student_ids) && !empty($student_ids)) {
-            // Nettoyer les IDs (s'assurer qu'ils sont des entiers)
-            $student_ids = array_map('intval', $student_ids);
-            $student_ids = array_filter($student_ids); // Enlever les 0 et valeurs invalides
+        if (is_array($etudiants_associes)) {
             
             if (!empty($student_ids)) {
                 $placeholders = implode(',', array_fill(0, count($student_ids), '%d'));
@@ -138,9 +128,9 @@ function ctrltim_sauvegarder_donnees() {
     $image = get_theme_mod('image_projet');
     $cat = get_theme_mod('cat_exposition');
     $projet_a_modifier = get_theme_mod('projet_a_modifier');
-    $action = get_theme_mod('action_projet');
+    $action_projet = get_theme_mod('action_projet');
     
-    // Collecter les filtres
+    // Récupérer les filtres
     $filtres = array();
     if (get_theme_mod('filtre_jeux')) $filtres[] = 'filtre_jeux';
     if (get_theme_mod('filtre_3d')) $filtres[] = 'filtre_3d';
@@ -150,7 +140,7 @@ function ctrltim_sauvegarder_donnees() {
     // CAS 1: AJOUTER un nouveau projet (pas d'ID sélectionné + titre rempli)
     if (empty($projet_a_modifier) && !empty($titre)) {
         $project_data = array(
-            'titre_projet' => $titre, 
+            'titre_projet' => $titre,
             'description_projet' => $description,
             'video_projet' => $video,
             'image_projet' => $image,
@@ -165,12 +155,10 @@ function ctrltim_sauvegarder_donnees() {
     
     // CAS 2: MODIFIER un projet existant (ID sélectionné + titre rempli)
     elseif (!empty($projet_a_modifier) && !empty($titre)) {
-        if ($action === 'supprimer') {
-            // Supprimer le projet
+        if ($action_projet === 'supprimer') {
             $wpdb->delete($wpdb->prefix . 'ctrltim_projets', array('id' => $projet_a_modifier));
-            ctrltim_clear_project_fields();
+            ctrltim_vider_champs(['projet_a_modifier', 'titre_projet', 'description_projet', 'video_projet', 'image_projet', 'filtre_jeux', 'filtre_3d', 'filtre_video', 'filtre_web']);
         } else {
-            // Mettre à jour le projet
             $project_data = array(
                 'titre_projet' => $titre,
                 'description_projet' => $description,
@@ -186,7 +174,7 @@ function ctrltim_sauvegarder_donnees() {
                 array('id' => $projet_a_modifier)
             );
             
-            ctrltim_clear_project_fields();
+            ctrltim_vider_champs(['projet_a_modifier', 'titre_projet', 'description_projet', 'video_projet', 'image_projet', 'filtre_jeux', 'filtre_3d', 'filtre_video', 'filtre_web']);
         }
     }
     
@@ -310,10 +298,10 @@ function ctrltim_ajax_charger_donnees_etudiant() {
         wp_send_json_error('Étudiant non trouvé');
     }
 }
-add_action('wp_ajax_load_student_data', 'ctrltim_ajax_load_student_data');
+add_action('wp_ajax_load_student_data', 'ctrltim_ajax_charger_donnees_etudiant');
 
-// AJAX pour gérer les associations étudiants-projets
-function ctrltim_ajax_manage_project_students() {
+// AJAX pour gérer l'association des étudiants aux projets
+function ctrltim_ajax_gerer_etudiants_projet() {
     if (!wp_verify_nonce($_POST['nonce'], 'ctrltim_nonce')) {
         wp_die('Erreur de sécurité');
     }
@@ -321,12 +309,7 @@ function ctrltim_ajax_manage_project_students() {
     global $wpdb;
     $project_id = intval($_POST['project_id']);
     $student_id = intval($_POST['student_id']);
-    $action = sanitize_text_field($_POST['student_action']);
-
-    if (!$project_id || !$student_id) {
-        wp_send_json_error('IDs manquants');
-        return;
-    }
+    $action = sanitize_text_field($_POST['action']);
 
     $project = $wpdb->get_row($wpdb->prepare(
         "SELECT etudiants_associes FROM {$wpdb->prefix}ctrltim_projets WHERE id = %d",

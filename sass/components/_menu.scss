@@ -1,0 +1,23 @@
+/* Off-canvas menu styles */
+.offcanvas-menu{
+  position: fixed;
+  inset: 0 0 0 50%;
+  background: linear-gradient(90deg, rgba(10,8,20,0.95), rgba(8,6,18,0.98));
+  z-index: 20000;
+  transform: translateX(100%);
+  transition: transform 320ms ease;
+  display:flex;align-items:center;justify-content:flex-end;
+}
+.offcanvas-menu.open{ transform: translateX(0%); }
+.offcanvas-content{ width:420px; padding:48px; color:var(--couleur-texte-pale); }
+.offcanvas-close{ position:absolute; top:18px; right:18px; background:transparent;border:none;color:#D167FF;font-size:20px }
+.offcanvas-search{ display:flex; gap:12px; align-items:center; background: linear-gradient(90deg, rgba(50,50,70,0.6), rgba(30,20,40,0.4)); padding:10px 14px;border-radius:22px; margin-bottom:32px }
+.offcanvas-search input{ background:transparent;border:none;color:var(--couleur-texte-pale);outline:none }
+.offcanvas-nav{ display:flex; flex-direction:column; gap:22px }
+.menu-btn{ display:inline-block; padding:12px 24px; border-radius:12px; background:transparent; color:var(--couleur-texte-pale); text-decoration:none; font-size:2rem; font-family:var(--policeTitre) }
+.menu-btn.primary{ background: linear-gradient(90deg,#D167FF,#62B8FF); color:#07101e; box-shadow: 6px 8px 20px rgba(45,20,80,0.35) }
+
+/* prevent page scroll while menu open */
+.no-scroll{ overflow:hidden; }
+
+@media (max-width:480px){ .offcanvas-content{ width:100%; padding:26px } .menu-btn{ font-size:1.4rem } }

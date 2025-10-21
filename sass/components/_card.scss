@@ -1,0 +1,41 @@
+/* Carte d'information à droite et pile d'images */
+.galerieBoiteGenerale{
+  position: relative;
+}
+.carte-droite{
+  width: 420px;
+  height: 220px;
+  background: linear-gradient(180deg, rgba(30,30,60,0.95), rgba(15,15,35,0.9));
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+  border: 4px solid transparent;
+  background-clip: padding-box;
+  position: absolute;
+  right: 40px;
+  top: 40px;
+  z-index: 4;
+}
+.carte-droite::before{
+  content: '';
+  position: absolute;
+  inset: -6px;
+  background: linear-gradient(135deg, rgba(175,120,255,0.9), rgba(120,200,255,0.9));
+  border-radius: 12px;
+  z-index: -1;
+}
+.carte-droite .icone-commande{
+  width: 120px;
+  height: 80px;
+  float: right;
+}
+
+.pile-images{
+  position: absolute;
+  right: 20px;
+  top: 140px;
+  display: flex;
+  gap: 10px;
+  transform: rotate(-6deg);
+}
+.pile-images img{width:120px;height:80px;border-radius:6px;border:4px solid rgba(120,140,255,0.8);box-shadow:0 8px 30px rgba(0,0,0,0.6)}

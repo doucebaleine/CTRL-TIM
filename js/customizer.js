@@ -52,6 +52,8 @@
                             wp.customize('description_projet').set(data.description_projet || '');
                             wp.customize('video_projet').set(data.video_projet || '');
                             wp.customize('image_projet').set(data.image_projet || '');
+                            wp.customize('lien_projet').set(data.lien || '');
+                            wp.customize('cours_projet').set(data.cours || '');
                             wp.customize('cat_exposition').set(data.cat_exposition || 'cat_arcade');
                             
                             // Filtres
@@ -71,6 +73,8 @@
                     wp.customize('description_projet').set('');
                     wp.customize('video_projet').set('');
                     wp.customize('image_projet').set('');
+                    wp.customize('lien_projet').set('');
+                    wp.customize('cours_projet').set('');
                     wp.customize('cat_exposition').set('cat_arcade');
                     wp.customize('filtre_jeux').set(false);
                     wp.customize('filtre_3d').set(false);

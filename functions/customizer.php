@@ -43,6 +43,8 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         'titre_projet' => array('label' => 'Titre du projet', 'type' => 'text', 'sanitize' => 'sanitize_text_field'),
         'description_projet' => array('label' => 'Description du projet', 'type' => 'textarea', 'sanitize' => 'sanitize_textarea_field'),
         'video_projet' => array('label' => 'URL de la vidéo', 'type' => 'url', 'sanitize' => 'esc_url_raw'),
+        'lien_projet' => array('label' => 'Lien du projet', 'type' => 'url', 'sanitize' => 'esc_url_raw'),
+        'cours_projet' => array('label' => 'Cours', 'type' => 'text', 'sanitize' => 'sanitize_text_field'),
     );
 
     foreach ($project_fields as $field => $config) {

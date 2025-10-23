@@ -20,7 +20,7 @@ VARIABLES COULEURS GÉNÉRALES
 
 /* Couleurs globales */
 :root{
-    --couleurBackground: #000000; /* Couleur d'arrière-plan du site */
+    --couleurBackground: #0B0E21; /* Couleur d'arrière-plan du site */
     --couleurAccentRouge: #FF0037; /* Première couleur d'accent du site */
     --couleurAccentRose: #FF00DC; /* Deuxième couleur d'accent du site */
     --couleurAccentJaune: #FFF600; /* Troisième couleur d'accent du site */
@@ -82,7 +82,6 @@ DESIGN
     /* Forme de la barre de recherche */
     height: 25px;
     border-radius: 5px;
-    /* NE FONCTIONNE PAS */
     box-shadow: var(--boxShadowAccentRose);
 }
 

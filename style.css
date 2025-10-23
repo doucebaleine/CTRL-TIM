@@ -37,7 +37,7 @@ VARIABLES COULEURS GÉNÉRALES
 
 /* Couleurs globales */
 :root {
-  --couleurBackground: #000000; /* Couleur d'arrière-plan du site */
+  --couleurBackground: #0B0E21; /* Couleur d'arrière-plan du site */
   --couleurAccentRouge: #FF0037; /* Première couleur d'accent du site */
   --couleurAccentRose: #FF00DC; /* Deuxième couleur d'accent du site */
   --couleurAccentJaune: #FFF600; /* Troisième couleur d'accent du site */
@@ -91,7 +91,6 @@ DESIGN
   /* Forme de la barre de recherche */
   height: 25px;
   border-radius: 5px;
-  /* NE FONCTIONNE PAS */
   box-shadow: var(--boxShadowAccentRose);
 }
 
@@ -131,6 +130,8 @@ header {
 
 main {
   padding: 2em;
+  position: relative;
+  z-index: 2;
 }
 
 h1 {
@@ -150,7 +151,6 @@ h1 {
 /* /////////////////////////////////
 Les composants
 //////////////////////////////////// */
-/* Watermark background répété */
 body::before {
   content: "CTRL+TIM CTRL+TIM CTRL+TIM CTRL+TIM";
   position: fixed;
@@ -187,8 +187,8 @@ body::before {
 
 .logo {
   position: fixed;
-  left: 8px;
-  top: 50px;
+  right: 96%;
+  top: 2%;
   z-index: 9999;
 }
 
@@ -236,29 +236,6 @@ body::before {
 .iconeRecherche {
   color: var(--couleur-texte-pale);
   opacity: 0.95;
-}
-
-.menu-burger {
-  cursor: pointer;
-  position: fixed;
-  right: 8px;
-  top: 50px;
-  z-index: 9999;
-  background: transparent;
-  border: none;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 8px;
-  align-items: center;
-}
-
-.menu-burger span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background: linear-gradient(90deg, #b47bff, #7cd0ff);
-  border-radius: 2px;
 }
 
 @media (max-width: 900px) {
@@ -346,6 +323,29 @@ body::before {
   box-shadow: 6px 8px 20px rgba(45, 20, 80, 0.35);
 }
 
+.menu-burger {
+  cursor: pointer;
+  position: fixed;
+  left: 97%;
+  top: 2%;
+  z-index: 9999;
+  background: transparent;
+  border: none;
+}
+
+.iconeMenuBurger {
+  width: 36px;
+  height: 36px;
+}
+
+.iconeFermerMenu {
+  position: fixed;
+  width: 48px;
+  height: 48px;
+  left: 95%;
+  top: 2%;
+}
+
 /* prevent page scroll while menu open */
 .no-scroll {
   overflow: hidden;
@@ -390,7 +390,6 @@ body::before {
 .iconeRecherche {
   width: 20px;
   height: 20px;
-  filter: invert(1) saturate(0.6) brightness(1.4);
 }
 
 /* Hero layout: titre à gauche et description */
@@ -481,7 +480,6 @@ body::before {
   width: 100%;
   background: linear-gradient(180deg, #0B0E21, #070713);
   color: #222640;
-  padding: 34px 18px;
 }
 
 .footer-inner {
@@ -490,37 +488,19 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
 }
 
 .footer-col {
   display: flex;
   align-items: center;
-  gap: 12px;
-}
-
-.footer-col.left, .footer-col.right {
-  min-width: 160px;
 }
 
 .social-icon {
   width: 64px;
   height: 64px;
-  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(209, 103, 255, 0.06), rgba(98, 184, 255, 0.06));
-  border: 2px solid rgba(209, 103, 255, 0.22);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
-}
-
-.social-icon svg {
-  width: 30px;
-  height: 30px;
-  fill: none;
-  stroke: #D167FF;
-  stroke-width: 1.6;
 }
 
 .footer-center {
@@ -558,12 +538,9 @@ body::before {
 .footer-logo-box {
   width: 140px;
   height: 96px;
-  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(209, 103, 255, 0.12), rgba(98, 184, 255, 0.12));
-  border: 3px solid rgba(98, 184, 255, 0.18);
 }
 
 /* small screens: stack footer */
@@ -599,10 +576,4 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 }/*# sourceMappingURL=style.css.map */

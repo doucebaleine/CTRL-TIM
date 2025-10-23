@@ -6,18 +6,104 @@
   z-index: 20000;
   transform: translateX(100%);
   transition: transform 320ms ease;
-  display:flex;align-items:center;justify-content:flex-end;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
 }
-.offcanvas-menu.open{ transform: translateX(0%); }
-.offcanvas-content{ width:420px; padding:48px; color:var(--couleur-texte-pale); }
-.offcanvas-close{ cursor: pointer;position:absolute; top:50px; right:18px; background:transparent;border:none;color:#D167FF;font-size:20px }
-.offcanvas-search{ display:flex; gap:12px; align-items:center; background: linear-gradient(90deg, rgba(50,50,70,0.6), rgba(30,20,40,0.4)); padding:10px 14px;border-radius:22px; margin-bottom:32px }
-.offcanvas-search input{ background:transparent;border:none;color:var(--couleur-texte-pale);outline:none }
-.offcanvas-nav{ display:flex; flex-direction:column; gap:22px }
-.menu-btn{ display:inline-block; padding:12px 24px; border-radius:12px; background:transparent; color:var(--couleur-texte-pale); text-decoration:none; font-size:2rem; font-family:var(--policeTitre) }
-.menu-btn.primary{ background: linear-gradient(90deg,#D167FF,#62B8FF); color:#07101e; box-shadow: 6px 8px 20px rgba(45,20,80,0.35) }
+
+.offcanvas-menu.open{
+  transform: translateX(0%); 
+}
+
+.offcanvas-content{ 
+  width:420px;
+  padding:48px; 
+  color:var(--couleur-texte-pale); 
+}
+
+.offcanvas-close{ 
+  cursor: pointer;
+  position:absolute; 
+  top:50px; 
+  right:18px; 
+  background:transparent;
+  border:none;
+  color:#D167FF;
+  font-size:20px 
+}
+
+.offcanvas-search{ 
+  display:flex; 
+  gap:12px; 
+  align-items:center; 
+  background: linear-gradient(90deg, rgba(50,50,70,0.6), rgba(30,20,40,0.4)); 
+  padding:10px 14px;
+  border-radius:22px; 
+  margin-bottom:32px 
+}
+.offcanvas-search input{ 
+  background:transparent;
+  border:none;
+  color:var(--couleur-texte-pale);outline:none 
+}
+
+.offcanvas-nav{ 
+  display:flex; 
+  flex-direction:column; 
+  gap:22px 
+
+}
+.menu-btn{ 
+  display:inline-block; 
+  padding:12px 24px; 
+  border-radius:12px; 
+  background:transparent; 
+  color:var(--couleur-texte-pale); 
+  text-decoration:none; 
+  font-size:2rem; 
+  font-family:var(--policeTitre) 
+}
+
+.menu-btn.primary{ 
+  background: linear-gradient(90deg,#D167FF,#62B8FF); 
+  color:#07101e; 
+  box-shadow: 6px 8px 20px rgba(45,20,80,0.35) 
+}
+
+.menu-burger{
+  cursor: pointer;
+  position:fixed;
+  left:97%;
+  top: 2%;
+  z-index:9999;
+  background:transparent;
+  border:none;
+}
+
+.iconeMenuBurger{
+  width: 36px;
+  height: 36px;
+}
+
+.iconeFermerMenu{
+  position: fixed;
+  width: 48px;
+  height: 48px;
+  left: 95%;
+  top: 2%;
+}
 
 /* prevent page scroll while menu open */
-.no-scroll{ overflow:hidden; }
+.no-scroll{ 
+  overflow:hidden; 
+}
 
-@media (max-width:480px){ .offcanvas-content{ width:100%; padding:26px } .menu-btn{ font-size:1.4rem } }
+@media (max-width:480px){ 
+  .offcanvas-content{ 
+    width:100%; 
+    padding:26px 
+  } 
+  .menu-btn{ 
+    font-size:1.4rem 
+  } 
+}

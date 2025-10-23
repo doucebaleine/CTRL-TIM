@@ -1,0 +1,33 @@
+.infosaPropos{
+  
+  background-color: rgb(51, 47, 109);
+  div{
+    border-radius: 20px;
+    opacity: 0.5;
+    background: radial-gradient(63.25% 63.25% at 50% 50%, #CCC 74.04%, #FFF 100%);
+    mix-blend-mode: soft-light;
+    backdrop-filter: blur(3.75px);
+    p{
+      z-index: 1;
+    }
+  }
+}
+
+.profsPivots{
+  
+  margin-top: 3rem;
+  background-color: #f9f9f9;
+  padding: 1.5rem;
+  border-left: 4px solid var(--couleurAccentRouge);
+}
+
+.liens__aPropos{
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.titre__aPropos{
+  color: aqua;
+}

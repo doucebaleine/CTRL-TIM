@@ -27,10 +27,33 @@
          
       </section>
 
+      <!-- Les profs pivots -->
       <section class="profsPivots">
          <h3> Les profs pivots</h3>
-         <p>David Ross bureau: F-3004  dross@cmaisonneuve.qc.ca </p>
-         <p>Grégory Bony bureau: F-3004  gbony@cmaisonneuve.qc.ca </p>
+         <!-- boite Professeurs -->
+         <div class="profs">
+         <!-- Professeur 1 -->
+         <div class="prof1">
+            <!-- Image Professeur 1 -->
+            <img src="../images/DavidRoss.png" alt="David Ross" class="img_prof1">
+            <!-- Info Professeur 1 -->
+            <div class="info_prof1">
+               <p>David Ross</p>
+               <p>bureau: F-3004</p>
+               <p>dross@cmaisonneuve.qc.ca</p>
+            </div>
+         </div>
+         <!-- Professeur 2 -->
+         <div class="prof2">
+            <!-- Image Professeur 2 -->
+            <img src="../images/GregoryBony.png" alt="Grégory Bony" class="img_prof2">
+            <!-- Info Professeur 2 -->
+            <div class="info_prof2">
+               <p>Grégory Bony</p>
+               <p> bureau: F-3004</p>
+               <p>gbony@cmaisonneuve.qc.ca</p>
+            </div>
+         </div>
       </section>
 
 

@@ -14,22 +14,30 @@ Text Domain: tp1-em
 This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
 */
-
+ 
 /* /////////////////////////////////
 Les variables
 //////////////////////////////////// */
 @import "variables/main";
-
+ 
 /* /////////////////////////////////
 Les balise de bases
 //////////////////////////////////// */
 @import "base/autres";
-
+ 
 /* /////////////////////////////////
 Les composants
 //////////////////////////////////// */
-
+@import "components/background";
+@import "components/header";
+@import "components/menu";
+@import "components/search";
+@import "components/hero";
+@import "components/card";
+@import "components/footer";
+ 
 /* /////////////////////////////////
 Les layouts
 //////////////////////////////////// */
 @import "layout/flexbox";
+@import "layout/projet";

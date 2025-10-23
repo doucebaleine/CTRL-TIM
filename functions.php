@@ -26,6 +26,11 @@ function mon_theme_supports() {
     "flex-width"  => true,
 ));
 
+  // Enregistrer les emplacements de menu
+  register_nav_menus(array(
+    'principal' => __('Menu Principal', 'ctrltim'),
+  ));
+
 }
 add_action( 'after_setup_theme', 'mon_theme_supports' );
 

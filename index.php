@@ -22,7 +22,7 @@
          if (!empty($projets)) {
              foreach ($projets as $projet) {
                  // Décoder les filtres JSON
-                 $filtres = json_decode($projet->filtre_projet, true);
+                 $filtres = json_decode($projet->filtres, true);
                  $filtres_text = '';
                  if (!empty($filtres)) {
                      $filtres_names = array();

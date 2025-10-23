@@ -146,6 +146,18 @@ function ctrltim_vider_champs($fields) {
     }
 }
 
+// Fonction pour récupérer tous les projets
+function ctrltim_get_all_projects() {
+    global $wpdb;
+    return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_projets ORDER BY date_creation DESC");
+}
+
+// Fonction pour récupérer tous les étudiants
+function ctrltim_get_all_students() {
+    global $wpdb;
+    return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_etudiants ORDER BY nom ASC");
+}
+
 // =====================
 // FONCTION PRINCIPALE DE SAUVEGARDE
 // =====================

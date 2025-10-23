@@ -38,8 +38,18 @@
                  }
                  
                  // Nettoyer la catégorie pour l'affichage
-                 $categorie = str_replace('cat_', '', $projet->cat_exposition);
-                 $categorie = ucfirst($categorie);
+                 $categorie = '';
+                 switch ($projet->cat_exposition) {
+                     case 'cat_premiere_annee': $categorie = '1ère année'; break;
+                     case 'cat_arcade': $categorie = 'Arcade'; break;
+                     case 'cat_finissants': $categorie = 'Finissants'; break;
+                     // Compatibilité avec les anciennes catégories
+                     case 'cat_bibliotheque': $categorie = 'Bibliothèque'; break;
+                     case 'cat_evenement': $categorie = 'Événement'; break;
+                     default: 
+                         $categorie = str_replace('cat_', '', $projet->cat_exposition);
+                         $categorie = ucfirst($categorie);
+                 }
                  ?>
                  
                  <article class="projet-item">

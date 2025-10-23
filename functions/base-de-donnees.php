@@ -16,7 +16,7 @@ function ctrltim_creer_tables() {
         image_projet varchar(500),
         lien varchar(500),
         cours varchar(255),
-        cat_exposition varchar(50) DEFAULT 'cat_arcade',
+        cat_exposition varchar(50) DEFAULT 'cat_premiere_annee',
         filtres text DEFAULT NULL,
         etudiants_associes text DEFAULT NULL,
         date_creation datetime DEFAULT CURRENT_TIMESTAMP,
@@ -197,7 +197,7 @@ function ctrltim_sauvegarder_donnees() {
             'etudiants_associes' => json_encode(array())
         );
         
-        $result = $wpdb->insert($wpdb->prefix . 'ctrltim_projets', $project_data);
+        $wpdb->insert($wpdb->prefix . 'ctrltim_projets', $project_data);
         ctrltim_vider_champs(['projet_a_modifier', 'titre_projet', 'description_projet', 'video_projet', 'image_projet', 'lien_projet', 'cours_projet', 'filtre_jeux', 'filtre_3d', 'filtre_video', 'filtre_web']);
     }
     
@@ -404,5 +404,8 @@ function ctrltim_ajax_manage_project_students() {
     }
 }
 add_action('wp_ajax_manage_project_students', 'ctrltim_ajax_manage_project_students');
+
+// Hook pour sauvegarder les données
+add_action('customize_save_after', 'ctrltim_sauvegarder_donnees');
 
 ?>

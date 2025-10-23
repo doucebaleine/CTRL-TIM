@@ -18,9 +18,18 @@ function ctrltim_enregistrer_customizer($wp_customize) {
     if ($projets_existing) {
         $projets_list .= "<ul style='margin-left: 20px;'>";
         foreach ($projets_existing as $p) {
-            $cat = ($p->cat_exposition == 'cat_arcade') ? 'arcade' : (($p->cat_exposition == 'cat_bibliotheque') ? 'bibliothèque' : 'événement');
-            $projets_list .= "<li style='margin-bottom: 5px;'>" . esc_html($p->titre_projet) . " <span style='color: #666;'>(" . ucfirst($cat) . ")</span></li>";
-            $projets_choices[$p->id] = $p->titre_projet . " (" . ucfirst($cat) . ")";
+            $cat = '';
+            switch ($p->cat_exposition) {
+                case 'cat_premiere_annee': $cat = '1ère année'; break;
+                case 'cat_arcade': $cat = 'Arcade'; break;
+                case 'cat_finissants': $cat = 'Finissants'; break;
+                // Compatibilité avec les anciennes catégories
+                case 'cat_bibliotheque': $cat = 'Bibliothèque (ancien)'; break;
+                case 'cat_evenement': $cat = 'Événement (ancien)'; break;
+                default: $cat = 'Non définie';
+            }
+            $projets_list .= "<li style='margin-bottom: 5px;'>" . esc_html($p->titre_projet) . " <span style='color: #666;'>(" . $cat . ")</span></li>";
+            $projets_choices[$p->id] = $p->titre_projet . " (" . $cat . ")";
         }
         $projets_list .= "</ul>";
     }
@@ -71,7 +80,7 @@ function ctrltim_enregistrer_customizer($wp_customize) {
 
     // Catégorie d'exposition
     $wp_customize->add_setting('cat_exposition', array(
-        'default' => 'cat_arcade',
+        'default' => 'cat_premiere_annee',
         'sanitize_callback' => 'sanitize_text_field',
     ));
     $wp_customize->add_control('cat_exposition', array(
@@ -79,9 +88,9 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         'section' => 'ctrltim_projets',
         'type' => 'select',
         'choices' => array(
+            'cat_premiere_annee' => '1ère année',
             'cat_arcade' => 'Arcade',
-            'cat_bibliotheque' => 'Bibliothèque',
-            'cat_evenement' => 'Événement',
+            'cat_finissants' => 'Finissants',
         ),
     ));
 

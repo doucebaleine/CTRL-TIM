@@ -2,30 +2,43 @@ body{
   background: #090D20;
 }
 
+.titreApropos{
+  color: --couleur-titre-pale;
+  text-align: center;
+  font-family: "Jersey 15";
+  font-size: 4rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: center;
+}
+
 .infosaPropos{
-  //background-color: rgb(51, 47, 109);
+
   h3{
-    color: var(--couleur-texte-pale);
-    font-family: "Bai Jamjuree";
-    font-size: 38px;
+    color: var(--couleur-titre-pale);
+    font-family: "Jersey 15";
+    font-size: 40px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
   }
-  div{
+
+  &__textBut{
     border-radius: 20px;
-    opacity: 0.5;
-    background: radial-gradient(63.25% 63.25% at 50% 50%, #CCC 74.04%, var(--couleur-texte-pale) 100%);
-    mix-blend-mode: soft-light;
+    margin: 1.5rem;
+    background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, #343b5570 100%);
     backdrop-filter: blur(3.75px);
+    
     p{
       color: var(--couleur-texte-pale);
       font-family: "Bai Jamjuree";
-      font-size: 24px;
+      font-size: 1.5rem;
       font-style: normal;
       font-weight: 400;
       line-height: normal;
-      z-index: 1;
+      margin: 2rem;
+      padding: 1rem;
     }
   }
 }
@@ -35,41 +48,41 @@ body{
   margin-top: 3rem;
   padding: 1.5rem;
   h3{
-    color: #FFF;
+    color: var(--couleur-titre-pale);
     font-family: "Jersey 15";
     font-size: 40px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     }
-  .profs{
+  &__profs{
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
       align-content: center;
       justify-content: center;
 
-      .prof1{
+      &__prof1{
         display: flex;
         flex-direction: row;
         align-items: center;
         margin: 1rem;
 
-      .img_prof1{
+      &__img_prof1{
         margin: 0.5rem;
         width: 250px;
         height: 300px;
         flex-shrink: 0;
         background-color: #CCC;
         }
-      .info_prof1{
+      &__infoProf1{
         width: 250px;
         height: 300px;
-        border-radius: 1rem;
-        background: radial-gradient(63.25% 63.25% at 50% 50%, #CCC 74.04%, var(--couleur-texte-pale) 100%);
-        mix-blend-mode:soft-light;
+
+        border-radius: 20px;
+        margin: 1.5rem;
+        background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, #343b5570 100%);
         backdrop-filter: blur(3.75px);
-        
       }
       p{
           margin:1rem;
@@ -79,34 +92,35 @@ body{
         }
     }
 
-    .prof2{
+    &__prof2{
       display: flex;
       flex-direction: row;
       align-items: center;
       margin: 1rem;
 
-      .img_prof2{
+      &__img_prof2{
         margin: 0.5rem;
         width: 250px;
         height: 300px;
         flex-shrink: 0;
         background-color: #CCC;
       }
-      .info_prof2{
+      &__infoProf2{
         width: 250px;
         height: 300px;
-        border-radius: 1rem;
-        background: radial-gradient(63.25% 63.25% at 50% 50%, #CCC 74.04%, var(--couleur-texte-pale) 100%);
-        mix-blend-mode: soft-light;
+
+        border-radius: 20px;
+        margin: 1.5rem;
+        background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, #343b5570 100%);
         backdrop-filter: blur(3.75px);
         
         }
-
        p{
           margin:1rem;
           color:var(--couleur-texte-pale);
           font-family: "Bai Jamjuree";
           font-size: 20px;
+          position: relative;
         } 
     }
   }
@@ -114,21 +128,28 @@ body{
   
 }
 
-.liens__aPropos{
-  color: var(--couleur-texte-pale);
-  font-family: "Bai Jamjuree";
-  font-size: 38px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+.liensApropos{
+
+  h3{
+    color: var(--couleur-titre-pale);
+    font-family: "Jersey 15";
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  &__listelinks{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    list-style-type: none;
+    :hover{
+            color:aqua;
+          }
+  }
 }
 
-.titre__aPropos{
-  color: --couleur-titre-pale;
-  text-align: center;
-  font-family: "Jersey 15";
-  font-size: 50px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-}

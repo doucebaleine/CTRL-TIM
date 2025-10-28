@@ -30,7 +30,6 @@ function mon_theme_supports() {
 add_action( 'after_setup_theme', 'mon_theme_supports' );
 
 function ctrltim_enqueue_styles() {
-    wp_enqueue_style('ctrltim-normalize', get_template_directory_uri() . '/sass/normalize.css');
     wp_enqueue_style('ctrltim-style', get_stylesheet_uri());
 }
 add_action('wp_enqueue_scripts', 'ctrltim_enqueue_styles');

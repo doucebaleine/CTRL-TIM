@@ -1,32 +1,26 @@
 /* Carte d'information à droite et pile d'images */
 .galerieBoiteGenerale{
-  position: absolute;
-  left: 70%;
-}
-.carte-droite { 
   
 }
 
 .poster-stack {
-  margin-left: 18px;
-  width: 360px;
-  height: 260px;
-  pointer-events: auto; /* allow interactions (close button) */
+  width: 900px;
+  height: 400px;
+  pointer-events: auto;
 }
 
 .poster-card {
   --border-grad: linear-gradient(90deg,#D167FF,#62B8FF);
   position: absolute;
-  width: 320px;
-  height: 200px;
-  border-radius: 10px;
+  width: 560px;
+  height: 380px;
+  border-radius: 14px;
   background: linear-gradient(180deg, rgba(18, 18, 30, 0.9), rgba(12, 12, 22, 0.9));
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
   padding: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   transition: transform 420ms cubic-bezier(0.2, 0.9, 0.2, 1), opacity 360ms ease, box-shadow 360ms ease;
   pointer-events: auto;
   border: 4px solid transparent;

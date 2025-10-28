@@ -6,11 +6,8 @@ body{
     font-size: var(--font-size-md);
 }
 
-header{
-    padding: 1em;
-}
-
 main{
+    height: 1080px;
     padding: 2em;
     position: relative;
     z-index: 2;

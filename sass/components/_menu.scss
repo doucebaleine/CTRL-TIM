@@ -72,12 +72,10 @@
 
 .menu-burger{
   cursor: pointer;
-  position:fixed;
-  left:97%;
-  top: 2%;
-  z-index:9999;
-  background:transparent;
-  border:none;
+  z-index: 9999;
+  background: transparent;
+  border: none;
+  display: flex;
 }
 
 .iconeMenuBurger{

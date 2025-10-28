@@ -124,11 +124,8 @@ body {
   font-size: var(--font-size-md);
 }
 
-header {
-  padding: 1em;
-}
-
 main {
+  height: 1080px;
   padding: 2em;
   position: relative;
   z-index: 2;
@@ -151,77 +148,34 @@ h1 {
 /* /////////////////////////////////
 Les composants
 //////////////////////////////////// */
+/* Background SVG behind the page watermark (body::before is used for watermark text) */
 body::before {
-  content: "CTRL+TIM CTRL+TIM CTRL+TIM CTRL+TIM";
+  content: "";
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 0;
-  color: rgba(255, 255, 255, 0.03);
-  font-family: var(--policeTitre);
-  font-size: 4rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: 2rem;
-  white-space: nowrap;
-  pointer-events: none;
+  z-index: -1;
+  background-image: url("images/background.svg");
   background-repeat: repeat;
-}
-
-/* Header layout: logo left, search centered, burger right */
-.site-header {
-  position: relative;
-  z-index: 10;
-  padding: 14px 22px;
+  background-position: center top;
+  background-size: cover;
+  pointer-events: none;
 }
 
 .header-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: block;
-  min-height: 44px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
-  position: fixed;
-  right: 96%;
-  top: 2%;
   z-index: 9999;
 }
 
 .logo .logo-link {
   display: inline-block;
-}
-
-.logo-icon {
-  width: 44px;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.barreRecherche {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 12px;
-  width: 52%;
-  max-width: 760px;
-  z-index: 60;
-}
-
-.barreRecherche {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: linear-gradient(90deg, rgba(50, 50, 70, 0.6), rgba(30, 20, 40, 0.4));
-  padding: 8px 14px;
-  border-radius: 28px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
 }
 
 .barreRecherche input {
@@ -325,12 +279,10 @@ body::before {
 
 .menu-burger {
   cursor: pointer;
-  position: fixed;
-  left: 97%;
-  top: 2%;
   z-index: 9999;
   background: transparent;
   border: none;
+  display: flex;
 }
 
 .iconeMenuBurger {
@@ -362,17 +314,12 @@ body::before {
 }
 /* Barre de recherche centrée en haut */
 .barreRecherche {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 18px;
   width: 45%;
   max-width: 720px;
   background: linear-gradient(90deg, rgba(50, 50, 70, 0.6), rgba(30, 20, 40, 0.4));
   border-radius: 28px;
   padding: 8px 16px;
   display: flex;
-  align-items: center;
   gap: 12px;
   box-shadow: 0 0 0 3px rgba(175, 120, 255, 0.08), 0 8px 30px rgba(0, 0, 0, 0.6);
   z-index: 5;
@@ -408,70 +355,145 @@ body::before {
   font-family: var(--policeTitre);
   font-size: 7.5rem;
   line-height: 0.9;
-  margin: 0 0 1rem 0;
   text-transform: uppercase;
   letter-spacing: 6px;
 }
 
+.titre {
+  position: relative;
+}
+
+h2 {
+  line-height: 0;
+}
+
 .descriptionExpoPrincipale p {
   max-width: 540px;
-  background: linear-gradient(180deg, rgba(48, 47, 47, 0.25), rgba(20, 18, 30, 0.25));
   padding: 1.2rem 1.4rem;
-  border-radius: 8px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(120, 80, 200, 0.06);
   color: var(--couleur-texte-pale);
+  border-radius: 6px;
+  background: linear-gradient(90deg, #2A305A 0%, rgba(5, 7, 20, 0.1) 100%);
+}
+
+.effetTitre {
+  position: absolute;
+  top: 180px;
+  width: 446px;
+}
+
+.effetTitre2 {
+  position: absolute;
+  top: 230px;
+  width: 446px;
+}
+
+.descriptionExpoPrincipale {
+  padding-top: 50px;
 }
 
 /* Carte d'information à droite et pile d'images */
 .galerieBoiteGenerale {
-  position: relative;
+  position: absolute;
+  left: 70%;
 }
 
-.carte-droite {
-  width: 420px;
-  height: 220px;
-  background: linear-gradient(180deg, rgba(30, 30, 60, 0.95), rgba(15, 15, 35, 0.9));
+.poster-stack {
+  margin-left: 18px;
+  width: 360px;
+  height: 260px;
+  pointer-events: auto; /* allow interactions (close button) */
+}
+
+.poster-card {
+  --border-grad: linear-gradient(90deg,#D167FF,#62B8FF);
+  position: absolute;
+  width: 320px;
+  height: 200px;
   border-radius: 10px;
-  padding: 18px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+  background: linear-gradient(180deg, rgba(18, 18, 30, 0.9), rgba(12, 12, 22, 0.9));
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: transform 420ms cubic-bezier(0.2, 0.9, 0.2, 1), opacity 360ms ease, box-shadow 360ms ease;
+  pointer-events: auto;
   border: 4px solid transparent;
   background-clip: padding-box;
-  position: absolute;
-  right: 40px;
-  top: 40px;
-  z-index: 4;
 }
 
-.carte-droite::before {
+.poster-card img {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+/* gradient border using pseudo-element */
+.poster-card::after {
   content: "";
   position: absolute;
-  inset: -6px;
-  background: linear-gradient(135deg, rgba(175, 120, 255, 0.9), rgba(120, 200, 255, 0.9));
-  border-radius: 12px;
-  z-index: -1;
+  inset: -4px;
+  border-radius: 14px;
+  background: var(--border-grad);
+  z-index: -2;
 }
 
-.carte-droite .icone-commande {
-  width: 120px;
-  height: 80px;
-  float: right;
+/* Stack positions */
+.poster-top {
+  transform: translate(0, 0) rotate(0deg);
+  z-index: 40;
 }
 
-.pile-images {
+.poster-mid {
+  transform: translate(12px, 12px) rotate(-2deg);
+  z-index: 30;
+}
+
+.poster-back {
+  transform: translate(24px, 24px) rotate(-4deg);
+  z-index: 20;
+}
+
+/* Close button */
+.poster-close {
   position: absolute;
-  right: 20px;
-  top: 140px;
+  top: 8px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
   display: flex;
-  gap: 10px;
-  transform: rotate(-6deg);
+  align-items: center;
+  justify-content: center;
 }
 
-.pile-images img {
-  width: 120px;
-  height: 80px;
-  border-radius: 6px;
-  border: 4px solid rgba(120, 140, 255, 0.8);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+/* closing animation */
+.poster-card.closing {
+  transform: translateX(140%) rotate(8deg) scale(0.95);
+  opacity: 0;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* when a card becomes top, animate transform */
+.poster-card.animate-to-top {
+  transition: transform 420ms cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow 360ms ease;
+}
+
+/* new back poster appearance */
+.poster-card.new-back {
+  transform: translate(28px, 28px) rotate(-6deg) scale(0.9);
+  opacity: 0;
+}
+
+.poster-card.new-back.appear {
+  transform: translate(24px, 24px) rotate(-4deg) scale(1);
+  opacity: 1;
 }
 
 .site-footer {
@@ -480,19 +502,13 @@ body::before {
   width: 100%;
   background: linear-gradient(180deg, #0B0E21, #070713);
   color: #222640;
+  padding-top: 20px;
 }
 
 .footer-inner {
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-}
-
-.footer-col {
-  display: flex;
-  align-items: center;
+  justify-content: space-evenly;
 }
 
 .social-icon {
@@ -503,12 +519,24 @@ body::before {
   justify-content: center;
 }
 
-.footer-center {
-  flex: 1;
+/* Left column: single top icon above a row of three icons */
+.footer-col.left {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+}
+
+.icon-row {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .footer-search {
@@ -541,6 +569,7 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 /* small screens: stack footer */
@@ -563,13 +592,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-
-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
 }
 
 main {

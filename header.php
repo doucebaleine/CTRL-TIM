@@ -44,13 +44,14 @@
 		<div class="offcanvas-content">
             <div class="offcanvas-search" role="search">
                 <img class="iconeRecherche" src="<?php echo esc_url( get_template_directory_uri() . '/images/search-icon.svg' ); ?>" aria-hidden="true" />
-                <input type="search" name="s" placeholder="Recherche_" aria-label="Recherche">
+                <input type="search" name="s" placeholder="Recherche..." aria-label="Recherche">
             </div>
 
 		<nav class="offcanvas-nav" aria-label="Navigation principale">
 			<a class="menu-btn primary" href="#">Galerie</a>
 			<a class="menu-btn" href="#">Accueil</a>
 			<a class="menu-btn" href="#">À propos</a>
+			<a class="menu-btn" href="#">Contact</a>
 		</nav>
 		</div>
 		<div tabindex="0" class="focus-sentinel sentinel-bottom" aria-hidden="true"></div>

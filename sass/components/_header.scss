@@ -1,52 +1,15 @@
-/* Header layout: logo left, search centered, burger right */
-.site-header{
-  position: relative;
-  z-index: 10;
-  padding: 14px 22px;
-}
 .header-inner{
-  max-width: 1200px;
-  margin: 0 auto;
-  display: block;
-  min-height: 44px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo{
-  position:fixed;
-  right:96%;
-  top: 2%;
-  z-index:9999
+  z-index: 9999;
 }
 
 .logo .logo-link{
   display:inline-block
-}
-
-.logo-icon{
-  width:44px;
-  height:34px;
-  display:flex;
-  align-items:center;
-  justify-content:center
-}
-
-.barreRecherche{
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  top:12px;
-  width:52%;
-  max-width:760px;
-  z-index:60
-}
-.barreRecherche{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  background:linear-gradient(90deg, rgba(50,50,70,0.6), rgba(30,20,40,0.4));
-  padding:8px 14px;
-  border-radius:28px;
-  box-shadow:0 6px 24px rgba(0,0,0,0.5);
 }
 
 .barreRecherche input{

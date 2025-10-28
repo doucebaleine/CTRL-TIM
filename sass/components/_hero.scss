@@ -14,16 +14,38 @@
   font-family: var(--policeTitre);
   font-size: 7.5rem;
   line-height: 0.9;
-  margin: 0 0 1rem 0;
   text-transform: uppercase;
   letter-spacing: 6px;
 }
 
+.titre { 
+  position: relative; 
+}
+
+h2{
+  line-height: 0;
+}
+
 .descriptionExpoPrincipale p{
   max-width: 540px;
-  background: linear-gradient(180deg, rgba(48,47,47,0.25), rgba(20,18,30,0.25));
   padding: 1.2rem 1.4rem;
-  border-radius: 8px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.6), 0 0 0 3px rgba(120,80,200,0.06);
   color: var(--couleur-texte-pale);
+  border-radius: 6px;
+  background: linear-gradient(90deg, #2A305A 0%, rgba(5, 7, 20, 0.1) 100%);
+}
+
+.effetTitre{
+    position: absolute;
+    top: 180px;
+    width: 446px;
+}
+
+.effetTitre2{
+    position: absolute;
+    top: 230px;
+    width: 446px;
+}
+
+.descriptionExpoPrincipale{
+    padding-top: 50px;
 }

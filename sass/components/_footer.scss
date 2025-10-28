@@ -1,22 +1,17 @@
+
 .site-footer{
   position: fixed;
   bottom: 0;
   width: 100%;
   background: linear-gradient(180deg,#0B0E21,#070713);
   color: #222640;
+  padding-top: 20px;
 }
 
 .footer-inner{
-  max-width:1200px;
-  margin:0 auto;
   display:flex;
   align-items:center;
-  justify-content:space-between;
-}
-
-.footer-col{
-  display:flex;
-  align-items:center;
+  justify-content:space-evenly;
 }
 
 .social-icon{
@@ -27,12 +22,23 @@
   justify-content:center;
 }
 
-.footer-center{
-  flex:1;
+/* Left column: single top icon above a row of three icons */
+.footer-col.left{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:16px;
+}
+.icon-row{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  justify-content:center;
+}
+
+.footer-center{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 
 .footer-search{
@@ -64,6 +70,7 @@
   display:flex;
   align-items:center;
   justify-content:center;
+  cursor: pointer;
 }
 
 /* small screens: stack footer */

@@ -30,13 +30,14 @@ function mon_theme_supports() {
 add_action( 'after_setup_theme', 'mon_theme_supports' );
 
 function ctrltim_enqueue_styles() {
-    wp_enqueue_style('ctrltim-normalize', get_template_directory_uri() . '/sass/normalize.css');
     wp_enqueue_style('ctrltim-style', get_stylesheet_uri());
 }
 add_action('wp_enqueue_scripts', 'ctrltim_enqueue_styles');
 
 function ctrltim_enqueue_scripts(){
     wp_enqueue_script('ctrltim-menu', get_template_directory_uri() . '/js/menu.js', array(), filemtime(get_template_directory() . '/js/menu.js'), true);
+    // poster stack behaviour
+    wp_enqueue_script('ctrltim-cards', get_template_directory_uri() . '/js/cards.js', array(), filemtime(get_template_directory() . '/js/cards.js'), true);
 }
 add_action('wp_enqueue_scripts','ctrltim_enqueue_scripts');
 

@@ -22,16 +22,6 @@ Template Name: Galerie
   
 </head>
 <body>
-  <header class="header">
-    <div class="logo">
-        <img src="images/logo_CTRLTIM.svg" alt="logo_CTRLTIM">
-    </div>
-    <div class="search-container">
-      <input type="text" placeholder="Recherche..." />
-    </div>
-    <div class="menu-icon">☰</div>
-  </header>
-
   <main class="gallery-page">
     <h1 class="title">Galerie</h1>
 
@@ -41,7 +31,7 @@ Template Name: Galerie
       <button class="filter-btn">Terre</button>
       <button class="filter-btn">Finissants</button>
     </div>
-    <script src="filter.js"></script>
+    <script src="js/filter.js"></script>
 
     <p class="subtitle">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin in magna nibh. 
@@ -117,7 +107,7 @@ Template Name: Galerie
       </div>
     </section>
     
-    <script src="gallery.js"></script>
+    <script src="js/gallery.js"></script>
 
 
   </main>

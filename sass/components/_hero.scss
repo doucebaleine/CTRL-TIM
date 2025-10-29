@@ -1,4 +1,4 @@
-/* Hero layout: titre à gauche et description */
+/* Disposition héros : titre à gauche et description */
 .page-accueil{
   display: grid;
   grid-template-columns: 1fr 540px;
@@ -26,7 +26,7 @@ h2{
   line-height: 0;
 }
 
-.descriptionExpoPrincipale p{
+.description-exposition-principale p{
   max-width: 540px;
   padding: 1.2rem 1.4rem;
   color: var(--couleur-texte-pale);
@@ -34,18 +34,18 @@ h2{
   background: linear-gradient(90deg, #2A305A 0%, rgba(5, 7, 20, 0.1) 100%);
 }
 
-.effetTitre{
+.effet-titre{
     position: absolute;
     top: 180px;
     width: 446px;
 }
 
-.effetTitre2{
+.effet-titre-deux{
     position: absolute;
     top: 230px;
     width: 446px;
 }
 
-.descriptionExpoPrincipale{
+.description-exposition-principale{
     padding-top: 50px;
 }

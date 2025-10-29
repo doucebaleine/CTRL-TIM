@@ -1,5 +1,5 @@
-/* Off-canvas menu styles */
-.offcanvas-menu{
+/* Styles du menu hors-canvas */
+.menu-hors-canvas{
   position: fixed;
   inset: 0 0 0 50%;
   background: linear-gradient(90deg, rgba(10,8,20,0.95), rgba(8,6,18,0.98));
@@ -11,32 +11,32 @@
   justify-content:flex-end;
 }
 
-/* backdrop covering the rest of the page while menu is open */
-.offcanvas-backdrop {
+/* fond couvrant le reste de la page pendant que le menu est ouvert */
+.fond-hors-canvas {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.4);
-  z-index: 19990; /* below the menu but above page content */
+  z-index: 19990; /* en dessous du menu mais au-dessus du contenu de la page */
   opacity: 0;
   transition: opacity 240ms ease;
   pointer-events: none;
 }
-.offcanvas-backdrop.visible {
+.fond-hors-canvas.visible {
   opacity: 1;
   pointer-events: auto;
 }
 
-.offcanvas-menu.open{
+.menu-hors-canvas.ouvert{
   transform: translateX(0%); 
 }
 
-.offcanvas-content{ 
+.contenu-menu-hors-canvas{ 
   width:420px;
   padding:48px; 
   color:var(--couleur-texte-pale); 
 }
 
-.offcanvas-close{ 
+.bouton-fermer-menu{ 
   cursor: pointer;
   position:absolute; 
   top:10px; 
@@ -44,7 +44,7 @@
   border:none;
 }
 
-.offcanvas-search{ 
+.recherche-hors-canvas{ 
   display:flex; 
   gap:12px; 
   align-items:center; 
@@ -53,19 +53,19 @@
   border-radius:22px; 
   margin-bottom:32px 
 }
-.offcanvas-search input{ 
+.recherche-hors-canvas input{ 
   background:transparent;
   border:none;
   color:var(--couleur-texte-pale);outline:none 
 }
 
-.offcanvas-nav{ 
+.nav-hors-canvas{ 
   display:flex; 
   flex-direction:column; 
   gap:22px 
 
 }
-.menu-btn{ 
+.bouton-menu{ 
   display:inline-block; 
   padding:12px 24px; 
   border-radius:12px; 
@@ -76,14 +76,14 @@
   font-family:var(--policeTitre) 
 }
 
-.menu-btn.primary{ 
+.bouton-menu.primaire{ 
   background: linear-gradient(90deg,#D167FF,#62B8FF); 
   color:#07101e; 
   box-shadow: 6px 8px 20px rgba(45,20,80,0.35) 
 }
 
-/* temporary animation when primary moves to a new item */
-.menu-btn.animate-change {
+/* animation temporaire lorsque primaire se déplace vers un nouvel élément */
+.bouton-menu.anime-changement {
   animation: menu-pop 420ms cubic-bezier(0.2,0.9,0.2,1);
 }
 
@@ -101,43 +101,43 @@
   display: flex;
 }
 
-.iconeMenuBurger{
+.icone-burger{
   width: 36px;
   height: 36px;
 }
 
-/* prevent page scroll while menu open */
-.no-scroll{ 
+/* empêcher le défilement de la page pendant que le menu est ouvert */
+.pas-defilement{ 
   overflow:hidden; 
 }
 
 @media (max-width:480px){ 
-  .offcanvas-content{ 
+  .contenu-menu-hors-canvas{ 
     width:100%; 
     padding:26px 
   } 
-  .menu-btn{ 
+  .bouton-menu{ 
     font-size:1.4rem 
   } 
 }
 
-/* When the menu is open, disable interactions and hover effects outside the menu
-   by turning off pointer-events on main page regions. The backdrop above will
-   capture pointer events; this is a defensive CSS safety net for any elements
-   that might still receive hover/clicks. */
-.menu-open .page-accueil,
-.menu-open header,
-.menu-open main,
-.menu-open .footer-search,
-.menu-open .barreRecherche,
-.menu-open .poster-stack,
-.menu-open .galerieBoiteGenerale {
+/* Lorsque le menu est ouvert, désactiver les interactions et les effets de survol en dehors du menu
+   en désactivant pointer-events sur les régions principales de la page. Le fond ci-dessus capture
+   les événements de pointeur ; c'est une sécurité CSS défensive pour tout élément qui pourrait
+   encore recevoir des survols/clics. */
+.menu-ouvert .page-accueil,
+.menu-ouvert header,
+.menu-ouvert main,
+.menu-ouvert .footer-search,
+.menu-ouvert .barreRecherche,
+.menu-ouvert .poster-stack,
+.menu-ouvert .galerieBoiteGenerale {
   pointer-events: none !important;
   user-select: none !important;
 }
 
-/* Ensure the offcanvas panel and backdrop remain interactive */
-.menu-open #offcanvasMenu,
-.menu-open #offcanvasBackdrop {
+/* Assurer que le panneau hors-canvas et le fond restent interactifs */
+.menu-ouvert #menuHorsCanvas,
+.menu-ouvert #fondHorsCanvas {
   pointer-events: auto !important;
 }

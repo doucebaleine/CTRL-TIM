@@ -1,117 +1,114 @@
-// Simple off-canvas menu toggle
+// Simple bascule de menu hors-canvas
 (function () {
-  function $(sel) { return document.querySelector(sel) }
-  function $all(sel) { return Array.prototype.slice.call(document.querySelectorAll(sel)) }
+  function $sel(sel) { return document.querySelector(sel) }
+  function $tous(sel) { return Array.prototype.slice.call(document.querySelectorAll(sel)) }
 
-  var btn = $('.menu-burger');
-  var off = $('#offcanvasMenu');
-  var closeBtn = off && off.querySelector('.offcanvas-close');
+  var bouton = $sel('.menu-burger');
+  var menuHorsCanvas = $sel('#menuHorsCanvas');
+  var boutonFermer = menuHorsCanvas && menuHorsCanvas.querySelector('.bouton-fermer-menu');
   var focusableSelectors = 'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])';
-  var lastFocused = null;
-  var backdrop = $('#offcanvasBackdrop');
-  var sentinelTop = off && off.querySelector('.sentinel-top');
-  var sentinelBottom = off && off.querySelector('.sentinel-bottom');
+  var dernierFocus = null;
+  var fondHorsCanvas = $sel('#fondHorsCanvas');
+  var sentinelleHaut = menuHorsCanvas && menuHorsCanvas.querySelector('.sentinelle-haut');
+  var sentinelleBas = menuHorsCanvas && menuHorsCanvas.querySelector('.sentinelle-bas');
 
-  function trapFocus(container) {
-    var focusable = $all(focusableSelectors).filter(function (el) { return container.contains(el); });
+  function piegeFocus(container) {
+    var focusable = $tous(focusableSelectors).filter(function (el) { return container.contains(el); });
     if (!focusable.length) return;
-    var first = focusable[0];
-    var last = focusable[focusable.length - 1];
+    var premier = focusable[0];
+    var dernier = focusable[focusable.length - 1];
 
-    function keyHandler(e) {
+    function gestionTouche(e) {
       if (e.key !== 'Tab') return;
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault(); last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault(); first.focus();
+      if (e.shiftKey && document.activeElement === premier) {
+        e.preventDefault(); dernier.focus();
+      } else if (!e.shiftKey && document.activeElement === dernier) {
+        e.preventDefault(); premier.focus();
       }
     }
 
-    container._keyHandler = keyHandler;
-    document.addEventListener('keydown', keyHandler);
-    first.focus();
+    container._gestionTouche = gestionTouche;
+    document.addEventListener('keydown', gestionTouche);
+    premier.focus();
   }
 
-  function releaseFocus(container) {
-    if (container && container._keyHandler) document.removeEventListener('keydown', container._keyHandler);
+  function libereFocus(container) {
+    if (container && container._gestionTouche) document.removeEventListener('keydown', container._gestionTouche);
   }
 
-  function openMenu() {
-    if (!off) return;
-    lastFocused = document.activeElement;
-    off.setAttribute('aria-hidden', 'false');
-    off.classList.add('open');
-    if (backdrop) { backdrop.setAttribute('aria-hidden', 'false'); backdrop.classList.add('visible'); }
-    document.documentElement.classList.add('no-scroll');
-    // block interactions outside the menu
-    document.documentElement.classList.add('menu-open');
-    if (btn) btn.setAttribute('aria-expanded', 'true');
-    trapFocus(off);
+  function ouvrirMenu() {
+    if (!menuHorsCanvas) return;
+    dernierFocus = document.activeElement;
+    menuHorsCanvas.setAttribute('aria-hidden', 'false');
+    menuHorsCanvas.classList.add('ouvert');
+    if (fondHorsCanvas) { fondHorsCanvas.setAttribute('aria-hidden', 'false'); fondHorsCanvas.classList.add('visible'); }
+    document.documentElement.classList.add('pas-defilement');
+    // bloquer interactions en dehors du menu
+    document.documentElement.classList.add('menu-ouvert');
+    if (bouton) bouton.setAttribute('aria-expanded', 'true');
+    piegeFocus(menuHorsCanvas);
   }
 
-  function closeMenu() {
-    if (!off) return;
-    off.setAttribute('aria-hidden', 'true');
-    off.classList.remove('open');
-    if (backdrop) { backdrop.setAttribute('aria-hidden', 'true'); backdrop.classList.remove('visible'); }
-    document.documentElement.classList.remove('no-scroll');
-    // restore interactions
-    document.documentElement.classList.remove('menu-open');
-    if (btn) btn.setAttribute('aria-expanded', 'false');
-    releaseFocus(off);
-    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+  function fermerMenu() {
+    if (!menuHorsCanvas) return;
+    menuHorsCanvas.setAttribute('aria-hidden', 'true');
+    menuHorsCanvas.classList.remove('ouvert');
+    if (fondHorsCanvas) { fondHorsCanvas.setAttribute('aria-hidden', 'true'); fondHorsCanvas.classList.remove('visible'); }
+    document.documentElement.classList.remove('pas-defilement');
+    // restaurer interactions
+    document.documentElement.classList.remove('menu-ouvert');
+    if (bouton) bouton.setAttribute('aria-expanded', 'false');
+    libereFocus(menuHorsCanvas);
+    if (dernierFocus && typeof dernierFocus.focus === 'function') dernierFocus.focus();
   }
 
-  // event bindings
-  if (btn) {
-    btn.addEventListener('click', function (e) {
-      var expanded = btn.getAttribute('aria-expanded') === 'true';
-      if (expanded) closeMenu(); else openMenu();
+  // liaisons d'événements
+  if (bouton) {
+    bouton.addEventListener('click', function (e) {
+      var expanded = bouton.getAttribute('aria-expanded') === 'true';
+      if (expanded) fermerMenu(); else ouvrirMenu();
       e.stopPropagation();
     });
   }
-  if (closeBtn) { closeBtn.addEventListener('click', function (e) { closeMenu(); e.stopPropagation(); }); }
+  if (boutonFermer) { boutonFermer.addEventListener('click', function (e) { fermerMenu(); e.stopPropagation(); }); }
 
-  // close when clicking backdrop or outside content
-  if (backdrop) { backdrop.addEventListener('click', function () { closeMenu(); }); }
-  if (off) { off.addEventListener('click', function (e) { if (e.target === off) closeMenu(); }); }
+  // fermer en cliquant sur le fond ou en dehors du contenu
+  if (fondHorsCanvas) { fondHorsCanvas.addEventListener('click', function () { fermerMenu(); }); }
+  if (menuHorsCanvas) { menuHorsCanvas.addEventListener('click', function (e) { if (e.target === menuHorsCanvas) fermerMenu(); }); }
 
-  // focus sentinels to trap focus robustly
-  if (sentinelTop) {
-    sentinelTop.addEventListener('focus', function () {
-      // move focus to last focusable inside panel
-      var focusables = Array.prototype.slice.call(off.querySelectorAll(focusableSelectors)).filter(function (el) { return off.contains(el); });
+  // sentinelles pour trap focus
+  if (sentinelleHaut) {
+    sentinelleHaut.addEventListener('focus', function () {
+      var focusables = Array.prototype.slice.call(menuHorsCanvas.querySelectorAll(focusableSelectors)).filter(function (el) { return menuHorsCanvas.contains(el); });
       if (focusables.length) focusables[focusables.length - 1].focus();
     });
   }
-  if (sentinelBottom) {
-    sentinelBottom.addEventListener('focus', function () {
-      // move focus to first focusable inside panel
-      var focusables = Array.prototype.slice.call(off.querySelectorAll(focusableSelectors)).filter(function (el) { return off.contains(el); });
+  if (sentinelleBas) {
+    sentinelleBas.addEventListener('focus', function () {
+      var focusables = Array.prototype.slice.call(menuHorsCanvas.querySelectorAll(focusableSelectors)).filter(function (el) { return menuHorsCanvas.contains(el); });
       if (focusables.length) focusables[0].focus();
     });
   }
 
-  // close on Escape
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+  // fermer sur Échap
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') fermerMenu(); });
 
-  // When clicking items in the off-canvas nav, move the `primary` class
-  // to the clicked <a.menu-btn> so the highlight/animation follows the selection.
-  if (off) {
-    var offNav = off.querySelector('.offcanvas-nav');
-    if (offNav) {
-      offNav.addEventListener('click', function (e) {
-        var target = e.target.closest('a.menu-btn');
-        if (!target || !offNav.contains(target)) return;
-        var current = offNav.querySelector('a.menu-btn.primary');
-        if (current === target) return;
-        if (current) current.classList.remove('primary');
-        target.classList.add('primary');
-        // add a temporary animation class for a visual change
-        target.classList.add('animate-change');
-        target.addEventListener('animationend', function handler() {
-          target.classList.remove('animate-change');
-          target.removeEventListener('animationend', handler);
+  // Lorsque l'utilisateur clique dans la nav hors-canvas, déplacer la classe 'primaire'
+  if (menuHorsCanvas) {
+    var navHors = menuHorsCanvas.querySelector('.nav-hors-canvas');
+    if (navHors) {
+      navHors.addEventListener('click', function (e) {
+        var cible = e.target.closest('a.bouton-menu');
+        if (!cible || !navHors.contains(cible)) return;
+        var actuel = navHors.querySelector('a.bouton-menu.primaire');
+        if (actuel === cible) return;
+        if (actuel) actuel.classList.remove('primaire');
+        cible.classList.add('primaire');
+        // animation temporaire
+        cible.classList.add('anime-changement');
+        cible.addEventListener('animationend', function gestion() {
+          cible.classList.remove('anime-changement');
+          cible.removeEventListener('animationend', gestion);
         });
       });
     }

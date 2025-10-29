@@ -10,8 +10,8 @@
 	<?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
-<header class="site-header">
-	<div class="header-inner">
+<header class="entete-site">
+	<div class="interieur-entete">
 		<div class="logo">
 			<a href="<?php echo esc_url(home_url('/')); ?>" class="logo-link" aria-label="Accueil">
 				<div class="logo-icon" aria-hidden="true">
@@ -25,35 +25,35 @@
 				<input type="search" name="s" placeholder="Recherche..." aria-label="Recherche">
 			</div>
 
-	<button class="menu-burger" aria-label="Ouvrir le menu" aria-expanded="false">
-		<img class="iconeMenuBurger" src="<?php echo esc_url( get_template_directory_uri() . '/images/menu-burger.svg' ); ?>" aria-hidden="true" />
-	</button>
+		<button class="menu-burger" aria-label="Ouvrir le menu" aria-expanded="false">
+			<img class="icone-burger" src="<?php echo esc_url( get_template_directory_uri() . '/images/menu-burger.svg' ); ?>" aria-hidden="true" />
+		</button>
 	</div>
 </header>
 
-<!-- Off-canvas backdrop -->
-<div id="offcanvasBackdrop" class="offcanvas-backdrop" aria-hidden="true"></div>
+<!-- Fond hors-canvas -->
+<div id="fondHorsCanvas" class="fond-hors-canvas" aria-hidden="true"></div>
 
-<!-- Off-canvas menu (mobile / burger) -->
-<div id="offcanvasMenu" class="offcanvas-menu" aria-hidden="true" role="dialog" aria-label="Menu principal">
-	<div tabindex="0" class="focus-sentinel sentinel-top" aria-hidden="true"></div>
-	<button class="offcanvas-close" aria-label="Fermer le menu">
+<!-- Menu hors-canvas (mobile / burger) -->
+<div id="menuHorsCanvas" class="menu-hors-canvas" aria-hidden="true" role="dialog" aria-label="Menu principal">
+	<div tabindex="0" class="sentinelle-focus sentinelle-haut" aria-hidden="true"></div>
+	<button class="bouton-fermer-menu" aria-label="Fermer le menu">
 		<img class="iconeFermerMenu" src="<?php echo esc_url( get_template_directory_uri() . '/images/close-icon.svg' ); ?>" aria-hidden="true" />
 	</button>
-	<div class="offcanvas-content">
-		<div class="offcanvas-content">
-            <div class="offcanvas-search" role="search">
+	<div class="contenu-menu-hors-canvas">
+		<div class="contenu-menu-hors-canvas">
+            <div class="recherche-hors-canvas" role="search">
                 <img class="iconeRecherche" src="<?php echo esc_url( get_template_directory_uri() . '/images/search-icon.svg' ); ?>" aria-hidden="true" />
                 <input type="search" name="s" placeholder="Recherche..." aria-label="Recherche">
             </div>
 
-		<nav class="offcanvas-nav" aria-label="Navigation principale">
-			<a class="menu-btn primary" href="#">Accueil</a>
-			<a class="menu-btn" href="#">Galerie</a>
-			<a class="menu-btn" href="#">À propos</a>
-			<a class="menu-btn" href="#">Contact</a>
+		<nav class="nav-hors-canvas" aria-label="Navigation principale">
+			<a class="bouton-menu primaire" href="#">Accueil</a>
+			<a class="bouton-menu" href="#">Galerie</a>
+			<a class="bouton-menu" href="#">À propos</a>
+			<a class="bouton-menu" href="#">Contact</a>
 		</nav>
 		</div>
-		<div tabindex="0" class="focus-sentinel sentinel-bottom" aria-hidden="true"></div>
+		<div tabindex="0" class="sentinelle-focus sentinelle-bas" aria-hidden="true"></div>
     </div>
 </div>

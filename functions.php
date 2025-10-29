@@ -37,7 +37,7 @@ add_action('wp_enqueue_scripts', 'ctrltim_enqueue_styles');
 function ctrltim_enqueue_scripts(){
     wp_enqueue_script('ctrltim-menu', get_template_directory_uri() . '/js/menu.js', array(), filemtime(get_template_directory() . '/js/menu.js'), true);
     wp_enqueue_script('ctrltim-cards', get_template_directory_uri() . '/js/cards.js', array(), filemtime(get_template_directory() . '/js/cards.js'), true);
-        // expose theme directory url to JS so scripts can reference images reliably
+        // exposer l'URL du répertoire du thème au JS pour que les scripts puissent référencer les images de manière fiable
         wp_localize_script('ctrltim-cards', 'CTRL_TIM', array(
             'themeUrl' => get_template_directory_uri(),
         ));
@@ -87,5 +87,5 @@ add_action('wp_enqueue_scripts','ctrltim_enqueue_scripts');
 //     }
 //    }
 //    add_action( 'pre_get_posts', 'modifie_requete_principal' );
-// ?>
+?>
 

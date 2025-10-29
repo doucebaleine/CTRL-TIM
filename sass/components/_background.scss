@@ -1,4 +1,4 @@
-/* Background SVG behind the page watermark (body::before is used for watermark text) */
+/* Arrière-plan SVG derrière le filigrane de la page (body::before est utilisé pour le texte du filigrane) */
 body::before{
   content: "";
   position: fixed;

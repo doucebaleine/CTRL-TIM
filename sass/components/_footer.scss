@@ -1,21 +1,21 @@
-
-.site-footer{
+// Pied de page du site
+.pied-page-site{
   position: fixed;
   bottom: 0;
   width: 100%;
   background: linear-gradient(180deg,#0B0E21,#070713);
   color: #222640;
   padding-top: 20px;
-  z-index: 9999; /* keep footer above other content so inputs are clickable */
+  z-index: 9999; /* garder le pied de page au-dessus du contenu pour que les entrées soient cliquables */
 }
 
-.footer-inner{
+.interieur-pied-page{
   display:flex;
   align-items:center;
   justify-content:space-evenly;
 }
 
-.social-icon{
+.icone-sociale{
   width:64px;
   height:64px;
   display:flex;
@@ -23,26 +23,26 @@
   justify-content:center;
 }
 
-/* Left column: single top icon above a row of three icons */
-.footer-col.left{
+/* Colonne gauche : icône unique en haut au-dessus d'une rangée de trois icônes */
+.colonne-pied-page.gauche{
   display:flex;
   flex-direction:column;
   align-items:center;
 }
-.icon-row{
+.rangee-icones{
   display:flex;
   gap:14px;
   align-items:center;
   justify-content:center;
 }
 
-.footer-center{
+.centre-pied-page{
   display:flex;
   flex-direction:column;
   align-items:center;
 }
 
-.footer-search{
+.recherche-pied-page{
   width:60%;
   max-width:720px;
   min-width:300px;
@@ -58,7 +58,7 @@
   pointer-events: auto;
   position: relative;
 }
-.footer-search input{
+.recherche-pied-page input{
   flex:1;
   background:transparent;
   border:none;
@@ -67,7 +67,7 @@
   padding:6px;
 }
 
-.footer-logo-box{
+.boite-logo-pied-page{
   width:140px;
   height:96px;
   display:flex;
@@ -76,16 +76,16 @@
   cursor: pointer;
 }
 
-/* small screens: stack footer */
+/* petits écrans : empiler le pied de page */
 @media (max-width:900px){
-  .footer-inner{
+  .interieur-pied-page{
     flex-direction:column;
     align-items:center
   }
-  .footer-center{
+  .centre-pied-page{
     width:100%
   }
-  .footer-search{
+  .recherche-pied-page{
     width:90%
   }
 }

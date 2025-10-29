@@ -1,86 +1,86 @@
 (function () {
-  // Simple stack behaviour: close top card -> remove it -> shift others up -> add new back card
-  const stack = document.querySelector('.poster-stack');
-  if (!stack) return;
+  // Comportement simple de pile : fermer la carte du haut -> la supprimer -> décaler les autres vers le haut -> ajouter une nouvelle carte arrière
+  const pile = document.querySelector('.pile-affiches');
+  if (!pile) return;
 
-  function createCard(id, src, isTop) {
-    const card = document.createElement('div');
-    card.className = 'poster-card';
-    if (isTop) card.classList.add('poster-top');
-    else if (id === 1) card.classList.add('poster-mid');
-    else card.classList.add('poster-back');
-    card.dataset.id = id;
+  function creerCarte(id, src, estHaut) {
+    const carte = document.createElement('div');
+    carte.className = 'carte-affiche';
+    if (estHaut) carte.classList.add('affiche-haut');
+    else if (id === 1) carte.classList.add('affiche-milieu');
+    else carte.classList.add('affiche-arriere');
+    carte.dataset.id = id;
 
     const btn = document.createElement('button');
-    btn.className = 'poster-close';
+    btn.className = 'bouton-fermer-affiche';
     btn.setAttribute('aria-label', 'Fermer');
     btn.innerText = '✕';
-    btn.addEventListener('click', onClose);
+    btn.addEventListener('click', surFermer);
 
     const img = document.createElement('img');
     img.src = src;
     img.alt = '';
     img.style.objectFit = 'cover';
-    // fallback if an image fails to load
+    // secours si une image échoue à se charger
     img.addEventListener('error', function () {
-      console.warn('Poster image failed to load, using fallback:', src);
+      console.warn('Image d\'affiche échouée à se charger, utilisation du secours:', src);
       img.src = (THEME || '') + '/images/logo.svg';
-      img.classList.add('poster-image-fallback');
+      img.classList.add('image-affiche-secours');
     });
     img.addEventListener('load', function () {
-      img.classList.add('poster-image-loaded');
+      img.classList.add('image-affiche-chargee');
     });
 
-    card.appendChild(btn);
-    card.appendChild(img);
-    return card;
+    carte.appendChild(btn);
+    carte.appendChild(img);
+    return carte;
   }
 
-  // initial data (use theme images as placeholders)
+  // données initiales (utiliser les images du thème comme espaces réservés)
   const THEME = (window.CTRL_TIM && window.CTRL_TIM.themeUrl) ? window.CTRL_TIM.themeUrl : '';
-  const posters = [
+  const affiches = [
     THEME + '/images/logo.svg',
     THEME + '/images/affiche1.svg',
     THEME + '/images/affiche2.svg',
     THEME + '/images/affiche3.svg'
   ];
 
-  // helper to add a new back card
-  function addNewBack() {
-    const src = posters[Math.floor(Math.random() * posters.length)];
-    const newCard = createCard(Date.now(), src, false);
-    newCard.classList.add('new-back');
-    stack.appendChild(newCard);
-    // force layout then animate in
+  // aide pour ajouter une nouvelle carte arrière
+  function ajouterNouvelleArriere() {
+    const src = affiches[Math.floor(Math.random() * affiches.length)];
+    const nouvelleCarte = creerCarte(Date.now(), src, false);
+    nouvelleCarte.classList.add('nouvelle-arriere');
+    pile.appendChild(nouvelleCarte);
+    // forcer la disposition puis animer
     requestAnimationFrame(() => {
-      newCard.classList.add('appear');
-      // after appear remove helper class
-      setTimeout(() => newCard.classList.remove('new-back', 'appear'), 450);
+      nouvelleCarte.classList.add('apparaitre');
+      // après apparaitre supprimer la classe d'aide
+      setTimeout(() => nouvelleCarte.classList.remove('nouvelle-arriere', 'apparaitre'), 450);
     });
   }
 
-  function closeTop(top) {
-    if (!top) return;
-    // detach the closing element to fixed positioning so its animation
-    // won't change the document width and cause a horizontal scrollbar.
-    detachToFixed(top);
-    // then trigger the closing animation
-    top.classList.add('closing');
-    top.addEventListener('transitionend', function handler() {
-      top.removeEventListener('transitionend', handler);
-      top.remove();
-      shiftStack();
-      addNewBack();
+  function fermerHaut(haut) {
+    if (!haut) return;
+    // détacher l'élément de fermeture à un positionnement fixe pour que son animation
+    // ne change pas la largeur du document et cause une barre de défilement horizontale.
+    detacherVersFixe(haut);
+    // puis déclencher l'animation de fermeture
+    haut.classList.add('fermeture');
+    haut.addEventListener('transitionend', function gestionnaire() {
+      haut.removeEventListener('transitionend', gestionnaire);
+      haut.remove();
+      decalerPile();
+      ajouterNouvelleArriere();
     });
   }
 
-  // Move the element to fixed positioning at the same visual location
-  // so its transform animation does not affect layout/scroll width.
-  function detachToFixed(el) {
+  // Déplacer l'élément à un positionnement fixe au même emplacement visuel
+  // pour que son animation de transformation n'affecte pas la disposition/défilement largeur.
+  function detacherVersFixe(el) {
     const rect = el.getBoundingClientRect();
-    // preserve current transforms by removing transform temporarily
+    // préserver les transformations actuelles en supprimant temporairement la transformation
     const prevTransform = window.getComputedStyle(el).transform;
-    // set explicit size & fixed positioning
+    // définir taille explicite & positionnement fixe
     el.style.position = 'fixed';
     el.style.left = rect.left + 'px';
     el.style.top = rect.top + 'px';
@@ -88,67 +88,67 @@
     el.style.height = rect.height + 'px';
     el.style.margin = '0';
     el.style.zIndex = 99999;
-    // clear transform so CSS transitions apply from the current visual state
+    // effacer la transformation pour que les transitions CSS s'appliquent depuis l'état visuel actuel
     el.style.transform = prevTransform === 'none' ? 'none' : prevTransform;
-    // force layout
+    // forcer la disposition
     void el.offsetWidth;
   }
 
-  function onClose(e) {
+  function surFermer(e) {
     e.stopPropagation();
     const btn = e.currentTarget;
-    const card = btn.closest('.poster-card');
-    if (!card) return;
-    const top = stack.querySelector('.poster-top');
-    // if clicked card is already top, close it
-    if (card === top) {
-      closeTop(top);
+    const carte = btn.closest('.carte-affiche');
+    if (!carte) return;
+    const haut = pile.querySelector('.affiche-haut');
+    // si la carte cliquée est déjà haut, la fermer
+    if (carte === haut) {
+      fermerHaut(haut);
       return;
     }
-    // else rotate classes so clicked card becomes top, animate then close
-    const mid = stack.querySelector('.poster-mid');
-    const back = stack.querySelector('.poster-back');
-    if (card.classList.contains('poster-mid')) {
-      // top -> back, mid -> top, back -> mid
-      if (top) { top.classList.remove('poster-top'); top.classList.add('poster-back'); }
-      if (mid) { mid.classList.remove('poster-mid'); mid.classList.add('poster-top', 'animate-to-top'); }
-      if (back) { back.classList.remove('poster-back'); back.classList.add('poster-mid'); }
-      setTimeout(() => { if (mid) mid.classList.remove('animate-to-top'); closeTop(stack.querySelector('.poster-top')); }, 520);
+    // sinon tourner les classes pour que la carte cliquée devienne haut, animer puis fermer
+    const milieu = pile.querySelector('.affiche-milieu');
+    const arriere = pile.querySelector('.affiche-arriere');
+    if (carte.classList.contains('affiche-milieu')) {
+      // haut -> arriere, milieu -> haut, arriere -> milieu
+      if (haut) { haut.classList.remove('affiche-haut'); haut.classList.add('affiche-arriere'); }
+      if (milieu) { milieu.classList.remove('affiche-milieu'); milieu.classList.add('affiche-haut', 'animer-vers-haut'); }
+      if (arriere) { arriere.classList.remove('affiche-arriere'); arriere.classList.add('affiche-milieu'); }
+      setTimeout(() => { if (milieu) milieu.classList.remove('animer-vers-haut'); fermerHaut(pile.querySelector('.affiche-haut')); }, 520);
       return;
     }
-    if (card.classList.contains('poster-back')) {
-      // rotate: top->mid, mid->back, back->top
-      if (top) { top.classList.remove('poster-top'); top.classList.add('poster-mid'); }
-      if (mid) { mid.classList.remove('poster-mid'); mid.classList.add('poster-back'); }
-      card.classList.remove('poster-back'); card.classList.add('poster-top', 'animate-to-top');
-      setTimeout(() => { card.classList.remove('animate-to-top'); closeTop(stack.querySelector('.poster-top')); }, 520);
+    if (carte.classList.contains('affiche-arriere')) {
+      // tourner : haut->milieu, milieu->arriere, arriere->haut
+      if (haut) { haut.classList.remove('affiche-haut'); haut.classList.add('affiche-milieu'); }
+      if (milieu) { milieu.classList.remove('affiche-milieu'); milieu.classList.add('affiche-arriere'); }
+      carte.classList.remove('affiche-arriere'); carte.classList.add('affiche-haut', 'animer-vers-haut');
+      setTimeout(() => { carte.classList.remove('animer-vers-haut'); fermerHaut(pile.querySelector('.affiche-haut')); }, 520);
       return;
     }
   }
 
-  function shiftStack() {
-    const mid = stack.querySelector('.poster-mid');
-    const back = stack.querySelector('.poster-back');
-    if (mid) { mid.classList.remove('poster-mid'); mid.classList.add('animate-to-top', 'poster-top'); setTimeout(() => mid.classList.remove('animate-to-top'), 500); }
-    if (back) { back.classList.remove('poster-back'); back.classList.add('poster-mid'); }
+  function decalerPile() {
+    const milieu = pile.querySelector('.affiche-milieu');
+    const arriere = pile.querySelector('.affiche-arriere');
+    if (milieu) { milieu.classList.remove('affiche-milieu'); milieu.classList.add('animer-vers-haut', 'affiche-haut'); setTimeout(() => milieu.classList.remove('animer-vers-haut'), 500); }
+    if (arriere) { arriere.classList.remove('affiche-arriere'); arriere.classList.add('affiche-milieu'); }
   }
 
-  // attach close handler for all existing close buttons
-  stack.querySelectorAll('.poster-close').forEach(btn => btn.addEventListener('click', onClose));
+  // attacher le gestionnaire de fermeture pour tous les boutons de fermeture existants
+  pile.querySelectorAll('.bouton-fermer-affiche').forEach(btn => btn.addEventListener('click', surFermer));
 
-  // Attach error handlers to any existing <img> nodes (static markup)
-  stack.querySelectorAll('img').forEach(img => {
+  // Attacher les gestionnaires d'erreur à tous les nœuds <img> existants (balisage statique)
+  pile.querySelectorAll('img').forEach(img => {
     img.style.objectFit = 'cover';
     img.addEventListener('error', function () {
-      console.warn('Static poster image failed to load, using fallback:', img.src);
+      console.warn('Image d\'affiche statique échouée à se charger, utilisation du secours:', img.src);
       img.src = (THEME || '') + '/images/logo.svg';
-      img.classList.add('poster-image-fallback');
+      img.classList.add('image-affiche-secours');
     });
   });
 
-  // Safety: if user clicks on stack background, close top as well
-  stack.addEventListener('click', function (e) {
-    if (e.target === stack) return; // ignore background
+  // Sécurité : si l'utilisateur clique sur l'arrière-plan de la pile, fermer le haut aussi
+  pile.addEventListener('click', function (e) {
+    if (e.target === pile) return; // ignorer l'arrière-plan
   });
 
 })();

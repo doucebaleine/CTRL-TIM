@@ -148,7 +148,7 @@ h1 {
 /* /////////////////////////////////
 Les composants
 //////////////////////////////////// */
-/* Background SVG behind the page watermark (body::before is used for watermark text) */
+/* Arrière-plan SVG derrière le filigrane de la page (body::before est utilisé pour le texte du filigrane) */
 body::before {
   content: "";
   position: fixed;
@@ -164,7 +164,7 @@ body::before {
   pointer-events: none;
 }
 
-.header-inner {
+.interieur-entete {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -203,8 +203,8 @@ body::before {
     right: 12px;
   }
 }
-/* Off-canvas menu styles */
-.offcanvas-menu {
+/* Styles du menu hors-canvas */
+.menu-hors-canvas {
   position: fixed;
   inset: 0 0 0 50%;
   background: linear-gradient(90deg, rgba(10, 8, 20, 0.95), rgba(8, 6, 18, 0.98));
@@ -216,33 +216,33 @@ body::before {
   justify-content: flex-end;
 }
 
-/* backdrop covering the rest of the page while menu is open */
-.offcanvas-backdrop {
+/* fond couvrant le reste de la page pendant que le menu est ouvert */
+.fond-hors-canvas {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
-  z-index: 19990; /* below the menu but above page content */
+  z-index: 19990; /* en dessous du menu mais au-dessus du contenu de la page */
   opacity: 0;
   transition: opacity 240ms ease;
   pointer-events: none;
 }
 
-.offcanvas-backdrop.visible {
+.fond-hors-canvas.visible {
   opacity: 1;
   pointer-events: auto;
 }
 
-.offcanvas-menu.open {
+.menu-hors-canvas.ouvert {
   transform: translateX(0%);
 }
 
-.offcanvas-content {
+.contenu-menu-hors-canvas {
   width: 420px;
   padding: 48px;
   color: var(--couleur-texte-pale);
 }
 
-.offcanvas-close {
+.bouton-fermer-menu {
   cursor: pointer;
   position: absolute;
   top: 10px;
@@ -250,7 +250,7 @@ body::before {
   border: none;
 }
 
-.offcanvas-search {
+.recherche-hors-canvas {
   display: flex;
   gap: 12px;
   align-items: center;
@@ -260,20 +260,20 @@ body::before {
   margin-bottom: 32px;
 }
 
-.offcanvas-search input {
+.recherche-hors-canvas input {
   background: transparent;
   border: none;
   color: var(--couleur-texte-pale);
   outline: none;
 }
 
-.offcanvas-nav {
+.nav-hors-canvas {
   display: flex;
   flex-direction: column;
   gap: 22px;
 }
 
-.menu-btn {
+.bouton-menu {
   display: inline-block;
   padding: 12px 24px;
   border-radius: 12px;
@@ -284,14 +284,14 @@ body::before {
   font-family: var(--policeTitre);
 }
 
-.menu-btn.primary {
+.bouton-menu.primaire {
   background: linear-gradient(90deg, #D167FF, #62B8FF);
   color: #07101e;
   box-shadow: 6px 8px 20px rgba(45, 20, 80, 0.35);
 }
 
-/* temporary animation when primary moves to a new item */
-.menu-btn.animate-change {
+/* animation temporaire lorsque primaire se déplace vers un nouvel élément */
+.bouton-menu.anime-changement {
   animation: menu-pop 420ms cubic-bezier(0.2, 0.9, 0.2, 1);
 }
 
@@ -317,43 +317,43 @@ body::before {
   display: flex;
 }
 
-.iconeMenuBurger {
+.icone-burger {
   width: 36px;
   height: 36px;
 }
 
-/* prevent page scroll while menu open */
-.no-scroll {
+/* empêcher le défilement de la page pendant que le menu est ouvert */
+.pas-defilement {
   overflow: hidden;
 }
 
 @media (max-width: 480px) {
-  .offcanvas-content {
+  .contenu-menu-hors-canvas {
     width: 100%;
     padding: 26px;
   }
-  .menu-btn {
+  .bouton-menu {
     font-size: 1.4rem;
   }
 }
-/* When the menu is open, disable interactions and hover effects outside the menu
-   by turning off pointer-events on main page regions. The backdrop above will
-   capture pointer events; this is a defensive CSS safety net for any elements
-   that might still receive hover/clicks. */
-.menu-open .page-accueil,
-.menu-open header,
-.menu-open main,
-.menu-open .footer-search,
-.menu-open .barreRecherche,
-.menu-open .poster-stack,
-.menu-open .galerieBoiteGenerale {
+/* Lorsque le menu est ouvert, désactiver les interactions et les effets de survol en dehors du menu
+   en désactivant pointer-events sur les régions principales de la page. Le fond ci-dessus capture
+   les événements de pointeur ; c'est une sécurité CSS défensive pour tout élément qui pourrait
+   encore recevoir des survols/clics. */
+.menu-ouvert .page-accueil,
+.menu-ouvert header,
+.menu-ouvert main,
+.menu-ouvert .footer-search,
+.menu-ouvert .barreRecherche,
+.menu-ouvert .poster-stack,
+.menu-ouvert .galerieBoiteGenerale {
   pointer-events: none !important;
   user-select: none !important;
 }
 
-/* Ensure the offcanvas panel and backdrop remain interactive */
-.menu-open #offcanvasMenu,
-.menu-open #offcanvasBackdrop {
+/* Assurer que le panneau hors-canvas et le fond restent interactifs */
+.menu-ouvert #menuHorsCanvas,
+.menu-ouvert #fondHorsCanvas {
   pointer-events: auto !important;
 }
 
@@ -384,7 +384,7 @@ body::before {
   height: 20px;
 }
 
-/* Hero layout: titre à gauche et description */
+/* Disposition héros : titre à gauche et description */
 .page-accueil {
   display: grid;
   grid-template-columns: 1fr 540px;
@@ -412,7 +412,7 @@ h2 {
   line-height: 0;
 }
 
-.descriptionExpoPrincipale p {
+.description-exposition-principale p {
   max-width: 540px;
   padding: 1.2rem 1.4rem;
   color: var(--couleur-texte-pale);
@@ -420,29 +420,29 @@ h2 {
   background: linear-gradient(90deg, #2A305A 0%, rgba(5, 7, 20, 0.1) 100%);
 }
 
-.effetTitre {
+.effet-titre {
   position: absolute;
   top: 180px;
   width: 446px;
 }
 
-.effetTitre2 {
+.effet-titre-deux {
   position: absolute;
   top: 230px;
   width: 446px;
 }
 
-.descriptionExpoPrincipale {
+.description-exposition-principale {
   padding-top: 50px;
 }
 
-.poster-stack {
+.pile-affiches {
   width: 900px;
   height: 400px;
   pointer-events: auto;
 }
 
-.poster-card {
+.carte-affiche {
   position: absolute;
   width: 560px;
   height: 380px;
@@ -461,7 +461,7 @@ h2 {
   overflow: hidden;
 }
 
-.poster-card img {
+.carte-affiche img {
   width: 100%;
   height: 100%;
   border-radius: 10px;
@@ -469,7 +469,7 @@ h2 {
   object-fit: cover;
 }
 
-.poster-card::after {
+.carte-affiche::after {
   content: "";
   position: absolute;
   inset: -4px;
@@ -478,23 +478,23 @@ h2 {
   z-index: -2;
 }
 
-.poster-top {
+.affiche-haut {
   transform: translate(0, 0) rotate(0deg);
   z-index: 40;
 }
 
-.poster-mid {
+.affiche-milieu {
   transform: translate(12px, 12px) rotate(-2deg);
   z-index: 30;
 }
 
-.poster-back {
+.affiche-arriere {
   transform: translate(24px, 24px) rotate(-4deg);
   z-index: 20;
 }
 
-/* Close button */
-.poster-close {
+/* Bouton fermer */
+.bouton-fermer-affiche {
   position: absolute;
   top: 8px;
   right: 10px;
@@ -510,61 +510,61 @@ h2 {
   align-items: center;
   justify-content: center;
   transition: background-color 160ms ease, transform 120ms ease;
-  /* Hover & focus: darken background to increase contrast */
-  /* keyboard focus for accessibility */
+  /* Survol & focus : assombrir l'arrière-plan pour augmenter le contraste */
+  /* focus clavier pour l'accessibilité */
 }
-.poster-close:hover {
+.bouton-fermer-affiche:hover {
   background: rgba(67, 67, 67, 0.85);
 }
-.poster-close:active {
+.bouton-fermer-affiche:active {
   transform: translateY(1px) scale(0.98);
 }
-.poster-close:focus-visible {
+.bouton-fermer-affiche:focus-visible {
   outline: 2px solid rgba(209, 103, 255, 0.9);
   outline-offset: 2px;
   background: rgba(67, 67, 67, 0.65);
 }
 
-/* closing animation */
-.poster-card.closing {
+/* animation de fermeture */
+.carte-affiche.fermeture {
   transform: translateX(140%) rotate(8deg) scale(0.95);
   opacity: 0;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.35);
 }
 
-/* when a card becomes top, animate transform */
-.poster-card.animate-to-top {
+/* lorsqu'une carte devient haut, animer la transformation */
+.carte-affiche.animer-vers-haut {
   transition: transform 420ms cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow 360ms ease;
 }
 
-/* new back poster appearance */
-.poster-card.new-back {
+/* nouvelle apparence de l'affiche arrière */
+.carte-affiche.nouvelle-arriere {
   transform: translate(28px, 28px) rotate(-6deg) scale(0.9);
   opacity: 0;
 }
 
-.poster-card.new-back.appear {
+.carte-affiche.nouvelle-arriere.apparaitre {
   transform: translate(24px, 24px) rotate(-4deg) scale(1);
   opacity: 1;
 }
 
-.site-footer {
+.pied-page-site {
   position: fixed;
   bottom: 0;
   width: 100%;
   background: linear-gradient(180deg, #0B0E21, #070713);
   color: #222640;
   padding-top: 20px;
-  z-index: 9999; /* keep footer above other content so inputs are clickable */
+  z-index: 9999; /* garder le pied de page au-dessus du contenu pour que les entrées soient cliquables */
 }
 
-.footer-inner {
+.interieur-pied-page {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
 }
 
-.social-icon {
+.icone-sociale {
   width: 64px;
   height: 64px;
   display: flex;
@@ -572,27 +572,27 @@ h2 {
   justify-content: center;
 }
 
-/* Left column: single top icon above a row of three icons */
-.footer-col.left {
+/* Colonne gauche : icône unique en haut au-dessus d'une rangée de trois icônes */
+.colonne-pied-page.gauche {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.icon-row {
+.rangee-icones {
   display: flex;
   gap: 14px;
   align-items: center;
   justify-content: center;
 }
 
-.footer-center {
+.centre-pied-page {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.footer-search {
+.recherche-pied-page {
   width: 60%;
   max-width: 720px;
   min-width: 300px;
@@ -609,7 +609,7 @@ h2 {
   position: relative;
 }
 
-.footer-search input {
+.recherche-pied-page input {
   flex: 1;
   background: transparent;
   border: none;
@@ -618,7 +618,7 @@ h2 {
   padding: 6px;
 }
 
-.footer-logo-box {
+.boite-logo-pied-page {
   width: 140px;
   height: 96px;
   display: flex;
@@ -627,16 +627,16 @@ h2 {
   cursor: pointer;
 }
 
-/* small screens: stack footer */
+/* petits écrans : empiler le pied de page */
 @media (max-width: 900px) {
-  .footer-inner {
+  .interieur-pied-page {
     flex-direction: column;
     align-items: center;
   }
-  .footer-center {
+  .centre-pied-page {
     width: 100%;
   }
-  .footer-search {
+  .recherche-pied-page {
     width: 90%;
   }
 }

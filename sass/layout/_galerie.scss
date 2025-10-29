@@ -1,5 +1,5 @@
 .pageGalerie {
-  height: 2000px;
+  height: 1500px;
   background-color: #080d27;
   color: #fff;
   margin: 0;
@@ -62,21 +62,19 @@
     }
   }
 
+  /* ✅ FIXED DROPDOWN SECTION */
   &__dropdown {
     position: relative;
-    min-width: 150px;
-    margin: 2em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 250px;
+    margin: 2em auto;
+    color: #fff;
+    font-family: "Bai Jamjuree", sans-serif;
 
     * {
       box-sizing: border-box;
     }
 
-    &--select {
-      width: 10%;
-      min-width: 250px;
+    &__select {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -84,7 +82,6 @@
       border: 2px solid transparent;
       border-radius: 0.5em;
       cursor: pointer;
-      color: #fff;
       background-image:
         linear-gradient(#0e1431, #0e1431),
         linear-gradient(90deg, #d26eff, #58b5ff);
@@ -98,63 +95,63 @@
           linear-gradient(90deg, #d26eff, #58b5ff);
       }
 
-      &--clicked {
+      &.clicked {
         box-shadow: 0 0 0.8em #2a336c;
       }
     }
 
-    &--caret {
+    &__caret {
       border-top: 6px solid #fff;
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
-      height: 0;
-      width: 0;
       transition: 0.3s;
 
-      &--rotate {
+      &.rotate {
         transform: rotate(180deg);
       }
     }
 
-    &--menu {
+    &__menu {
       list-style: none;
       padding: 0.2em 0.5em;
       background: radial-gradient(50% 50% at 50% 50%, #0e1431 0%, #12193c 100%);
       border: 2px solid #2a336c;
-      box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.2);
       border-radius: 0.5em;
-      color: #95a1d8;
       position: absolute;
-      top: 3em;
-      left: 50%;
-      width: 10%;
-      min-width: 250px;
-      transform: translateX(-50%);
+      top: 3.5em;
+      left: 0;
+      width: 100%;
       opacity: 0;
       display: none;
-      transition: 0.2s;
-      z-index: 1;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      transform: translateY(-10px);
+      z-index: 10;
 
-      &--open {
+      &.open {
         opacity: 1;
         display: block;
+        transform: translateY(0);
       }
 
       li {
         padding: 0.7em 0.5em;
-        margin: 0.3em 0;
         border-radius: 0.3em;
         cursor: pointer;
+        color: #95a1d8;
 
         &:hover {
           background: #1b2352;
         }
+
+        &.active {
+          color: #ffffff;
+          background-color: #2a336c;
+        }
       }
     }
 
-    &--active {
-      color: #ffffff;
-      background-color: #2a336c;
+    &__selected {
+      font-size: 1.1em;
     }
   }
 

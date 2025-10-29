@@ -149,12 +149,13 @@ h1 {
 }
 
 .pageGalerie {
-  height: 2000px;
+  height: 1500px;
   background-color: #080d27;
   color: #fff;
   margin: 0;
   padding: 0;
   font-family: "Bai Jamjuree", sans-serif;
+  /* ✅ FIXED DROPDOWN SECTION */
 }
 .pageGalerie__titre {
   text-align: center;
@@ -208,18 +209,15 @@ h1 {
 }
 .pageGalerie__dropdown {
   position: relative;
-  min-width: 150px;
-  margin: 2em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 250px;
+  margin: 2em auto;
+  color: #fff;
+  font-family: "Bai Jamjuree", sans-serif;
 }
 .pageGalerie__dropdown * {
   box-sizing: border-box;
 }
-.pageGalerie__dropdown--select {
-  width: 10%;
-  min-width: 250px;
+.pageGalerie__dropdown__select {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -227,64 +225,62 @@ h1 {
   border: 2px solid transparent;
   border-radius: 0.5em;
   cursor: pointer;
-  color: #fff;
   background-image: linear-gradient(#0e1431, #0e1431), linear-gradient(90deg, #d26eff, #58b5ff);
   background-origin: padding-box, border-box;
   background-clip: padding-box, border-box;
   transition: background 0.3s;
 }
-.pageGalerie__dropdown--select:hover {
+.pageGalerie__dropdown__select:hover {
   background-image: linear-gradient(#212a56, #212a56), linear-gradient(90deg, #d26eff, #58b5ff);
 }
-.pageGalerie__dropdown--select--clicked {
+.pageGalerie__dropdown__select.clicked {
   box-shadow: 0 0 0.8em #2a336c;
 }
-.pageGalerie__dropdown--caret {
+.pageGalerie__dropdown__caret {
   border-top: 6px solid #fff;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  height: 0;
-  width: 0;
   transition: 0.3s;
 }
-.pageGalerie__dropdown--caret--rotate {
+.pageGalerie__dropdown__caret.rotate {
   transform: rotate(180deg);
 }
-.pageGalerie__dropdown--menu {
+.pageGalerie__dropdown__menu {
   list-style: none;
   padding: 0.2em 0.5em;
   background: radial-gradient(50% 50% at 50% 50%, #0e1431 0%, #12193c 100%);
   border: 2px solid #2a336c;
-  box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.2);
   border-radius: 0.5em;
-  color: #95a1d8;
   position: absolute;
-  top: 3em;
-  left: 50%;
-  width: 10%;
-  min-width: 250px;
-  transform: translateX(-50%);
+  top: 3.5em;
+  left: 0;
+  width: 100%;
   opacity: 0;
   display: none;
-  transition: 0.2s;
-  z-index: 1;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: translateY(-10px);
+  z-index: 10;
 }
-.pageGalerie__dropdown--menu--open {
+.pageGalerie__dropdown__menu.open {
   opacity: 1;
   display: block;
+  transform: translateY(0);
 }
-.pageGalerie__dropdown--menu li {
+.pageGalerie__dropdown__menu li {
   padding: 0.7em 0.5em;
-  margin: 0.3em 0;
   border-radius: 0.3em;
   cursor: pointer;
+  color: #95a1d8;
 }
-.pageGalerie__dropdown--menu li:hover {
+.pageGalerie__dropdown__menu li:hover {
   background: #1b2352;
 }
-.pageGalerie__dropdown--active {
+.pageGalerie__dropdown__menu li.active {
   color: #ffffff;
   background-color: #2a336c;
+}
+.pageGalerie__dropdown__selected {
+  font-size: 1.1em;
 }
 .pageGalerie__galerieProjets {
   background-color: #080d27;

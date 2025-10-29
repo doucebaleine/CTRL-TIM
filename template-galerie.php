@@ -22,28 +22,28 @@ Template Name: Galerie
   
 </head>
 <body>
-  <main class="gallery-page">
-    <h1 class="title">Galerie</h1>
+  <main class="pageGalerie">
+    <h1 class="pageGalerie__titre">Galerie</h1>
 
-    <div class="filter-bar">
-      <button class="filter-btn active">Tous</button>
-      <button class="filter-btn">Arcade</button>
-      <button class="filter-btn">Terre</button>
-      <button class="filter-btn">Finissants</button>
+    <div class="pageGalerie__filter-bar">
+      <button class="pageGalerie__filter-bar__filter-btn active">Tous</button>
+      <button class="pageGalerie__filter-bar__filter-btn">Arcade</button>
+      <button class="pageGalerie__filter-bar__filter-btn">Terre</button>
+      <button class="pageGalerie__filter-bar__filter-btn">Finissants</button>
     </div>
-    <script src="js/filter.js"></script>
+    <script src="<?php echo get_template_directory_uri(); ?>/java-script/filter.js"></script>
 
-    <p class="subtitle">
+    <p class="pageGalerie__subtitle">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin in magna nibh. 
       Praesent luctus, mauris eu rhoncus elementum, tellus nisl malesuada eros.
     </p>
 
-    <section class="dropdown">
-      <div class="select">
-        <span class="selected">All</span>
-        <div class="caret"></div>
+    <section class="pageGalerie__dropdown">
+      <div class="pageGalerie__dropdown__select">
+        <span class="pageGalerie__dropdown__selected">All</span>
+        <div class="pageGalerie__dropdown__caret"></div>
       </div>
-      <ul class="menu">
+      <ul class="pageGalerie__dropdown__menu">
         <li class="active">All</li>
         <li>Jeux Video</li>
         <li>3D</li>
@@ -55,60 +55,67 @@ Template Name: Galerie
 
     <section class="pageGalerie__galerieProjets">
       <div class="pageGalerie__galerieProjets__projets">
+
         <div class="pageGalerie__galerieProjets__projets__projet">
-          <img src="images/BlackOps3.jpg" alt="Call of Duty">
+          <img src="<?php echo get_template_directory_uri(); ?>/images/BlackOps3.jpg" alt="Call of Duty">
           <div class="pageGalerie__galerieProjets__projets__projet__info">
             <span class="pageGalerie__galerieProjets__projets__projet__info__titre">Arcade</span>
             <h3 class="pageGalerie__galerieProjets__projets__projet__info__titre">Call of Duty</h3>
           </div> 
         </div>
+
         <div class="pageGalerie__galerieProjets__projets__projet">
-          <img src="images/cyberpunk.jpg" alt="Cyberpunk">
+          <img src="<?php echo get_template_directory_uri(); ?>/images/cyberpunk.jpg" alt="Cyberpunk">
           <div class="pageGalerie__galerieProjets__projets__projet__info">
             <span class="pageGalerie__galerieProjets__projets__projet__info__titre">Arcade</span>
             <h3 class="pageGalerie__galerieProjets__projets__projet__info__titre">Cyberpunk</h3>
           </div> 
         </div>
+
         <div class="pageGalerie__galerieProjets__projets__projet">
-          <img src="images/DeathStranding.jpg" alt="Death Stranding">
+          <img src="<?php echo get_template_directory_uri(); ?>/images/DeathStranding.jpg" alt="Death Stranding">
           <div class="pageGalerie__galerieProjets__projets__projet__info">
             <span class="pageGalerie__galerieProjets__projets__projet__info__titre">Arcade</span>
             <h3 class="pageGalerie__galerieProjets__projets__projet__info__titre">Death Stranding</h3>
           </div> 
         </div>
+
         <div class="pageGalerie__galerieProjets__projets__projet">
-          <img src="images/EldenRing.jpg" alt="Elden Ring">    
+          <img src="<?php echo get_template_directory_uri(); ?>/images/EldenRing.jpg" alt="Elden Ring">    
           <div class="pageGalerie__galerieProjets__projets__projet__info">
             <span class="pageGalerie__galerieProjets__projets__projet__info__titre">Arcade</span>
             <h3 class="pageGalerie__galerieProjets__projets__projet__info__titre">Elden Ring</h3>
           </div>    
         </div>
+
         <div class="pageGalerie__galerieProjets__projets__projet">
-          <img src="images/Sekiro.jpg" alt="Sekiro">
+          <img src="<?php echo get_template_directory_uri(); ?>/images/Sekiro.jpg" alt="Sekiro">
           <div class="pageGalerie__galerieProjets__projets__projet__info">
             <span class="pageGalerie__galerieProjets__projets__projet__info__titre">Arcade</span>
             <h3 class="pageGalerie__galerieProjets__projets__projet__info__titre">Sekiro</h3>
           </div>        
         </div>
+
         <div class="pageGalerie__galerieProjets__projets__projet">
-          <img src="images/stray.jpg" alt="Stray">
+          <img src="<?php echo get_template_directory_uri(); ?>/images/stray.jpg" alt="Stray">
           <div class="pageGalerie__galerieProjets__projets__projet__info">
             <span class="pageGalerie__galerieProjets__projets__projet__info__titre">Arcade</span>
             <h3 class="pageGalerie__galerieProjets__projets__projet__info__titre">Stray</h3>
           </div> 
         </div>
+
         <div class="pageGalerie__galerieProjets__projets__projet">
-          <img src="images/GhostofYotei.jpg" alt="GhostofYotei">
+          <img src="<?php echo get_template_directory_uri(); ?>/images/GhostofYotei.jpg" alt="GhostofYotei">
           <div class="pageGalerie__galerieProjets__projets__projet__info">
             <span class="pageGalerie__galerieProjets__projets__projet__info__titre">Arcade</span>
             <h3 class="pageGalerie__galerieProjets__projets__projet__info__titre">Ghost of Yotei</h3>
           </div> 
         </div>
+
       </div>
     </section>
-    
-    <script src="js/gallery.js"></script>
 
+    <script src="<?php echo get_template_directory_uri(); ?>/java-script/galerie.js"></script>
 
   </main>
 </body>

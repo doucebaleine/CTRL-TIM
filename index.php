@@ -24,12 +24,12 @@
 
                <div class="poster-card poster-mid" data-id="1">
                   <button class="poster-close" aria-label="Fermer">✕</button>
-                  <img src="<?php echo esc_url( get_template_directory_uri() . '/images/effetTitre.svg' ); ?>" alt="Affiche jeu 1" />
+                  <img src="<?php echo esc_url( get_template_directory_uri() . '/images/affiche1.svg' ); ?>" alt="Affiche jeu 1" />
                </div>
 
                <div class="poster-card poster-back" data-id="2">
                   <button class="poster-close" aria-label="Fermer">✕</button>
-                  <img src="<?php echo esc_url( get_template_directory_uri() . '/images/effetTitre.svg' ); ?>" alt="Affiche jeu 2" />
+                  <img src="<?php echo esc_url( get_template_directory_uri() . '/images/affiche2.svg' ); ?>" alt="Affiche jeu 2" />
                </div>
             </div>
          </div>

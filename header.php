@@ -48,8 +48,8 @@
             </div>
 
 		<nav class="offcanvas-nav" aria-label="Navigation principale">
-			<a class="menu-btn primary" href="#">Galerie</a>
-			<a class="menu-btn" href="#">Accueil</a>
+			<a class="menu-btn primary" href="#">Accueil</a>
+			<a class="menu-btn" href="#">Galerie</a>
 			<a class="menu-btn" href="#">À propos</a>
 			<a class="menu-btn" href="#">Contact</a>
 		</nav>

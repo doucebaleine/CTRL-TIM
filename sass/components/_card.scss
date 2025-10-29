@@ -1,8 +1,3 @@
-/* Carte d'information à droite et pile d'images */
-.galerieBoiteGenerale{
-  
-}
-
 .poster-stack {
   width: 900px;
   height: 400px;
@@ -10,40 +5,41 @@
 }
 
 .poster-card {
-  --border-grad: linear-gradient(90deg,#D167FF,#62B8FF);
   position: absolute;
   width: 560px;
   height: 380px;
-  border-radius: 14px;
+  border-radius: 10px;
+  --border-grad: linear-gradient(90deg,#D167FF,#62B8FF);
   background: linear-gradient(180deg, rgba(18, 18, 30, 0.9), rgba(12, 12, 22, 0.9));
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-  padding: 14px;
+  padding: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: transform 420ms cubic-bezier(0.2, 0.9, 0.2, 1), opacity 360ms ease, box-shadow 360ms ease;
   pointer-events: auto;
-  border: 4px solid transparent;
+  border: 1px solid transparent;
   background-clip: padding-box;
+  overflow: hidden;
 }
 
 .poster-card img {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
   display: block;
+  object-fit: cover;
 }
 
-/* gradient border using pseudo-element */
 .poster-card::after {
   content: "";
   position: absolute;
   inset: -4px;
-  border-radius: 14px;
+  border-radius: 10px;
   background: var(--border-grad);
   z-index: -2;
 }
 
-/* Stack positions */
 .poster-top {
   transform: translate(0, 0) rotate(0deg);
   z-index: 40;
@@ -64,7 +60,7 @@
   position: absolute;
   top: 8px;
   right: 10px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgb(67 67 67 / 50%);
   color: #fff;
   border: none;
   width: 32px;
@@ -75,6 +71,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 160ms ease, transform 120ms ease;
+
+  /* Hover & focus: darken background to increase contrast */
+  &:hover {
+    background: rgb(67 67 67 / 85%);
+  }
+
+  &:active {
+    transform: translateY(1px) scale(0.98);
+  }
+
+  /* keyboard focus for accessibility */
+  &:focus-visible {
+    outline: 2px solid rgba(209,103,255,0.9);
+    outline-offset: 2px;
+    background: rgb(67 67 67 / 65%);
+  }
 }
 
 /* closing animation */
@@ -99,4 +112,3 @@
   transform: translate(24px, 24px) rotate(-4deg) scale(1);
   opacity: 1;
 }
-

@@ -7,7 +7,7 @@
 
    <?php get_header(); ?>
    
-   <main>
+   <main class="aproposMain">
       <!-- Titre de la page -->
       <section class="titreApropos">
          <h2>À Propos</h2>
@@ -62,10 +62,10 @@
       <!-- Liens utiles -->
       <section class="liensApropos">
          <h3>Liens utiles</h3>
-         <ul class="liensApropos__listelinks">
+         <div class="liensApropos__listelinks">
             <a href="https://www.cmaisonneuve.qc.ca/programme/integration-multimedia/">Technique d'intégration Multimédia</a>
             <a href="https://sites.google.com/view/centre-aide-tim/accueil">Centre d'aide TIM</a>
-         </ul>
+         </div>
       </section>
 
    </main>

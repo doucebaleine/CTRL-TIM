@@ -1026,8 +1026,9 @@ footer {
     display: block;
   }
 }
-body {
-  background: #090D20;
+.aproposMain {
+  display: flex;
+  flex-direction: column;
 }
 
 .titreApropos {
@@ -1035,19 +1036,14 @@ body {
   text-align: center;
   font-family: "Jersey 15";
   font-size: 4rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
   text-align: center;
 }
 
 .infosaPropos h3 {
   color: var(--couleur-titre-pale);
   font-family: "Jersey 15";
-  font-size: 40px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  font-size: 3rem;
+  margin: 2rem;
 }
 .infosaPropos__textBut {
   border-radius: 20px;
@@ -1059,24 +1055,15 @@ body {
   color: var(--couleur-texte-pale);
   font-family: "Bai Jamjuree";
   font-size: 1.5rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
   margin: 2rem;
   padding: 1rem;
 }
 
-.profsPivots {
-  margin-top: 3rem;
-  padding: 1.5rem;
-}
 .profsPivots h3 {
   color: var(--couleur-titre-pale);
   font-family: "Jersey 15";
-  font-size: 40px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  font-size: 3rem;
+  margin: 2rem;
 }
 .profsPivots__profs {
   display: flex;
@@ -1093,14 +1080,14 @@ body {
 }
 .profsPivots__profs__prof1__img_prof1 {
   margin: 0.5rem;
-  width: 250px;
-  height: 300px;
+  width: 14rem;
+  height: 15rem;
   flex-shrink: 0;
   background-color: #CCC;
 }
 .profsPivots__profs__prof1__infoProf1 {
-  width: 250px;
-  height: 300px;
+  width: 15rem;
+  height: 15rem;
   border-radius: 20px;
   margin: 1.5rem;
   background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, rgba(52, 59, 85, 0.4392156863) 100%);
@@ -1110,7 +1097,6 @@ body {
   margin: 1rem;
   color: var(--couleur-texte-pale);
   font-family: "Bai Jamjuree";
-  font-size: 20px;
 }
 .profsPivots__profs__prof2 {
   display: flex;
@@ -1120,14 +1106,14 @@ body {
 }
 .profsPivots__profs__prof2__img_prof2 {
   margin: 0.5rem;
-  width: 250px;
-  height: 300px;
+  width: 14rem;
+  height: 15rem;
   flex-shrink: 0;
   background-color: #CCC;
 }
 .profsPivots__profs__prof2__infoProf2 {
-  width: 250px;
-  height: 300px;
+  width: 15rem;
+  height: 15rem;
   border-radius: 20px;
   margin: 1.5rem;
   background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, rgba(52, 59, 85, 0.4392156863) 100%);
@@ -1137,17 +1123,14 @@ body {
   margin: 1rem;
   color: var(--couleur-texte-pale);
   font-family: "Bai Jamjuree";
-  font-size: 20px;
   position: relative;
 }
 
 .liensApropos h3 {
+  margin: -1rem;
   color: var(--couleur-titre-pale);
   font-family: "Jersey 15";
-  font-size: 40px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  font-size: 3rem;
 }
 .liensApropos__listelinks {
   display: flex;
@@ -1160,6 +1143,11 @@ body {
 }
 .liensApropos__listelinks :hover {
   color: aqua;
+}
+.liensApropos__listelinks a {
+  color: var(--couleur-texte-pale);
+  font-family: "Bai Jamjuree";
+  margin: 1rem;
 }
 
 .pageGalerie {

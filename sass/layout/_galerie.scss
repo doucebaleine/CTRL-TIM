@@ -1,4 +1,7 @@
 .pageGalerie {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
   height: 1500px;
   background-color: #080d27;
   color: #fff;
@@ -8,16 +11,18 @@
 
   &__titre {
     text-align: center;
-    font-size: 96px;
-    margin-top: 40px;
+    font-size: clamp(48px, 8vw, 96px);
+    margin-top: 60px;
+    margin-bottom: 10px;
     font-weight: 400;
     font-family: "Jersey 15", sans-serif;
   }
 
   &__subtitle {
     text-align: center;
-    color: #aaa;
+    color: #c0c0c0;
     max-width: 700px;
+    padding: 0 80px 0 80px;
     margin: 0 auto 40px;
     line-height: 1.6;
   }
@@ -38,14 +43,15 @@
       background: none;
       border: none;
       color: #ccc;
-      padding: 12px 30px;
+      padding: 0;
       cursor: pointer;
       transition: all 0.3s;
       font-weight: 500;
-      width: 200px;
+      min-width: 83px;
+      width: 10vw;
       text-align: center;
       font-family: "Bai Jamjuree";
-      font-size: 28px;
+      font-size: clamp(0.875rem, 1vw + 0.5rem, 1.25rem);
       line-height: normal;
 
       &:hover {
@@ -61,8 +67,6 @@
       }
     }
   }
-
-  /* ✅ FIXED DROPDOWN SECTION */
   &__dropdown {
     position: relative;
     width: 250px;
@@ -274,6 +278,48 @@
           opacity: 1;
           transform: translateY(0);
         }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .pageGalerie__galerieProjets__projets {
+    height: 500px;
+
+    &__projet {
+      width: 250px;
+      height: 350px;
+      margin-right: -60px;
+      border-radius: 18px;
+
+      img {
+        width: 250px;
+        height: auto;
+        border-radius: 18px;
+      }
+
+      &__info {
+        top: 15px;
+        left: 15px;
+
+        h3 {
+          font-size: 28px;
+        }
+
+        span {
+          font-size: 14px;
+        }
+      }
+
+      &::after {
+        height: 45%;
+        border-radius: 18px;
+        backdrop-filter: blur(10px);
+      }
+
+      &:hover {
+        transform: translateY(-40px) scale(1.03);
       }
     }
   }

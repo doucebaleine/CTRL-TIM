@@ -62,6 +62,7 @@ function ctrltim_enqueue_scripts(){
     wp_enqueue_script('ctrltim-cards', get_template_directory_uri() . '/js/cards.js', array(), filemtime(get_template_directory() . '/js/cards.js'), true);
     wp_enqueue_script('ctrltim-filter', get_template_directory_uri() . '/js/filter.js', array(), filemtime(get_template_directory() . '/js/filter.js'), true);
     wp_enqueue_script('ctrltim-galerie', get_template_directory_uri() . '/js/galerie.js', array(), filemtime(get_template_directory() . '/js/galerie.js'), true);
+    wp_enqueue_script('ctrltim-carrousel', get_template_directory_uri() . '/js/carrousel.js', array(), filemtime(get_template_directory() . '/js/carrousel.js'), true);
     
     // Exposer l'URL du répertoire du thème au JS pour que les scripts puissent référencer les images de manière fiable
     wp_localize_script('ctrltim-cards', 'CTRL_TIM', array(
@@ -124,5 +125,38 @@ function ctrltim_fallback_menu() {
     echo '</ul>';
 }
 
-// ?>
+/**
+ * Récupère et renvoie/affiche un fichier SVG depuis /images/svg/<name>.svg
+ * $name sans extension, $atts tableau d'attributs à injecter dans la balise <svg>
+ */
+function theme_get_svg( $name, $atts = array(), $echo = true ) {
+    $file = get_template_directory() . '/images/svg/' . $name . '.svg';
+    if ( ! file_exists( $file ) ) {
+        return '';
+    }
 
+    $svg = file_get_contents( $file );
+
+    if ( ! empty( $atts ) ) {
+        $attr_string = '';
+        foreach ( $atts as $k => $v ) {
+            $attr_string .= ' ' . esc_attr( $k ) . '="' . esc_attr( $v ) . '"';
+        }
+        $svg = preg_replace( '/<svg([^>]*)/', '<svg$1' . $attr_string, $svg, 1 );
+    }
+
+    if ( $echo ) {
+        echo $svg;
+        return;
+    }
+    return $svg;
+}
+
+/**
+ * Renvoie l'URL d'un SVG dans /images/svg/
+ */
+function theme_svg_url( $name ) {
+    return get_template_directory_uri() . '/images/svg/' . $name . '.svg';
+}
+
+// ?>

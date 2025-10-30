@@ -13,13 +13,16 @@
   var sentinelleBas = menuHorsCanvas && menuHorsCanvas.querySelector('.sentinelle-bas');
 
   function piegeFocus(container) {
-    var focusable = $tous(focusableSelectors).filter(function (el) { return container.contains(el); });
+    if (!container) return;
+    var focusable = $tous(focusableSelectors).filter(function (el) { 
+      return container.contains(el) && el !== sentinelleHaut && el !== sentinelleBas && el.offsetParent !== null; 
+    });
     if (!focusable.length) return;
     var premier = focusable[0];
     var dernier = focusable[focusable.length - 1];
 
     function gestionTouche(e) {
-      if (e.key !== 'Tab') return;
+      if (e.key !== 'Tab' || !container.classList.contains('ouvert')) return;
       if (e.shiftKey && document.activeElement === premier) {
         e.preventDefault(); dernier.focus();
       } else if (!e.shiftKey && document.activeElement === dernier) {
@@ -29,7 +32,7 @@
 
     container._gestionTouche = gestionTouche;
     document.addEventListener('keydown', gestionTouche);
-    premier.focus();
+    if (premier && typeof premier.focus === 'function') premier.focus();
   }
 
   function libereFocus(container) {
@@ -79,13 +82,15 @@
   // sentinelles pour trap focus
   if (sentinelleHaut) {
     sentinelleHaut.addEventListener('focus', function () {
-      var focusables = Array.prototype.slice.call(menuHorsCanvas.querySelectorAll(focusableSelectors)).filter(function (el) { return menuHorsCanvas.contains(el); });
+      if (!menuHorsCanvas || !menuHorsCanvas.classList.contains('ouvert')) return;
+      var focusables = Array.prototype.slice.call(menuHorsCanvas.querySelectorAll(focusableSelectors)).filter(function (el) { return menuHorsCanvas.contains(el) && el !== sentinelleHaut && el !== sentinelleBas; });
       if (focusables.length) focusables[focusables.length - 1].focus();
     });
   }
   if (sentinelleBas) {
     sentinelleBas.addEventListener('focus', function () {
-      var focusables = Array.prototype.slice.call(menuHorsCanvas.querySelectorAll(focusableSelectors)).filter(function (el) { return menuHorsCanvas.contains(el); });
+      if (!menuHorsCanvas || !menuHorsCanvas.classList.contains('ouvert')) return;
+      var focusables = Array.prototype.slice.call(menuHorsCanvas.querySelectorAll(focusableSelectors)).filter(function (el) { return menuHorsCanvas.contains(el) && el !== sentinelleHaut && el !== sentinelleBas; });
       if (focusables.length) focusables[0].focus();
     });
   }

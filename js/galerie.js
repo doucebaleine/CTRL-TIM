@@ -1,15 +1,19 @@
-const slider = document.querySelector('.pageGalerie__galerieProjets__projets');
-let isDown = false;
-let startX;
-let scrollLeft;
+document.addEventListener('DOMContentLoaded', function() {
+    const slider = document.querySelector('.pageGalerie__galerieProjets__projets');
+    
+    if (!slider) return;
+    
+    let isDown = false;
+    let startX;
+    let scrollLeft;
 
-// Desktop events
-slider.addEventListener('mousedown', (e) => {
-  isDown = true;
-  slider.classList.add('active');
-  startX = e.pageX - slider.offsetLeft;
-  scrollLeft = slider.scrollLeft;
-});
+    // Desktop events
+    slider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        slider.classList.add('active');
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+    });
 
 slider.addEventListener('mouseleave', () => {
   isDown = false;
@@ -42,9 +46,10 @@ slider.addEventListener('touchend', () => {
   slider.classList.remove('active');
 });
 
-slider.addEventListener('touchmove', (e) => {
-  if (!isDown) return;
-  const x = e.touches[0].pageX - slider.offsetLeft;
-  const walk = x - startX;
-  slider.scrollLeft = scrollLeft - walk;
+    slider.addEventListener('touchmove', (e) => {
+        if (!isDown) return;
+        const x = e.touches[0].pageX - slider.offsetLeft;
+        const walk = x - startX;
+        slider.scrollLeft = scrollLeft - walk;
+    });
 });

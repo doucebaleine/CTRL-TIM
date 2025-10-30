@@ -132,6 +132,12 @@ ul.menu-principal {
   
 }
 
+@media (max-width:900px){
+  .bouton-fermer-menu {
+    top: 60px;
+  }
+}
+
 /* Lorsque le menu est ouvert, désactiver les interactions et les effets de survol en dehors du menu
    en désactivant pointer-events sur les régions principales de la page. Le fond ci-dessus capture
    les événements de pointeur ; c'est une sécurité CSS défensive pour tout élément qui pourrait

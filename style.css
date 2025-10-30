@@ -335,11 +335,12 @@ VARIABLES COULEURS GÉNÉRALES
 -------------------------------------------------*/
 /* Polices */
 :root {
-  --policeTitre: "Jersey 15", ; /* La police des titres du site web */
-  --policeTexte: "Bai Jamjuree"; /* La police des textes du site web */
+  --policeTitre: "Jersey 15", sans-serif ; /* La police des titres du site web */
+  --policeTexte: "Bai Jamjuree", sans-serif; /* La police des textes du site web */
   /* couleurs des polices */
   --couleur-titre-pale: #FFFFFF; /* Couleur des titres généraux du site */
-  --couleur-texte-pale: #FFFFFF; /* Couleur du texte d'information du site */
+  --couleur-texte-pale: #FFFFFF;
+  --couleur-texte-sous-titre: #c0c0c0; /* Couleur du texte d'information du site */
   --font-size-xs: 0.75rem;
   --font-size-small:0.875rem;
   --font-size-md: 1rem;
@@ -349,9 +350,11 @@ VARIABLES COULEURS GÉNÉRALES
 
 /* Couleurs globales */
 :root {
-  --couleurBackground: #000000; /* Couleur d'arrière-plan du site */
-  --couleurAccentRouge:#FF0037 ; /* Première couleur d'accent du site */
-  --couleurAccentRose:#FF00DC ; /* Deuxième couleur d'accent du site */
+  --couleurBackground: #0B0E21; /* Couleur d'arrière-plan du site */
+  --couleurGradientBlueViolet: linear-gradient(90deg, #d26eff, #58b5ff) ; /* Première couleur d'accent du site */
+  --couleurGradientBlueFonce: radial-gradient(50% 50% at 50% 50%, #0e1431 0%, #12193c 100%) ; /* Deuxième couleur d'accent du site */
+  --couleurCrochets: #5C68B5;
+  --couleurBordure: #2A336C;
   --couleurAccentJaune:linear-gradient(#FFF600,#FFAE00) ; /* Troisième couleur d'accent du site */
   --couleurBoiteGrise: linear-gradient(#302F2F,#000000) ; /* Couleur gradient de boîtes d'information */
 }
@@ -366,7 +369,7 @@ STRUCTURE DU SITE
   --header-font-size: var(var(--font-size-large));
   --barreRecherche-couleur-texte: var(var(--couleur-texte-pale));
   --barreRecherche-couleur-bg: var(var(--couleurBoiteGrise));
-  --barreRecherche-couleur-icone: var(var(--couleurAccentRouge));
+  --barreRecherche-couleur-icone: var(var(--couleurGradientBlueViolet));
 }
 
 /* Navigation */
@@ -376,7 +379,18 @@ STRUCTURE DU SITE
   --nav-couleur-bg:var(var(--couleurBackground));
 }
 
-/* Section */
+/* Galerie */
+:root {
+  --galerie-projet-bordure-arcade:linear-gradient(270deg, #78aeff 0%, #77e8ff 100%);
+  --galerie-filter-btn-texte: #ccc;
+  --galerie-filter-btn-texte-active: #0e153a;
+  --galerie-dropdown-select-couleur: linear-gradient(#0e1431, #0e1431);
+  --galerie-dropdown-select-hover-couleur: linear-gradient(#212a56, #212a56);
+  --galerie-dropdown-menu-li-texte: #95a1d8;
+  --galerie-dropdown-menu-li-hover: #1b2352;
+  --galerie-caret-color: #fff;
+}
+
 /* Footer */
 :root {
   --footer-couleur-bg: var(var(--couleurBackground));
@@ -389,8 +403,8 @@ DESIGN
 -------------------------------------------------*/
 :root {
   /* NE FONCTIONNE PAS LORS DE L'UTILISATION */
-  --boxShadowAccentRouge: 3px var(--couleurAccentRouge, 0.4) ;
-  --boxShadowAccentRose: 3px var(--couleurAccentRose, 0.4) ;
+  --couleurGradientBlueViolet: 3px var(--couleurGradientBlueViolet, 0.4) ;
+  --couleurGradientBlueFonce: 3px var(--couleurGradientBlueFonce, 0.4) ;
   --boxShadowAccentJaune: 3px var(--couleurAccentJaune, 0.4) ;
 }
 
@@ -402,7 +416,7 @@ DESIGN
   height: 25px;
   border-radius: 5px;
   /* NE FONCTIONNE PAS */
-  box-shadow: var(--boxShadowAccentRose);
+  box-shadow: var(--couleurGradientBlueFonce);
 }
 
 .menuBoiteGlobale {
@@ -415,7 +429,7 @@ DESIGN
 }
 
 .boutonCouleur {
-  background-color: var(--couleurAccentRouge);
+  background-color: var(--couleurGradientBlueViolet);
 }
 
 /*-------------------------------------------------
@@ -1124,11 +1138,11 @@ body {
   flex-direction: column;
   justify-content: start;
   height: 1500px;
-  background-color: #080d27;
-  color: #fff;
+  background-color: var(--couleurBackground);
+  color: var(--couleur-texte-pale);
   margin: 0;
   padding: 0;
-  font-family: "Bai Jamjuree", sans-serif;
+  font-family: var(--policeTexte);
 }
 .pageGalerie__titre {
   text-align: center;
@@ -1136,11 +1150,11 @@ body {
   margin-top: 60px;
   margin-bottom: 10px;
   font-weight: 400;
-  font-family: "Jersey 15", sans-serif;
+  font-family: var(--policeTitre);
 }
 .pageGalerie__subtitle {
   text-align: center;
-  color: #c0c0c0;
+  color: var(--couleur-texte-sous-titre);
   max-width: 700px;
   padding: 0 80px 0 80px;
   margin: 0 auto 40px;
@@ -1154,14 +1168,14 @@ body {
   margin: 30px auto;
   flex-shrink: 0;
   border-radius: 11px;
-  border: 2px solid #2a336c;
+  border: 2px solid var(--couleurBordure);
   background: radial-gradient(50% 50% at 50% 50%, #0e1431 0%, #12193c 100%);
   overflow: hidden;
 }
 .pageGalerie__filter-bar__filter-btn {
   background: none;
   border: none;
-  color: #ccc;
+  color: var(--galerie-filter-btn-texte);
   padding: 0;
   cursor: pointer;
   transition: all 0.3s;
@@ -1169,16 +1183,16 @@ body {
   min-width: 83px;
   width: 10vw;
   text-align: center;
-  font-family: "Bai Jamjuree";
+  font-family: var(--policeTexte);
   font-size: clamp(0.875rem, 1vw + 0.5rem, 1.25rem);
   line-height: normal;
 }
 .pageGalerie__filter-bar__filter-btn:hover {
-  color: #fff;
+  color: var(--couleur-texte-pale);
 }
 .pageGalerie__filter-bar__filter-btn.active {
-  background: linear-gradient(90deg, #d26eff, #58b5ff);
-  color: #0e153a;
+  background: var(--couleurGradientBlueViolet, linear-gradient(90deg, #d26eff, #58b5ff));
+  color: var(--galerie-filter-btn-texte-active);
   border-radius: 8px;
   margin: 4px;
   font-weight: 700;
@@ -1187,8 +1201,8 @@ body {
   position: relative;
   width: 250px;
   margin: 2em auto;
-  color: #fff;
-  font-family: "Bai Jamjuree", sans-serif;
+  color: var(--couleur-texte-pale);
+  font-family: var(--policeTexte);
 }
 .pageGalerie__dropdown * {
   box-sizing: border-box;
@@ -1210,10 +1224,10 @@ body {
   background-image: linear-gradient(#212a56, #212a56), linear-gradient(90deg, #d26eff, #58b5ff);
 }
 .pageGalerie__dropdown__select.clicked {
-  box-shadow: 0 0 0.8em #2a336c;
+  box-shadow: 0 0 0.8em var(--couleurBordure);
 }
 .pageGalerie__dropdown__caret {
-  border-top: 6px solid #fff;
+  border-top: 6px solid var(--galerie-caret-color);
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   transition: 0.3s;
@@ -1225,7 +1239,7 @@ body {
   list-style: none;
   padding: 0.2em 0.5em;
   background: radial-gradient(50% 50% at 50% 50%, #0e1431 0%, #12193c 100%);
-  border: 2px solid #2a336c;
+  border: 2px solid var(--couleurBordure);
   border-radius: 0.5em;
   position: absolute;
   top: 3.5em;
@@ -1246,25 +1260,25 @@ body {
   padding: 0.7em 0.5em;
   border-radius: 0.3em;
   cursor: pointer;
-  color: #95a1d8;
+  color: var(--galerie-dropdown-menu-li-texte);
 }
 .pageGalerie__dropdown__menu li:hover {
-  background: #1b2352;
+  background: var(--galerie-dropdown-menu-li-hover);
 }
 .pageGalerie__dropdown__menu li.active {
-  color: #ffffff;
-  background-color: #2a336c;
+  color: var(--couleur-texte-pale);
+  background-color: var(--couleurBordure);
 }
 .pageGalerie__dropdown__selected {
   font-size: 1.1em;
 }
 .pageGalerie__galerieProjets {
-  background-color: #080d27;
+  background-color: var(--couleurBackground);
   height: 800px;
   width: 100%;
 }
 .pageGalerie__galerieProjets__projets {
-  background-color: #080d27;
+  background-color: var(--couleurBackground);
   height: 800px;
   width: 100%;
   display: flex;
@@ -1304,7 +1318,7 @@ body {
   transform: translateY(-100px) scale(1.03);
   filter: brightness(1.1);
   z-index: 0;
-  background: linear-gradient(270deg, #78aeff 0%, #77e8ff 100%);
+  background: var(--galerie-projet-bordure-arcade);
 }
 .pageGalerie__galerieProjets__projets__projet::after {
   content: "";
@@ -1345,11 +1359,11 @@ body {
 .pageGalerie__galerieProjets__projets__projet__info h3 {
   font-size: 48px;
   margin: 0;
-  font-family: "Jersey 15", sans-serif;
+  font-family: var(--policeTitre);
   font-weight: lighter;
 }
 .pageGalerie__galerieProjets__projets__projet__info span {
-  background: linear-gradient(270deg, #78aeff 0%, #77e8ff 100%);
+  background: var(--galerie-projet-bordure-arcade);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -1462,7 +1476,7 @@ body {
 }
 .pageProjet__titre__boiteTitre__etudiants__contenant span {
   color: #FFFFFF;
-  font-family: "Bai Jamjuree", sans-serif;
+  font-family: var(--policeTexte);
   font-size: 1rem;
   font-weight: 500;
 }
@@ -1516,7 +1530,7 @@ body {
 }
 .pageProjet__contenu__information__description h4 {
   color: #FFF;
-  font-family: "Bai Jamjuree ", sans-serif;
+  font-family: var(--policeTexte);
   font-size: 33.719px;
   font-style: normal;
   font-weight: 700;
@@ -1526,7 +1540,7 @@ body {
   color: rgba(255, 255, 255, 0.85);
   line-height: 1.6;
   margin: 0;
-  font-family: "Bai Jamjuree", sans-serif;
+  font-family: var(--policeTexte);
 }
 .pageProjet__contenu__information__video {
   background: #161B3E;

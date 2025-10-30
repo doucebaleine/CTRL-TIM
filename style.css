@@ -23,7 +23,7 @@ VARIABLES COULEURS GÉNÉRALES
 -------------------------------------------------*/
 /* Polices */
 :root {
-  --policeTitre: "Jersey 15"; /* La police des titres du site web */
+  --policeTitre: "Jersey 15", ; /* La police des titres du site web */
   --policeTexte: "Bai Jamjuree"; /* La police des textes du site web */
   /* couleurs des polices */
   --couleur-titre-pale: #FFFFFF; /* Couleur des titres généraux du site */
@@ -38,12 +38,10 @@ VARIABLES COULEURS GÉNÉRALES
 /* Couleurs globales */
 :root {
   --couleurBackground: #000000; /* Couleur d'arrière-plan du site */
-  --couleurAccentRouge: #FF0037; /* Première couleur d'accent du site */
-  --couleurAccentRose: #FF00DC; /* Deuxième couleur d'accent du site */
-  --couleurAccentJaune: #FFF600; /* Troisième couleur d'accent du site (jaune principal) */
-  --couleurAccentJaune-gradient: linear-gradient(#FFF600,#FFAE00); /* Variante gradient */
-  --couleurBoiteGrise: #302F2F; /* Couleur principale de boîte grise */
-  --couleurBoiteGrise-gradient: linear-gradient(#302F2F,#000000); /* Variante gradient */
+  --couleurAccentRouge:#FF0037 ; /* Première couleur d'accent du site */
+  --couleurAccentRose:#FF00DC ; /* Deuxième couleur d'accent du site */
+  --couleurAccentJaune:linear-gradient(#FFF600,#FFAE00) ; /* Troisième couleur d'accent du site */
+  --couleurBoiteGrise: linear-gradient(#302F2F,#000000) ; /* Couleur gradient de boîtes d'information */
 }
 
 /* -------------------------------------------------
@@ -52,26 +50,26 @@ STRUCTURE DU SITE
 /* Header */
 :root {
   /* --header-couleur-bg: */
-  --header-couleur-texte: var(--couleur-texte-pale);
-  --header-font-size: var(--font-size-large);
-  --barreRecherche-couleur-texte: var(--couleur-texte-pale);
-  --barreRecherche-couleur-bg: var(--couleurBoiteGrise);
-  --barreRecherche-couleur-icone: var(--couleurAccentRouge);
+  --header-couleur-texte: var(var(--couleur-texte-pale));
+  --header-font-size: var(var(--font-size-large));
+  --barreRecherche-couleur-texte: var(var(--couleur-texte-pale));
+  --barreRecherche-couleur-bg: var(var(--couleurBoiteGrise));
+  --barreRecherche-couleur-icone: var(var(--couleurAccentRouge));
 }
 
 /* Navigation */
 :root {
-  --nav-couleur-texte: var(--couleur-texte-pale);
-  --nav-font-size: var(--font-size-large);
-  --nav-couleur-bg: var(--couleurBackground);
+  --nav-couleur-texte:var(var(--couleur-texte-pale));
+  --nav-font-size: var(var(--font-size-large));
+  --nav-couleur-bg:var(var(--couleurBackground));
 }
 
 /* Section */
 /* Footer */
 :root {
-  --footer-couleur-bg: var(--couleurBackground);
-  --footer-couleur-texte: var(--couleur-texte-pale);
-  --footer-font-size: var(--font-size-md);
+  --footer-couleur-bg: var(var(--couleurBackground));
+  --footer-couleur-texte: var(var(--couleur-texte-pale));
+  --footer-font-size: var(var(--font-size-md));
 }
 
 /*-------------------------------------------------
@@ -79,10 +77,9 @@ DESIGN
 -------------------------------------------------*/
 :root {
   /* NE FONCTIONNE PAS LORS DE L'UTILISATION */
-  /* Pour les box-shadow, il faut utiliser la syntaxe complète dans la propriété, pas dans la variable couleur */
-  --boxShadowAccentRouge: 0 0 3px 0 rgba(255,0,55,0.4);
-  --boxShadowAccentRose: 0 0 3px 0 rgba(255,0,220,0.4);
-  --boxShadowAccentJaune: 0 0 3px 0 rgba(255,246,0,0.4);
+  --boxShadowAccentRouge: 3px var(--couleurAccentRouge, 0.4) ;
+  --boxShadowAccentRose: 3px var(--couleurAccentRose, 0.4) ;
+  --boxShadowAccentJaune: 3px var(--couleurAccentJaune, 0.4) ;
 }
 
 .barreRecherche {
@@ -180,4 +177,287 @@ footer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.pageProjet {
+  background-color: var(--couleurBackground);
+  width: 100%;
+  /* contenu principal : 2 colonnes (image | infos) */
+  /* colonne gauche : image principale */
+  /* colonne droite : description + vidéo */
+  /* responsive mobile */
+}
+.pageProjet__titre {
+  width: 100%;
+  min-height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0B0E21;
+  position: relative;
+  padding: 4rem 0;
+}
+.pageProjet__titre .crochets {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  position: relative;
+}
+.pageProjet__titre .crochets::before, .pageProjet__titre .crochets::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 100%;
+}
+.pageProjet__titre .crochets::before {
+  left: 0;
+}
+.pageProjet__titre .crochets::after {
+  right: 0;
+}
+.pageProjet__titre__boiteTitre {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+.pageProjet__titre__boiteTitre__texte h2 {
+  color: #FFFFFF;
+  font-family: "Jersey 15", sans-serif;
+  font-size: clamp(48px, 8vw, 78px);
+  text-align: center;
+  text-transform: uppercase;
+  margin: 0;
+}
+.pageProjet__titre__boiteTitre__etudiants {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+.pageProjet__titre__boiteTitre__etudiants__contenant {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  background-color: #0B0E21;
+  position: relative;
+}
+.pageProjet__titre__boiteTitre__etudiants__contenant span {
+  color: #FFFFFF;
+  font-family: "Bai Jamjuree", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.pageProjet__titre__boiteTitre__etudiants__contenant:hover::before {
+  opacity: 0.8;
+}
+.pageProjet__titre__boiteTitre__etudiants__contenant::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  background: linear-gradient(180deg, #D167FF 0%, #62B8FF 100%);
+  border-radius: 10px;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.pageProjet__titre__boiteTitre__etudiants__contenant:hover::before {
+  opacity: 0.8;
+}
+.pageProjet__contenu {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 2rem;
+  align-items: start;
+  margin: 0 auto;
+  padding: 2rem;
+  box-sizing: border-box;
+  background-color: #0B0E21;
+}
+.pageProjet__contenu__affiche {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.pageProjet__contenu__affiche img {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.6);
+  object-fit: cover;
+}
+.pageProjet__contenu__information {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.pageProjet__contenu__information__description h4 {
+  color: #FFF;
+  font-family: "Bai Jamjuree ", sans-serif;
+  font-size: 33.719px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.pageProjet__contenu__information__description p {
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
+  margin: 0;
+  font-family: "Bai Jamjuree", sans-serif;
+}
+.pageProjet__contenu__information__video {
+  background: #161B3E;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02), 0 10px 30px rgba(2, 6, 23, 0.45);
+}
+.pageProjet__contenu__information__video video, .pageProjet__contenu__information__video img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+  object-fit: cover;
+}
+.pageProjet__contenu__information__video__conteneur {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.pageProjet__contenu__information__video__conteneur iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.pageProjet__contenu__information__video__boiteFond {
+  margin-top: 1rem;
+  background: #0B0E21;
+  padding: 0.9rem 1rem;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.9);
+}
+.pageProjet__contenu__information__video__boiteFond__boiteTexte p {
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .pageProjet__contenu {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1.25rem;
+  }
+  .pageProjet__contenu__affiche img {
+    max-width: 90%;
+  }
+}
+.pageProjet__carrousel {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  background-color: #0B0E21;
+  overflow: hidden;
+}
+.pageProjet__carrousel__nav {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: translateY(-50%);
+  transform: translateX(50%);
+  pointer-events: none;
+}
+.pageProjet__carrousel__nav__btn {
+  pointer-events: all;
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  transition: background 0.3s ease, transform 0.2s ease;
+  z-index: 10;
+}
+.pageProjet__carrousel__nav__btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 28px rgba(2, 6, 23, 0.6);
+  background: linear-gradient(180deg, rgba(11, 14, 33, 0.95), rgba(11, 14, 33, 0.75));
+}
+.pageProjet__carrousel__nav__btn svg, .pageProjet__carrousel__nav__btn__icon {
+  color: #fff;
+  font-size: 18px;
+}
+.pageProjet__carrousel__nav__btn--prev {
+  margin-left: 10px;
+}
+.pageProjet__carrousel__nav__btn--next {
+  margin-right: 10px;
+}
+.pageProjet__carrousel__images {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  height: 520px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.pageProjet__carrousel__images__conteneur {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.98);
+  transition: all 0.3s ease;
+  padding: 1rem;
+}
+.pageProjet__carrousel__images__conteneur--active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+.pageProjet__carrousel__images__image {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(4, 8, 20, 0.6);
+}
+.pageProjet__carrousel__boutons {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+@media (max-width: 900px) {
+  .pageProjet__carrousel__images {
+    height: 320px;
+    padding: 0 1rem;
+  }
+  .pageProjet__carrousel__nav .pageProjet__carrousel__btn {
+    width: 40px;
+    height: 40px;
+  }
 }/*# sourceMappingURL=style.css.map */

@@ -16,6 +16,11 @@ Use it to make something cool, have fun, and share what you've learned with othe
 */
 
 /* /////////////////////////////////
+Reset CSS (Normalize)
+//////////////////////////////////// */
+@import "normalize";
+
+/* /////////////////////////////////
 Les variables
 //////////////////////////////////// */
 @import "variables/main";
@@ -28,8 +33,17 @@ Les balise de bases
 /* /////////////////////////////////
 Les composants
 //////////////////////////////////// */
+@import "components/_background";
+@import "components/_card";
+@import "components/_footer";
+@import "components/_header";
+@import "components/_hero";
+@import "components/_menu";
+@import "components/_search";
 
 /* /////////////////////////////////
 Les layouts
 //////////////////////////////////// */
 @import "layout/flexbox";
+@import "layout/_apropos";
+@import "layout/_galerie";

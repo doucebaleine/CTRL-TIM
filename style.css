@@ -16,6 +16,318 @@ This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
 */
 /* /////////////////////////////////
+Reset CSS (Normalize)
+//////////////////////////////////// */
+/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
+/* Document
+   ========================================================================== */
+/**
+ * 1. Correct the line height in all browsers.
+ * 2. Prevent adjustments of font size after orientation changes in iOS.
+ */
+html {
+  line-height: 1.15; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+/* Sections
+   ========================================================================== */
+/**
+ * Remove the margin in all browsers.
+ */
+body {
+  margin: 0;
+}
+
+/**
+ * Render the `main` element consistently in IE.
+ */
+main {
+  display: block;
+}
+
+/**
+ * Correct the font size and margin on `h1` elements within `section` and
+ * `article` contexts in Chrome, Firefox, and Safari.
+ */
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/* Grouping content
+   ========================================================================== */
+/**
+ * 1. Add the correct box sizing in Firefox.
+ * 2. Show the overflow in Edge and IE.
+ */
+hr {
+  box-sizing: content-box; /* 1 */
+  height: 0; /* 1 */
+  overflow: visible; /* 2 */
+}
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+pre {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+
+/* Text-level semantics
+   ========================================================================== */
+/**
+ * Remove the gray background on active links in IE 10.
+ */
+a {
+  background-color: transparent;
+}
+
+/**
+ * 1. Remove the bottom border in Chrome 57-
+ * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+ */
+abbr[title] {
+  border-bottom: none; /* 1 */
+  text-decoration: underline; /* 2 */
+  text-decoration: underline dotted; /* 2 */
+}
+
+/**
+ * Add the correct font weight in Chrome, Edge, and Safari.
+ */
+b,
+strong {
+  font-weight: bolder;
+}
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+code,
+kbd,
+samp {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+
+/**
+ * Add the correct font size in all browsers.
+ */
+small {
+  font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` elements from affecting the line height in
+ * all browsers.
+ */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* Embedded content
+   ========================================================================== */
+/**
+ * Remove the border on images inside links in IE 10.
+ */
+img {
+  border-style: none;
+}
+
+/* Forms
+   ========================================================================== */
+/**
+ * 1. Change the font styles in all browsers.
+ * 2. Remove the margin in Firefox and Safari.
+ */
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit; /* 1 */
+  font-size: 100%; /* 1 */
+  line-height: 1.15; /* 1 */
+  margin: 0; /* 2 */
+}
+
+/**
+ * Show the overflow in IE.
+ * 1. Show the overflow in Edge.
+ */
+button,
+input { /* 1 */
+  overflow: visible;
+}
+
+/**
+ * Remove the inheritance of text transform in Edge, Firefox, and IE.
+ * 1. Remove the inheritance of text transform in Firefox.
+ */
+button,
+select { /* 1 */
+  text-transform: none;
+}
+
+/**
+ * Correct the inability to style clickable types in iOS and Safari.
+ */
+button,
+[type=button],
+[type=reset],
+[type=submit] {
+  -webkit-appearance: button;
+}
+
+/**
+ * Remove the inner border and padding in Firefox.
+ */
+button::-moz-focus-inner,
+[type=button]::-moz-focus-inner,
+[type=reset]::-moz-focus-inner,
+[type=submit]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+/**
+ * Restore the focus styles unset by the previous rule.
+ */
+button:-moz-focusring,
+[type=button]:-moz-focusring,
+[type=reset]:-moz-focusring,
+[type=submit]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+/**
+ * Correct the padding in Firefox.
+ */
+fieldset {
+  padding: 0.35em 0.75em 0.625em;
+}
+
+/**
+ * 1. Correct the text wrapping in Edge and IE.
+ * 2. Correct the color inheritance from `fieldset` elements in IE.
+ * 3. Remove the padding so developers are not caught out when they zero out
+ *    `fieldset` elements in all browsers.
+ */
+legend {
+  box-sizing: border-box; /* 1 */
+  color: inherit; /* 2 */
+  display: table; /* 1 */
+  max-width: 100%; /* 1 */
+  padding: 0; /* 3 */
+  white-space: normal; /* 1 */
+}
+
+/**
+ * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+ */
+progress {
+  vertical-align: baseline;
+}
+
+/**
+ * Remove the default vertical scrollbar in IE 10+.
+ */
+textarea {
+  overflow: auto;
+}
+
+/**
+ * 1. Add the correct box sizing in IE 10.
+ * 2. Remove the padding in IE 10.
+ */
+[type=checkbox],
+[type=radio] {
+  box-sizing: border-box; /* 1 */
+  padding: 0; /* 2 */
+}
+
+/**
+ * Correct the cursor style of increment and decrement buttons in Chrome.
+ */
+[type=number]::-webkit-inner-spin-button,
+[type=number]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/**
+ * 1. Correct the odd appearance in Chrome and Safari.
+ * 2. Correct the outline style in Safari.
+ */
+[type=search] {
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
+}
+
+/**
+ * Remove the inner padding in Chrome and Safari on macOS.
+ */
+[type=search]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/**
+ * 1. Correct the inability to style clickable types in iOS and Safari.
+ * 2. Change font properties to `inherit` in Safari.
+ */
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
+
+/* Interactive
+   ========================================================================== */
+/*
+ * Add the correct display in Edge, IE 10+, and Firefox.
+ */
+details {
+  display: block;
+}
+
+/*
+ * Add the correct display in all browsers.
+ */
+summary {
+  display: list-item;
+}
+
+/* Misc
+   ========================================================================== */
+/**
+ * Add the correct display in IE 10+.
+ */
+template {
+  display: none;
+}
+
+/**
+ * Add the correct display in IE 10.
+ */
+[hidden] {
+  display: none;
+}
+
+/* /////////////////////////////////
 Les variables
 //////////////////////////////////// */
 /* ----------------------------------------------
@@ -23,7 +335,7 @@ VARIABLES COULEURS GÉNÉRALES
 -------------------------------------------------*/
 /* Polices */
 :root {
-  --policeTitre: "Jersey 15"; /* La police des titres du site web */
+  --policeTitre: "Jersey 15", ; /* La police des titres du site web */
   --policeTexte: "Bai Jamjuree"; /* La police des textes du site web */
   /* couleurs des polices */
   --couleur-titre-pale: #FFFFFF; /* Couleur des titres généraux du site */
@@ -38,12 +350,10 @@ VARIABLES COULEURS GÉNÉRALES
 /* Couleurs globales */
 :root {
   --couleurBackground: #000000; /* Couleur d'arrière-plan du site */
-  --couleurAccentRouge: #FF0037; /* Première couleur d'accent du site */
-  --couleurAccentRose: #FF00DC; /* Deuxième couleur d'accent du site */
-  --couleurAccentJaune: #FFF600; /* Troisième couleur d'accent du site (jaune principal) */
-  --couleurAccentJaune-gradient: linear-gradient(#FFF600,#FFAE00); /* Variante gradient */
-  --couleurBoiteGrise: #302F2F; /* Couleur principale de boîte grise */
-  --couleurBoiteGrise-gradient: linear-gradient(#302F2F,#000000); /* Variante gradient */
+  --couleurAccentRouge:#FF0037 ; /* Première couleur d'accent du site */
+  --couleurAccentRose:#FF00DC ; /* Deuxième couleur d'accent du site */
+  --couleurAccentJaune:linear-gradient(#FFF600,#FFAE00) ; /* Troisième couleur d'accent du site */
+  --couleurBoiteGrise: linear-gradient(#302F2F,#000000) ; /* Couleur gradient de boîtes d'information */
 }
 
 /* -------------------------------------------------
@@ -52,26 +362,26 @@ STRUCTURE DU SITE
 /* Header */
 :root {
   /* --header-couleur-bg: */
-  --header-couleur-texte: var(--couleur-texte-pale);
-  --header-font-size: var(--font-size-large);
-  --barreRecherche-couleur-texte: var(--couleur-texte-pale);
-  --barreRecherche-couleur-bg: var(--couleurBoiteGrise);
-  --barreRecherche-couleur-icone: var(--couleurAccentRouge);
+  --header-couleur-texte: var(var(--couleur-texte-pale));
+  --header-font-size: var(var(--font-size-large));
+  --barreRecherche-couleur-texte: var(var(--couleur-texte-pale));
+  --barreRecherche-couleur-bg: var(var(--couleurBoiteGrise));
+  --barreRecherche-couleur-icone: var(var(--couleurAccentRouge));
 }
 
 /* Navigation */
 :root {
-  --nav-couleur-texte: var(--couleur-texte-pale);
-  --nav-font-size: var(--font-size-large);
-  --nav-couleur-bg: var(--couleurBackground);
+  --nav-couleur-texte:var(var(--couleur-texte-pale));
+  --nav-font-size: var(var(--font-size-large));
+  --nav-couleur-bg:var(var(--couleurBackground));
 }
 
 /* Section */
 /* Footer */
 :root {
-  --footer-couleur-bg: var(--couleurBackground);
-  --footer-couleur-texte: var(--couleur-texte-pale);
-  --footer-font-size: var(--font-size-md);
+  --footer-couleur-bg: var(var(--couleurBackground));
+  --footer-couleur-texte: var(var(--couleur-texte-pale));
+  --footer-font-size: var(var(--font-size-md));
 }
 
 /*-------------------------------------------------
@@ -79,10 +389,9 @@ DESIGN
 -------------------------------------------------*/
 :root {
   /* NE FONCTIONNE PAS LORS DE L'UTILISATION */
-  /* Pour les box-shadow, il faut utiliser la syntaxe complète dans la propriété, pas dans la variable couleur */
-  --boxShadowAccentRouge: 0 0 3px 0 rgba(255,0,55,0.4);
-  --boxShadowAccentRose: 0 0 3px 0 rgba(255,0,220,0.4);
-  --boxShadowAccentJaune: 0 0 3px 0 rgba(255,246,0,0.4);
+  --boxShadowAccentRouge: 3px var(--couleurAccentRouge, 0.4) ;
+  --boxShadowAccentRose: 3px var(--couleurAccentRose, 0.4) ;
+  --boxShadowAccentJaune: 3px var(--couleurAccentJaune, 0.4) ;
 }
 
 .barreRecherche {
@@ -154,6 +463,498 @@ h1 {
 /* /////////////////////////////////
 Les composants
 //////////////////////////////////// */
+/* Arrière-plan SVG derrière le filigrane de la page (body::before est utilisé pour le texte du filigrane) */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image: url("images/background.svg");
+  background-repeat: repeat;
+  background-position: center top;
+  background-size: cover;
+  pointer-events: none;
+}
+
+.pile-affiches {
+  width: 900px;
+  height: 400px;
+  pointer-events: auto;
+}
+
+.carte-affiche {
+  position: absolute;
+  width: 560px;
+  height: 380px;
+  border-radius: 10px;
+  --border-grad: linear-gradient(90deg,#D167FF,#62B8FF);
+  background: linear-gradient(180deg, rgba(18, 18, 30, 0.9), rgba(12, 12, 22, 0.9));
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 420ms cubic-bezier(0.2, 0.9, 0.2, 1), opacity 360ms ease, box-shadow 360ms ease;
+  pointer-events: auto;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  overflow: hidden;
+}
+
+.carte-affiche img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  display: block;
+  object-fit: cover;
+}
+
+.carte-affiche::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 10px;
+  background: var(--border-grad);
+  z-index: -2;
+}
+
+.affiche-haut {
+  transform: translate(0, 0) rotate(0deg);
+  z-index: 40;
+}
+
+.affiche-milieu {
+  transform: translate(12px, 12px) rotate(-2deg);
+  z-index: 30;
+}
+
+.affiche-arriere {
+  transform: translate(24px, 24px) rotate(-4deg);
+  z-index: 20;
+}
+
+/* Bouton fermer */
+.bouton-fermer-affiche {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: rgba(67, 67, 67, 0.5);
+  color: #fff;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 160ms ease, transform 120ms ease;
+  /* Survol & focus : assombrir l'arrière-plan pour augmenter le contraste */
+  /* focus clavier pour l'accessibilité */
+}
+.bouton-fermer-affiche:hover {
+  background: rgba(67, 67, 67, 0.85);
+}
+.bouton-fermer-affiche:active {
+  transform: translateY(1px) scale(0.98);
+}
+.bouton-fermer-affiche:focus-visible {
+  outline: 2px solid rgba(209, 103, 255, 0.9);
+  outline-offset: 2px;
+  background: rgba(67, 67, 67, 0.65);
+}
+
+/* animation de fermeture */
+.carte-affiche.fermeture {
+  transform: translateX(140%) rotate(8deg) scale(0.95);
+  opacity: 0;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* lorsqu'une carte devient haut, animer la transformation */
+.carte-affiche.animer-vers-haut {
+  transition: transform 420ms cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow 360ms ease;
+}
+
+/* nouvelle apparence de l'affiche arrière */
+.carte-affiche.nouvelle-arriere {
+  transform: translate(28px, 28px) rotate(-6deg) scale(0.9);
+  opacity: 0;
+}
+
+.carte-affiche.nouvelle-arriere.apparaitre {
+  transform: translate(24px, 24px) rotate(-4deg) scale(1);
+  opacity: 1;
+}
+
+.pied-page-site {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(180deg, #0B0E21, #070713);
+  color: #222640;
+  padding-top: 20px;
+  z-index: 9999; /* garder le pied de page au-dessus du contenu pour que les entrées soient cliquables */
+}
+
+.interieur-pied-page {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.icone-sociale {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Colonne gauche : icône unique en haut au-dessus d'une rangée de trois icônes */
+.colonne-pied-page.gauche {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rangee-icones {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+}
+
+.centre-pied-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.recherche-pied-page {
+  width: 60%;
+  max-width: 720px;
+  min-width: 300px;
+  height: 34px;
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 12px;
+  background: linear-gradient(90deg, rgba(50, 50, 70, 0.6), rgba(30, 20, 40, 0.4));
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(120, 120, 140, 0.06);
+  pointer-events: auto;
+  position: relative;
+}
+
+.recherche-pied-page input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--footer-couleur-texte);
+  padding: 6px;
+}
+
+.boite-logo-pied-page {
+  width: 140px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* petits écrans : empiler le pied de page */
+@media (max-width: 900px) {
+  .interieur-pied-page {
+    flex-direction: column;
+    align-items: center;
+  }
+  .centre-pied-page {
+    width: 100%;
+  }
+  .recherche-pied-page {
+    width: 90%;
+  }
+}
+.interieur-entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  z-index: 9999;
+}
+
+.logo .logo-link {
+  display: inline-block;
+}
+
+.barreRecherche input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--couleur-texte-pale);
+  padding: 6px 4px;
+}
+
+.iconeRecherche {
+  color: var(--couleur-texte-pale);
+  opacity: 0.95;
+}
+
+@media (max-width: 900px) {
+  .barreRecherche {
+    width: 70%;
+  }
+  .logo {
+    left: 12px;
+  }
+  .menu-burger {
+    right: 12px;
+  }
+}
+/* Disposition héros : titre à gauche et description */
+.page-accueil {
+  display: grid;
+  grid-template-columns: 1fr 540px;
+  gap: 2rem;
+  align-items: center;
+  min-height: calc(100vh - 120px);
+  position: relative;
+  z-index: 2;
+}
+
+.titre h1 {
+  color: var(--couleur-titre-pale);
+  font-family: var(--policeTitre);
+  font-size: 7.5rem;
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+}
+
+.titre {
+  position: relative;
+}
+
+h2 {
+  line-height: 0;
+}
+
+.description-exposition-principale p {
+  max-width: 540px;
+  padding: 1.2rem 1.4rem;
+  color: var(--couleur-texte-pale);
+  border-radius: 6px;
+  background: linear-gradient(90deg, #2A305A 0%, rgba(5, 7, 20, 0.1) 100%);
+}
+
+.effet-titre {
+  position: absolute;
+  top: 180px;
+  width: 446px;
+}
+
+.effet-titre-deux {
+  position: absolute;
+  top: 230px;
+  width: 446px;
+}
+
+.description-exposition-principale {
+  padding-top: 50px;
+}
+
+/* Styles du menu hors-canvas */
+.menu-hors-canvas {
+  position: fixed;
+  inset: 0 0 0 50%;
+  background: linear-gradient(90deg, rgba(10, 8, 20, 0.95), rgba(8, 6, 18, 0.98));
+  z-index: 20000;
+  transform: translateX(100%);
+  transition: transform 320ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* fond couvrant le reste de la page pendant que le menu est ouvert */
+.fond-hors-canvas {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 19990; /* en dessous du menu mais au-dessus du contenu de la page */
+  opacity: 0;
+  transition: opacity 240ms ease;
+  pointer-events: none;
+}
+
+.fond-hors-canvas.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu-hors-canvas.ouvert {
+  transform: translateX(0%);
+}
+
+.contenu-menu-hors-canvas {
+  width: 420px;
+  padding: 48px;
+  color: var(--couleur-texte-pale);
+}
+
+.bouton-fermer-menu {
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  background: transparent;
+  border: none;
+}
+
+.recherche-hors-canvas {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: linear-gradient(90deg, rgba(50, 50, 70, 0.6), rgba(30, 20, 40, 0.4));
+  padding: 10px 14px;
+  border-radius: 22px;
+  margin-bottom: 32px;
+}
+
+.recherche-hors-canvas input {
+  background: transparent;
+  border: none;
+  color: var(--couleur-texte-pale);
+  outline: none;
+}
+
+.nav-hors-canvas {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.bouton-menu {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--couleur-texte-pale);
+  text-decoration: none;
+  font-size: 2rem;
+  font-family: var(--policeTitre);
+}
+
+.bouton-menu.primaire {
+  background: linear-gradient(90deg, #D167FF, #62B8FF);
+  color: #07101e;
+  box-shadow: 6px 8px 20px rgba(45, 20, 80, 0.35);
+}
+
+/* animation temporaire lorsque primaire se déplace vers un nouvel élément */
+.bouton-menu.anime-changement {
+  animation: menu-pop 420ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+@keyframes menu-pop {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  40% {
+    transform: translateY(-6px) scale(1.04);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+.menu-burger {
+  cursor: pointer;
+  z-index: 9999;
+  background: transparent;
+  border: none;
+  display: flex;
+}
+
+.icone-burger {
+  width: 36px;
+  height: 36px;
+}
+
+/* empêcher le défilement de la page pendant que le menu est ouvert */
+.pas-defilement {
+  overflow: hidden;
+}
+
+@media (max-width: 480px) {
+  .contenu-menu-hors-canvas {
+    width: 100%;
+    padding: 26px;
+  }
+  .bouton-menu {
+    font-size: 1.4rem;
+  }
+}
+/* Lorsque le menu est ouvert, désactiver les interactions et les effets de survol en dehors du menu
+   en désactivant pointer-events sur les régions principales de la page. Le fond ci-dessus capture
+   les événements de pointeur ; c'est une sécurité CSS défensive pour tout élément qui pourrait
+   encore recevoir des survols/clics. */
+.menu-ouvert .page-accueil,
+.menu-ouvert header,
+.menu-ouvert main,
+.menu-ouvert .footer-search,
+.menu-ouvert .barreRecherche,
+.menu-ouvert .poster-stack,
+.menu-ouvert .galerieBoiteGenerale {
+  pointer-events: none !important;
+  user-select: none !important;
+}
+
+/* Assurer que le panneau hors-canvas et le fond restent interactifs */
+.menu-ouvert #menuHorsCanvas,
+.menu-ouvert #fondHorsCanvas {
+  pointer-events: auto !important;
+}
+
+/* Barre de recherche centrée en haut */
+.barreRecherche {
+  width: 45%;
+  max-width: 720px;
+  background: linear-gradient(90deg, rgba(50, 50, 70, 0.6), rgba(30, 20, 40, 0.4));
+  border-radius: 28px;
+  padding: 8px 16px;
+  display: flex;
+  gap: 12px;
+  box-shadow: 0 0 0 3px rgba(175, 120, 255, 0.08), 0 8px 30px rgba(0, 0, 0, 0.6);
+  z-index: 5;
+}
+
+.barreRecherche input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--couleur-texte-pale);
+  font-family: var(--policeTexte);
+}
+
+.iconeRecherche {
+  width: 20px;
+  height: 20px;
+}
+
 /* /////////////////////////////////
 Les layouts
 //////////////////////////////////// */
@@ -180,4 +981,377 @@ footer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+body {
+  background: #090D20;
+}
+
+.titreApropos {
+  color: --couleur-titre-pale;
+  text-align: center;
+  font-family: "Jersey 15";
+  font-size: 4rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: center;
+}
+
+.infosaPropos h3 {
+  color: var(--couleur-titre-pale);
+  font-family: "Jersey 15";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.infosaPropos__textBut {
+  border-radius: 20px;
+  margin: 1.5rem;
+  background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, rgba(52, 59, 85, 0.4392156863) 100%);
+  backdrop-filter: blur(3.75px);
+}
+.infosaPropos__textBut p {
+  color: var(--couleur-texte-pale);
+  font-family: "Bai Jamjuree";
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 2rem;
+  padding: 1rem;
+}
+
+.profsPivots {
+  margin-top: 3rem;
+  padding: 1.5rem;
+}
+.profsPivots h3 {
+  color: var(--couleur-titre-pale);
+  font-family: "Jersey 15";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.profsPivots__profs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+}
+.profsPivots__profs__prof1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 1rem;
+}
+.profsPivots__profs__prof1__img_prof1 {
+  margin: 0.5rem;
+  width: 250px;
+  height: 300px;
+  flex-shrink: 0;
+  background-color: #CCC;
+}
+.profsPivots__profs__prof1__infoProf1 {
+  width: 250px;
+  height: 300px;
+  border-radius: 20px;
+  margin: 1.5rem;
+  background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, rgba(52, 59, 85, 0.4392156863) 100%);
+  backdrop-filter: blur(3.75px);
+}
+.profsPivots__profs__prof1 p {
+  margin: 1rem;
+  color: var(--couleur-texte-pale);
+  font-family: "Bai Jamjuree";
+  font-size: 20px;
+}
+.profsPivots__profs__prof2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 1rem;
+}
+.profsPivots__profs__prof2__img_prof2 {
+  margin: 0.5rem;
+  width: 250px;
+  height: 300px;
+  flex-shrink: 0;
+  background-color: #CCC;
+}
+.profsPivots__profs__prof2__infoProf2 {
+  width: 250px;
+  height: 300px;
+  border-radius: 20px;
+  margin: 1.5rem;
+  background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, rgba(52, 59, 85, 0.4392156863) 100%);
+  backdrop-filter: blur(3.75px);
+}
+.profsPivots__profs__prof2 p {
+  margin: 1rem;
+  color: var(--couleur-texte-pale);
+  font-family: "Bai Jamjuree";
+  font-size: 20px;
+  position: relative;
+}
+
+.liensApropos h3 {
+  color: var(--couleur-titre-pale);
+  font-family: "Jersey 15";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.liensApropos__listelinks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  list-style-type: none;
+}
+.liensApropos__listelinks :hover {
+  color: aqua;
+}
+
+.pageGalerie {
+  height: 1500px;
+  background-color: #080d27;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  font-family: "Bai Jamjuree", sans-serif;
+  /* ✅ FIXED DROPDOWN SECTION */
+}
+.pageGalerie__titre {
+  text-align: center;
+  font-size: 96px;
+  margin-top: 40px;
+  font-weight: 400;
+  font-family: "Jersey 15", sans-serif;
+}
+.pageGalerie__subtitle {
+  text-align: center;
+  color: #aaa;
+  max-width: 700px;
+  margin: 0 auto 40px;
+  line-height: 1.6;
+}
+.pageGalerie__filter-bar {
+  display: flex;
+  justify-content: space-between;
+  width: fit-content;
+  height: 84px;
+  margin: 30px auto;
+  flex-shrink: 0;
+  border-radius: 11px;
+  border: 2px solid #2a336c;
+  background: radial-gradient(50% 50% at 50% 50%, #0e1431 0%, #12193c 100%);
+  overflow: hidden;
+}
+.pageGalerie__filter-bar__filter-btn {
+  background: none;
+  border: none;
+  color: #ccc;
+  padding: 12px 30px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+  width: 200px;
+  text-align: center;
+  font-family: "Bai Jamjuree";
+  font-size: 28px;
+  line-height: normal;
+}
+.pageGalerie__filter-bar__filter-btn:hover {
+  color: #fff;
+}
+.pageGalerie__filter-bar__filter-btn.active {
+  background: linear-gradient(90deg, #d26eff, #58b5ff);
+  color: #0e153a;
+  border-radius: 8px;
+  margin: 4px;
+  font-weight: 700;
+}
+.pageGalerie__dropdown {
+  position: relative;
+  width: 250px;
+  margin: 2em auto;
+  color: #fff;
+  font-family: "Bai Jamjuree", sans-serif;
+}
+.pageGalerie__dropdown * {
+  box-sizing: border-box;
+}
+.pageGalerie__dropdown__select {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+  border: 2px solid transparent;
+  border-radius: 0.5em;
+  cursor: pointer;
+  background-image: linear-gradient(#0e1431, #0e1431), linear-gradient(90deg, #d26eff, #58b5ff);
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  transition: background 0.3s;
+}
+.pageGalerie__dropdown__select:hover {
+  background-image: linear-gradient(#212a56, #212a56), linear-gradient(90deg, #d26eff, #58b5ff);
+}
+.pageGalerie__dropdown__select.clicked {
+  box-shadow: 0 0 0.8em #2a336c;
+}
+.pageGalerie__dropdown__caret {
+  border-top: 6px solid #fff;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  transition: 0.3s;
+}
+.pageGalerie__dropdown__caret.rotate {
+  transform: rotate(180deg);
+}
+.pageGalerie__dropdown__menu {
+  list-style: none;
+  padding: 0.2em 0.5em;
+  background: radial-gradient(50% 50% at 50% 50%, #0e1431 0%, #12193c 100%);
+  border: 2px solid #2a336c;
+  border-radius: 0.5em;
+  position: absolute;
+  top: 3.5em;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  display: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: translateY(-10px);
+  z-index: 10;
+}
+.pageGalerie__dropdown__menu.open {
+  opacity: 1;
+  display: block;
+  transform: translateY(0);
+}
+.pageGalerie__dropdown__menu li {
+  padding: 0.7em 0.5em;
+  border-radius: 0.3em;
+  cursor: pointer;
+  color: #95a1d8;
+}
+.pageGalerie__dropdown__menu li:hover {
+  background: #1b2352;
+}
+.pageGalerie__dropdown__menu li.active {
+  color: #ffffff;
+  background-color: #2a336c;
+}
+.pageGalerie__dropdown__selected {
+  font-size: 1.1em;
+}
+.pageGalerie__galerieProjets {
+  background-color: #080d27;
+  height: 800px;
+  width: 100%;
+}
+.pageGalerie__galerieProjets__projets {
+  background-color: #080d27;
+  height: 800px;
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  white-space: nowrap;
+  user-select: none;
+  cursor: pointer;
+  transform: scale(1);
+  position: relative;
+  transition: transform 0.3s ease;
+}
+.pageGalerie__galerieProjets__projets::before {
+  content: "";
+  display: block;
+  width: 425px;
+  flex-shrink: 0;
+}
+.pageGalerie__galerieProjets__projets.active {
+  cursor: grabbing;
+  transform: scale(1.02);
+}
+.pageGalerie__galerieProjets__projets__projet {
+  width: 400px;
+  height: 560px;
+  margin-right: -100px;
+  border-radius: 25px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 5px 0 35px 0 #000;
+  position: relative;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+.pageGalerie__galerieProjets__projets__projet:hover {
+  transform: translateY(-100px) scale(1.03);
+  filter: brightness(1.1);
+  z-index: 0;
+  background: linear-gradient(270deg, #78aeff 0%, #77e8ff 100%);
+}
+.pageGalerie__galerieProjets__projets__projet::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  border-radius: 25px;
+  backdrop-filter: blur(15px);
+  background: linear-gradient(to bottom, rgba(0, 26, 75, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  mask-image: linear-gradient(to bottom, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%);
+  mask-repeat: no-repeat;
+  mask-size: cover;
+}
+.pageGalerie__galerieProjets__projets__projet:hover::after {
+  opacity: 1;
+}
+.pageGalerie__galerieProjets__projets__projet img {
+  width: 400px;
+  height: auto;
+  border-radius: 25px;
+  user-select: none;
+  pointer-events: none;
+  transition: filter 0.4s ease;
+}
+.pageGalerie__galerieProjets__projets__projet__info {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  opacity: 0;
+  z-index: 1;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.pageGalerie__galerieProjets__projets__projet__info h3 {
+  font-size: 48px;
+  margin: 0;
+  font-family: "Jersey 15", sans-serif;
+  font-weight: lighter;
+}
+.pageGalerie__galerieProjets__projets__projet__info span {
+  background: linear-gradient(270deg, #78aeff 0%, #77e8ff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+}
+.pageGalerie__galerieProjets__projets__projet:hover .pageGalerie__galerieProjets__projets__projet__info {
+  opacity: 1;
+  transform: translateY(0);
 }/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,15 @@
+/* Arrière-plan SVG derrière le filigrane de la page (body::before est utilisé pour le texte du filigrane) */
+body::before{
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image: url('images/background.svg');
+  background-repeat: repeat;
+  background-position: center top;
+  background-size: cover;
+  pointer-events: none;
+}

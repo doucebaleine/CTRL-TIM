@@ -35,10 +35,40 @@ function mon_theme_supports() {
 add_action( 'after_setup_theme', 'mon_theme_supports' );
 
 function ctrltim_enqueue_styles() {
-    wp_enqueue_style('ctrltim-normalize', get_template_directory_uri() . '/sass/normalize.css');
-    wp_enqueue_style('ctrltim-style', get_stylesheet_uri());
+    // En mode développement, vérifier si le SCSS est plus récent que le CSS
+    if (WP_DEBUG) {
+        $scss_file = get_template_directory() . '/sass/style.scss';
+        $css_file = get_template_directory() . '/style.css';
+        
+        if (file_exists($scss_file) && file_exists($css_file)) {
+            $scss_time = filemtime($scss_file);
+            $css_time = filemtime($css_file);
+            
+            if ($scss_time > $css_time) {
+                // Ajouter un commentaire admin si le SCSS est plus récent
+                add_action('admin_notices', function() {
+                    echo '<div class="notice notice-warning"><p>⚠️ Les fichiers SCSS sont plus récents que le CSS compilé. Pensez à recompiler le SASS.</p></div>';
+                });
+            }
+        }
+    }
+    
+    wp_enqueue_style('ctrltim-style', get_stylesheet_uri(), array(), filemtime(get_template_directory() . '/style.css'));
 }
 add_action('wp_enqueue_scripts', 'ctrltim_enqueue_styles');
+
+function ctrltim_enqueue_scripts(){
+    wp_enqueue_script('ctrltim-menu', get_template_directory_uri() . '/js/menu.js', array(), filemtime(get_template_directory() . '/js/menu.js'), true);
+    wp_enqueue_script('ctrltim-cards', get_template_directory_uri() . '/js/cards.js', array(), filemtime(get_template_directory() . '/js/cards.js'), true);
+    wp_enqueue_script('ctrltim-filter', get_template_directory_uri() . '/js/filter.js', array(), filemtime(get_template_directory() . '/js/filter.js'), true);
+    wp_enqueue_script('ctrltim-galerie', get_template_directory_uri() . '/js/galerie.js', array(), filemtime(get_template_directory() . '/js/galerie.js'), true);
+    
+    // Exposer l'URL du répertoire du thème au JS pour que les scripts puissent référencer les images de manière fiable
+    wp_localize_script('ctrltim-cards', 'CTRL_TIM', array(
+        'themeUrl' => get_template_directory_uri(),
+    ));
+}
+add_action('wp_enqueue_scripts','ctrltim_enqueue_scripts');
 
 // function enqueue_custom_scripts() {
 //   wp_enqueue_script(
@@ -83,5 +113,16 @@ add_action('wp_enqueue_scripts', 'ctrltim_enqueue_styles');
 //     }
 //    }
 //    add_action( 'pre_get_posts', 'modifie_requete_principal' );
+
+// Fonction de fallback pour le menu principal
+function ctrltim_fallback_menu() {
+    echo '<ul class="menu-principal">';
+    echo '<li><a class="bouton-menu primaire" href="' . esc_url(home_url('/')) . '">Accueil</a></li>';
+    echo '<li><a class="bouton-menu" href="' . esc_url(home_url('/galerie')) . '">Galerie</a></li>';
+    echo '<li><a class="bouton-menu" href="' . esc_url(home_url('/a-propos')) . '">À propos</a></li>';
+    echo '<li><a class="bouton-menu" href="' . esc_url(home_url('/contact')) . '">Contact</a></li>';
+    echo '</ul>';
+}
+
 // ?>
 

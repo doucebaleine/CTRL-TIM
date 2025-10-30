@@ -1,0 +1,51 @@
+/* Disposition héros : titre à gauche et description */
+.page-accueil{
+  display: grid;
+  grid-template-columns: 1fr 540px;
+  gap: 2rem;
+  align-items: center;
+  min-height: calc(100vh - 120px);
+  position: relative;
+  z-index: 2;
+}
+
+.titre h1{
+  color: var(--couleur-titre-pale);
+  font-family: var(--policeTitre);
+  font-size: 7.5rem;
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+}
+
+.titre { 
+  position: relative; 
+}
+
+h2{
+  line-height: 0;
+}
+
+.description-exposition-principale p{
+  max-width: 540px;
+  padding: 1.2rem 1.4rem;
+  color: var(--couleur-texte-pale);
+  border-radius: 6px;
+  background: linear-gradient(90deg, #2A305A 0%, rgba(5, 7, 20, 0.1) 100%);
+}
+
+.effet-titre{
+    position: absolute;
+    top: 180px;
+    width: 446px;
+}
+
+.effet-titre-deux{
+    position: absolute;
+    top: 230px;
+    width: 446px;
+}
+
+.description-exposition-principale{
+    padding-top: 50px;
+}

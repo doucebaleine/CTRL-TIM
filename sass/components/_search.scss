@@ -1,0 +1,26 @@
+/* Barre de recherche centrée en haut */
+.barreRecherche{
+  width: 45%;
+  max-width: 720px;
+  background: linear-gradient(90deg, rgba(50, 50, 70, 0.6), rgba(30, 20, 40, 0.4));
+  border-radius: 28px;
+  padding: 8px 16px;
+  display: flex;
+  gap: 12px;
+  box-shadow: 0 0 0 3px rgba(175, 120, 255, 0.08), 0 8px 30px rgba(0, 0, 0, 0.6);
+  z-index: 5;
+}
+
+.barreRecherche input{
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--couleur-texte-pale);
+  font-family: var(--policeTexte);
+}
+
+.iconeRecherche{
+  width: 20px;
+  height: 20px;
+}

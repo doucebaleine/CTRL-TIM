@@ -23,6 +23,14 @@
 
 	<!-- BOUTON NAVIGATION -->
 	<section class="menuBoiteGlobale">
-		<p>MENU</p>
+		<?php
+		wp_nav_menu(array(
+			'theme_location' => 'principal',
+			'menu_class' => 'menu-principal',
+			'container' => 'nav',
+			'container_class' => 'navigation-principale',
+			'fallback_cb' => false
+		));
+		?>
 	</section>
 </header>

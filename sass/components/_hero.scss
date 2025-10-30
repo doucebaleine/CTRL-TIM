@@ -49,3 +49,13 @@ h2{
 .description-exposition-principale{
     padding-top: 50px;
 }
+
+@media (max-width:900px){
+  .effet-titre{
+    top: 100px;
+}
+
+  .effet-titre-deux{
+    top: 155px;
+  }
+}

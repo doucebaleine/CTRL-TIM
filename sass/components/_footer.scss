@@ -6,7 +6,7 @@
   background: linear-gradient(180deg,#0B0E21,#070713);
   color: #222640;
   padding-top: 20px;
-  z-index: 9999; /* garder le pied de page au-dessus du contenu pour que les entrées soient cliquables */
+  z-index: 9999;
 }
 
 .interieur-pied-page{
@@ -79,7 +79,6 @@
 /* petits écrans : empiler le pied de page */
 @media (max-width:900px){
   .interieur-pied-page{
-    flex-direction:column;
     align-items:center
   }
   .centre-pied-page{

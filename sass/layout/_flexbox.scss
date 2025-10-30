@@ -5,7 +5,6 @@ body{
 }
 
 header{
-    display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -13,12 +12,18 @@ header{
 
 main{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
 }
 
 footer{
-    display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+@media (max-width:900px){ 
+  main{ 
+    height: 380px;
+    display: block;
+  } 
 }

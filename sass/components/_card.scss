@@ -1,7 +1,10 @@
 .pile-affiches {
-  width: 900px;
-  height: 400px;
-  pointer-events: auto;
+    width: 900px;
+    height: 400px;
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .carte-affiche {
@@ -111,4 +114,11 @@
 .carte-affiche.nouvelle-arriere.apparaitre {
   transform: translate(24px, 24px) rotate(-4deg) scale(1);
   opacity: 1;
+}
+
+@media (max-width:900px){
+  .pile-affiches {
+    width: 0;
+    display: block; 
+  }
 }

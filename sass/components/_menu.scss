@@ -87,6 +87,10 @@
   animation: menu-pop 420ms cubic-bezier(0.2,0.9,0.2,1);
 }
 
+ul.menu-principal {
+    list-style: none;
+}
+
 @keyframes menu-pop {
   0% { transform: translateY(0) scale(1); opacity: 1; }
   40% { transform: translateY(-6px) scale(1.04); opacity: 1; }
@@ -114,11 +118,18 @@
 @media (max-width:480px){ 
   .contenu-menu-hors-canvas{ 
     width:100%; 
-    padding:26px 
+    padding:6px; 
   } 
   .bouton-menu{ 
     font-size:1.4rem 
   } 
+}
+
+@media (min-width:481px) and (max-width:900px){ 
+  .contenu-menu-hors-canvas{ 
+    padding: 1px;
+  } 
+  
 }
 
 /* Lorsque le menu est ouvert, désactiver les interactions et les effets de survol en dehors du menu

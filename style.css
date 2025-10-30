@@ -456,7 +456,7 @@ header {
 }
 
 main {
-  min-height: 100vh;
+  height: 1080px;
   padding: 2em;
 }
 
@@ -497,6 +497,9 @@ body::before {
   width: 900px;
   height: 400px;
   pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .carte-affiche {
@@ -605,6 +608,12 @@ body::before {
   opacity: 1;
 }
 
+@media (max-width: 900px) {
+  .pile-affiches {
+    width: 0;
+    display: block;
+  }
+}
 .pied-page-site {
   position: fixed;
   bottom: 0;
@@ -612,7 +621,7 @@ body::before {
   background: linear-gradient(180deg, #0B0E21, #070713);
   color: #222640;
   padding-top: 20px;
-  z-index: 9999; /* garder le pied de page au-dessus du contenu pour que les entrées soient cliquables */
+  z-index: 9999;
 }
 
 .interieur-pied-page {
@@ -687,7 +696,6 @@ body::before {
 /* petits écrans : empiler le pied de page */
 @media (max-width: 900px) {
   .interieur-pied-page {
-    flex-direction: column;
     align-items: center;
   }
   .centre-pied-page {
@@ -731,9 +739,6 @@ body::before {
   }
   .logo {
     left: 12px;
-  }
-  .menu-burger {
-    right: 12px;
   }
 }
 /* Disposition héros : titre à gauche et description */
@@ -788,6 +793,14 @@ h2 {
   padding-top: 50px;
 }
 
+@media (max-width: 900px) {
+  .effet-titre {
+    top: 100px;
+  }
+  .effet-titre-deux {
+    top: 155px;
+  }
+}
 /* Styles du menu hors-canvas */
 .menu-hors-canvas {
   position: fixed;
@@ -880,6 +893,10 @@ h2 {
   animation: menu-pop 420ms cubic-bezier(0.2, 0.9, 0.2, 1);
 }
 
+ul.menu-principal {
+  list-style: none;
+}
+
 @keyframes menu-pop {
   0% {
     transform: translateY(0) scale(1);
@@ -915,10 +932,15 @@ h2 {
 @media (max-width: 480px) {
   .contenu-menu-hors-canvas {
     width: 100%;
-    padding: 26px;
+    padding: 6px;
   }
   .bouton-menu {
     font-size: 1.4rem;
+  }
+}
+@media (min-width: 481px) and (max-width: 900px) {
+  .contenu-menu-hors-canvas {
+    padding: 1px;
   }
 }
 /* Lorsque le menu est ouvert, désactiver les interactions et les effets de survol en dehors du menu
@@ -979,7 +1001,6 @@ body {
 }
 
 header {
-  display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -987,16 +1008,21 @@ header {
 
 main {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
 }
 
 footer {
-  display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
+@media (max-width: 900px) {
+  main {
+    height: 380px;
+    display: block;
+  }
+}
 body {
   background: #090D20;
 }

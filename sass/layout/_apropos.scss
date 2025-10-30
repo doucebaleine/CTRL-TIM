@@ -1,6 +1,7 @@
 .aproposMain{
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .titreApropos{
@@ -36,7 +37,7 @@
 }
 
 .profsPivots{
-  
+  width: 100%;
   h3{
     color: var(--couleur-titre-pale);
     font-family: "Jersey 15";
@@ -115,12 +116,12 @@
 }
 
 .liensApropos{
-
+  width: 100%;
   h3{
-    margin: -1rem;
     color: var(--couleur-titre-pale);
     font-family: "Jersey 15";
     font-size: 3rem;
+    margin: 2rem;
   }
 
   &__listelinks{
@@ -137,7 +138,7 @@
     a{
       color: var(--couleur-texte-pale);
       font-family: "Bai Jamjuree";
-      //font-size: 1rem;
+      font-size: 2rem;
       margin: 1rem;
     }
   }

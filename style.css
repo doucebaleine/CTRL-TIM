@@ -1029,6 +1029,7 @@ footer {
 .aproposMain {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .titreApropos {
@@ -1059,6 +1060,9 @@ footer {
   padding: 1rem;
 }
 
+.profsPivots {
+  width: 100%;
+}
 .profsPivots h3 {
   color: var(--couleur-titre-pale);
   font-family: "Jersey 15";
@@ -1126,11 +1130,14 @@ footer {
   position: relative;
 }
 
+.liensApropos {
+  width: 100%;
+}
 .liensApropos h3 {
-  margin: -1rem;
   color: var(--couleur-titre-pale);
   font-family: "Jersey 15";
   font-size: 3rem;
+  margin: 2rem;
 }
 .liensApropos__listelinks {
   display: flex;
@@ -1147,6 +1154,7 @@ footer {
 .liensApropos__listelinks a {
   color: var(--couleur-texte-pale);
   font-family: "Bai Jamjuree";
+  font-size: 2rem;
   margin: 1rem;
 }
 
@@ -1707,4 +1715,4 @@ footer {
     width: 40px;
     height: 40px;
   }
-}
+}/*# sourceMappingURL=style.css.map */

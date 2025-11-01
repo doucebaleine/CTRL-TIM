@@ -260,6 +260,96 @@ function ctrltim_enregistrer_customizer($wp_customize) {
             'supprimer' => 'Supprimer',
         ),
     ));
+
+    // SECTION MEDIAS SOCIAUX
+    $wp_customize->add_section('ctrltim_medias_sociaux', array(
+        'title' => __('Gestion des Médias sociaux', 'ctrltim'),
+        'priority' => 36,
+    ));
+
+    // Récupérer les médias sociaux existants et créer les choix
+    $medias_existing = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_medias_sociaux ORDER BY nom");
+    $medias_choices = array('' => '-- Nouveau média social --');
+    $medias_list = "<h4>Médias sociaux existants :</h4>";
+
+    if ($medias_existing) {
+        $medias_list .= "<ul style='margin-left: 20px;'>";
+        foreach ($medias_existing as $m) {
+            $medias_list .= "<li style='margin-bottom: 5px;'>" . esc_html($m->nom) . "</li>";
+            $medias_choices[$m->id] = $m->nom;
+        }
+        $medias_list .= "</ul>";
+    }
+
+    // Contrôle pour sélectionner le média à modifier
+    $wp_customize->add_setting('media_a_modifier', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('media_a_modifier', array(
+        'label' => __('Sélectionner le média à modifier', 'ctrltim'),
+        'section' => 'ctrltim_medias_sociaux',
+        'type' => 'select',
+        'choices' => $medias_choices,
+        'description' => $medias_list,
+    ));
+
+    // Nom du média
+    $wp_customize->add_setting('nom_media', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('nom_media', array(
+        'label' => __('Nom du média', 'ctrltim'),
+        'section' => 'ctrltim_medias_sociaux',
+        'type' => 'text',
+    ));
+
+    // Image du média
+    $wp_customize->add_setting('image_media', array(
+        'default' => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'image_media', array(
+        'label' => __('Image du média', 'ctrltim'),
+        'section' => 'ctrltim_medias_sociaux',
+    )));
+
+    // Lien du média
+    $wp_customize->add_setting('lien_media', array(
+        'default' => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('lien_media', array(
+        'label' => __('Lien (URL)', 'ctrltim'),
+        'section' => 'ctrltim_medias_sociaux',
+        'type' => 'url',
+    ));
+
+    // Action pour le média
+    $wp_customize->add_setting('action_media', array(
+        'default' => 'sauvegarder',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('action_media', array(
+        'label' => __('Action', 'ctrltim'),
+        'section' => 'ctrltim_medias_sociaux',
+        'type' => 'select',
+        'choices' => array(
+            'sauvegarder' => 'Sauvegarder',
+            'supprimer' => 'Supprimer',
+        ),
+    ));
+
+    $wp_customize->add_setting('trigger_media_action', array(
+        'default' => false,
+        'sanitize_callback' => 'wp_validate_boolean',
+    ));
+    $wp_customize->add_control('trigger_media_action', array(
+        'label' => __('Exécuter l\'action', 'ctrltim'),
+        'section' => 'ctrltim_medias_sociaux',
+        'type' => 'checkbox',
+    ));
 }
 add_action('customize_register', 'ctrltim_enregistrer_customizer');
 

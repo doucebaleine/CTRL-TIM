@@ -148,5 +148,29 @@
                 }
             });
         });
+
+        // Gestion des médias sociaux (section séparée)
+        wp.customize('media_a_modifier', function(control) {
+            control.bind(function(value) {
+                if (value && value !== '') {
+                    $.post(ctrlTimData.ajaxurl, {
+                        action: 'load_media_data',
+                        media_id: value,
+                        nonce: ctrlTimData.nonce
+                    }, function(response) {
+                        if (response.success) {
+                            var data = response.data;
+                            wp.customize('nom_media').set(data.nom || '');
+                            wp.customize('image_media').set(data.image_media || '');
+                            wp.customize('lien_media').set(data.lien || '');
+                        }
+                    });
+                } else {
+                    wp.customize('nom_media').set('');
+                    wp.customize('image_media').set('');
+                    wp.customize('lien_media').set('');
+                }
+            });
+        });
     });
 })(jQuery);

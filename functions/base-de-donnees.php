@@ -33,9 +33,20 @@ function ctrltim_creer_tables() {
         PRIMARY KEY (id)
     ) $charset;";
     
+    // Médias sociaux
+    $sql3 = "CREATE TABLE {$wpdb->prefix}ctrltim_medias_sociaux (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        nom varchar(255) NOT NULL,
+        image_media varchar(500),
+        lien varchar(500),
+        date_creation datetime DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)
+    ) $charset;";
+    
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql1);
     dbDelta($sql2);
+    dbDelta($sql3);
 }
 
 add_action('after_switch_theme', 'ctrltim_creer_tables');
@@ -158,6 +169,12 @@ function ctrltim_get_all_students() {
     return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_etudiants ORDER BY nom ASC");
 }
 
+// Fonction pour récupérer tous les médias sociaux
+function ctrltim_get_all_social_medias() {
+    global $wpdb;
+    return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_medias_sociaux ORDER BY nom ASC");
+}
+
 // =====================
 // FONCTION PRINCIPALE DE SAUVEGARDE
 // =====================
@@ -272,6 +289,49 @@ function ctrltim_sauvegarder_donnees() {
             ctrltim_vider_champs(['etudiant_a_modifier', 'nom_etudiant', 'image_etudiant', 'annee_etudiant']);
         }
     }
+
+    // MÉDIAS SOCIAUX - Gestion simple
+    $nom_media = get_theme_mod('nom_media');
+    $image_media = get_theme_mod('image_media');
+    $lien_media = get_theme_mod('lien_media');
+    $media_a_modifier = get_theme_mod('media_a_modifier');
+    $action_media = get_theme_mod('action_media');
+
+    // CAS 1: AJOUTER un nouveau média social (pas d'ID sélectionné + nom rempli)
+    if (empty($media_a_modifier) && !empty($nom_media)) {
+        $media_data = array(
+            'nom' => $nom_media,
+            'image_media' => $image_media,
+            'lien' => $lien_media
+        );
+
+        $wpdb->insert($wpdb->prefix . 'ctrltim_medias_sociaux', $media_data);
+        ctrltim_vider_champs(['media_a_modifier', 'nom_media', 'image_media', 'lien_media']);
+    }
+
+    // CAS 2: MODIFIER un média social existant (ID sélectionné + nom rempli)
+    elseif (!empty($media_a_modifier) && !empty($nom_media)) {
+        if ($action_media === 'supprimer') {
+            // Supprimer le média
+            $wpdb->delete($wpdb->prefix . 'ctrltim_medias_sociaux', array('id' => $media_a_modifier));
+            ctrltim_vider_champs(['media_a_modifier', 'nom_media', 'image_media', 'lien_media']);
+        } else {
+            // Mettre à jour le média
+            $media_data = array(
+                'nom' => $nom_media,
+                'image_media' => $image_media,
+                'lien' => $lien_media
+            );
+
+            $wpdb->update(
+                $wpdb->prefix . 'ctrltim_medias_sociaux',
+                $media_data,
+                array('id' => $media_a_modifier)
+            );
+
+            ctrltim_vider_champs(['media_a_modifier', 'nom_media', 'image_media', 'lien_media']);
+        }
+    }
 }
 
 // Hook pour sauvegarder les données
@@ -353,6 +413,28 @@ function ctrltim_ajax_charger_donnees_etudiant() {
     }
 }
 add_action('wp_ajax_load_student_data', 'ctrltim_ajax_charger_donnees_etudiant');
+
+// AJAX pour charger les données d'un média social
+function ctrltim_ajax_charger_donnees_media() {
+    if (!wp_verify_nonce($_POST['nonce'], 'ctrltim_nonce')) {
+        wp_die('Erreur de sécurité');
+    }
+
+    global $wpdb;
+    $media_id = intval($_POST['media_id']);
+    
+    $media = $wpdb->get_row($wpdb->prepare(
+        "SELECT * FROM {$wpdb->prefix}ctrltim_medias_sociaux WHERE id = %d",
+        $media_id
+    ));
+
+    if ($media) {
+        wp_send_json_success($media);
+    } else {
+        wp_send_json_error('Média social non trouvé');
+    }
+}
+add_action('wp_ajax_load_media_data', 'ctrltim_ajax_charger_donnees_media');
 
 // AJAX pour gérer les associations étudiants-projets
 function ctrltim_ajax_manage_project_students() {

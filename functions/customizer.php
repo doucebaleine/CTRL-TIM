@@ -13,10 +13,8 @@ function ctrltim_enregistrer_customizer($wp_customize) {
     $projets_existing = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_projets ORDER BY id DESC");
     
     $projets_choices = array('' => '-- Nouveau projet --');
-    $projets_list = "<h4>Projets existants :</h4>";
     
     if ($projets_existing) {
-        $projets_list .= "<ul style='margin-left: 20px;'>";
         foreach ($projets_existing as $p) {
             $cat = '';
             switch ($p->cat_exposition) {
@@ -28,10 +26,8 @@ function ctrltim_enregistrer_customizer($wp_customize) {
                 case 'cat_evenement': $cat = 'Événement (ancien)'; break;
                 default: $cat = 'Non définie';
             }
-            $projets_list .= "<li style='margin-bottom: 5px;'>" . esc_html($p->titre_projet) . " <span style='color: #666;'>(" . $cat . ")</span></li>";
             $projets_choices[$p->id] = $p->titre_projet . " (" . $cat . ")";
         }
-        $projets_list .= "</ul>";
     }
 
     // Contrôle pour sélectionner le projet à modifier
@@ -183,16 +179,12 @@ function ctrltim_enregistrer_customizer($wp_customize) {
     $etudiants_existing = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_etudiants ORDER BY nom");
     
     $etudiants_choices = array('' => '-- Nouvel étudiant --');
-    $etudiants_list = "<h4>Étudiants existants :</h4>";
     
     if ($etudiants_existing) {
-        $etudiants_list .= "<ul style='margin-left: 20px;'>";
         foreach ($etudiants_existing as $e) {
             $annee = ($e->annee == 'premiere') ? '1ère année' : (($e->annee == 'deuxieme') ? '2ème année' : '3ème année');
-            $etudiants_list .= "<li style='margin-bottom: 5px;'>" . esc_html($e->nom) . " <span style='color: #666;'>(" . $annee . ")</span></li>";
             $etudiants_choices[$e->id] = $e->nom . " (" . $annee . ")";
         }
-        $etudiants_list .= "</ul>";
     }
 
     // Contrôle pour sélectionner l'étudiant à modifier
@@ -268,15 +260,11 @@ function ctrltim_enregistrer_customizer($wp_customize) {
     // Récupérer les médias sociaux existants et créer les choix
     $medias_existing = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_medias_sociaux ORDER BY nom");
     $medias_choices = array('' => '-- Nouveau média social --');
-    $medias_list = "<h4>Médias sociaux existants :</h4>";
 
     if ($medias_existing) {
-        $medias_list .= "<ul style='margin-left: 20px;'>";
         foreach ($medias_existing as $m) {
-            $medias_list .= "<li style='margin-bottom: 5px;'>" . esc_html($m->nom) . "</li>";
             $medias_choices[$m->id] = $m->nom;
         }
-        $medias_list .= "</ul>";
     }
 
     // Contrôle pour sélectionner le média à modifier

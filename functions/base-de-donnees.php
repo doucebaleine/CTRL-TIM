@@ -565,3 +565,47 @@ function ctrltim_ensure_tables() {
 add_action('admin_init', 'ctrltim_ensure_tables');
 
 ?>
+
+<?php
+// AJAX pour récupérer les choix dynamiques (projets / etudiants / medias)
+function ctrltim_ajax_get_choices() {
+    if (!wp_verify_nonce($_POST['nonce'], 'ctrltim_nonce')) {
+        wp_send_json_error('Erreur de sécurité');
+    }
+
+    global $wpdb;
+    $type = isset($_POST['type']) ? sanitize_text_field($_POST['type']) : '';
+
+    $result = array();
+
+    if ($type === 'medias') {
+        $rows = $wpdb->get_results("SELECT id, nom FROM {$wpdb->prefix}ctrltim_medias_sociaux ORDER BY nom ASC");
+        foreach ($rows as $r) {
+            $result[intval($r->id)] = $r->nom;
+        }
+    } elseif ($type === 'etudiants') {
+        $rows = $wpdb->get_results("SELECT id, nom, annee FROM {$wpdb->prefix}ctrltim_etudiants ORDER BY nom ASC");
+        foreach ($rows as $r) {
+            $annee = ($r->annee == 'premiere') ? '1ère année' : (($r->annee == 'deuxieme') ? '2ème année' : '3ème année');
+            $result[intval($r->id)] = $r->nom . ' (' . $annee . ')';
+        }
+    } elseif ($type === 'projets') {
+        $rows = $wpdb->get_results("SELECT id, titre_projet, cat_exposition FROM {$wpdb->prefix}ctrltim_projets ORDER BY id DESC");
+        foreach ($rows as $r) {
+            $cat = '';
+            switch ($r->cat_exposition) {
+                case 'cat_premiere_annee': $cat = '1ère année'; break;
+                case 'cat_arcade': $cat = 'Arcade'; break;
+                case 'cat_finissants': $cat = 'Finissants'; break;
+                default: $cat = '';
+            }
+            $label = $r->titre_projet . ($cat ? ' (' . $cat . ')' : '');
+            $result[intval($r->id)] = $label;
+        }
+    } else {
+        wp_send_json_error('Type invalide');
+    }
+
+    wp_send_json_success($result);
+}
+add_action('wp_ajax_get_choices', 'ctrltim_ajax_get_choices');

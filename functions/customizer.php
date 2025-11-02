@@ -44,7 +44,6 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         'section' => 'ctrltim_projets',
         'type' => 'select',
         'choices' => $projets_choices,
-        'description' => $projets_list,
     ));
 
     // Champs du projet
@@ -206,7 +205,6 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         'section' => 'ctrltim_etudiants',
         'type' => 'select',
         'choices' => $etudiants_choices,
-        'description' => $etudiants_list,
     ));
 
     // Nom de l'étudiant
@@ -291,7 +289,6 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         'section' => 'ctrltim_medias_sociaux',
         'type' => 'select',
         'choices' => $medias_choices,
-        'description' => $medias_list,
     ));
 
     // Nom du média
@@ -341,15 +338,7 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         ),
     ));
 
-    $wp_customize->add_setting('trigger_media_action', array(
-        'default' => false,
-        'sanitize_callback' => 'wp_validate_boolean',
-    ));
-    $wp_customize->add_control('trigger_media_action', array(
-        'label' => __('Exécuter l\'action', 'ctrltim'),
-        'section' => 'ctrltim_medias_sociaux',
-        'type' => 'checkbox',
-    ));
+    // (Le contrôle 'Exécuter l\'action' a été retiré — les médias sont gérés via la sauvegarde du Customizer)
 }
 add_action('customize_register', 'ctrltim_enregistrer_customizer');
 
@@ -362,6 +351,12 @@ function ctrltim_script_customizer() {
         'ajaxurl' => admin_url('admin-ajax.php'),
         'nonce' => wp_create_nonce('ctrltim_nonce')
     ));
+
+    // Debug: log the number of social medias when the Customizer controls are loaded (admin only)
+    if (current_user_can('edit_theme_options') && function_exists('ctrltim_get_all_social_medias')) {
+        $medias = ctrltim_get_all_social_medias();
+        error_log('ctrltim_medias_count: ' . count($medias));
+    }
 }
 add_action('customize_controls_enqueue_scripts', 'ctrltim_script_customizer');
 

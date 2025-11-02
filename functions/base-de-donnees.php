@@ -490,4 +490,78 @@ add_action('wp_ajax_manage_project_students', 'ctrltim_ajax_manage_project_stude
 // Hook pour sauvegarder les données
 add_action('customize_save_after', 'ctrltim_sauvegarder_donnees');
 
+// AJAX pour gérer un média social (utilisé par le Customizer pour actions rapides)
+function ctrltim_ajax_manage_media() {
+    if (!wp_verify_nonce($_POST['nonce'], 'ctrltim_nonce')) {
+        wp_send_json_error('Erreur de sécurité');
+    }
+
+    global $wpdb;
+    $media_id = isset($_POST['media_id']) ? intval($_POST['media_id']) : 0;
+    $action = isset($_POST['media_action']) ? sanitize_text_field($_POST['media_action']) : 'sauvegarder';
+    $nom = isset($_POST['nom_media']) ? sanitize_text_field($_POST['nom_media']) : '';
+    $image = isset($_POST['image_media']) ? esc_url_raw($_POST['image_media']) : '';
+    $lien = isset($_POST['lien_media']) ? esc_url_raw($_POST['lien_media']) : '';
+
+    if ($action === 'supprimer') {
+        if (!$media_id) {
+            wp_send_json_error('ID manquant pour suppression');
+        }
+
+        $deleted = $wpdb->delete($wpdb->prefix . 'ctrltim_medias_sociaux', array('id' => $media_id));
+        if ($deleted !== false) {
+            wp_send_json_success('Média supprimé');
+        } else {
+            wp_send_json_error('Erreur lors de la suppression');
+        }
+    } else {
+        // sauvegarder (insert ou update)
+        if (empty($nom)) {
+            wp_send_json_error('Le nom est requis');
+        }
+
+        $data = array(
+            'nom' => $nom,
+            'image_media' => $image,
+            'lien' => $lien
+        );
+
+        if ($media_id) {
+            $updated = $wpdb->update($wpdb->prefix . 'ctrltim_medias_sociaux', $data, array('id' => $media_id));
+            if ($updated !== false) {
+                wp_send_json_success('Média mis à jour');
+            } else {
+                wp_send_json_error('Erreur lors de la mise à jour');
+            }
+        } else {
+            $inserted = $wpdb->insert($wpdb->prefix . 'ctrltim_medias_sociaux', $data);
+            if ($inserted !== false) {
+                wp_send_json_success('Média ajouté');
+            } else {
+                wp_send_json_error('Erreur lors de l\'insertion');
+            }
+        }
+    }
+}
+add_action('wp_ajax_manage_media', 'ctrltim_ajax_manage_media');
+
+
+?>
+
+<?php
+// Ensure tables exist on admin load (helps when theme wasn't re-activated)
+function ctrltim_ensure_tables() {
+    global $wpdb;
+    $table = $wpdb->prefix . 'ctrltim_medias_sociaux';
+
+    // Use SHOW TABLES LIKE to detect existence
+    $exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table));
+    if (empty($exists)) {
+        // Try to create missing tables (will run dbDelta for all defined SQL)
+        ctrltim_creer_tables();
+        error_log('ctrltim: tables checked/created on admin_init');
+    }
+}
+add_action('admin_init', 'ctrltim_ensure_tables');
+
 ?>

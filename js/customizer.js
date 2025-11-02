@@ -172,5 +172,7 @@
                 }
             });
         });
+
+        // (Le comportement d'exécution immédiate via la case 'trigger_media_action' a été retiré)
     });
 })(jQuery);

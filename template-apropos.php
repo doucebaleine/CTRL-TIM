@@ -27,46 +27,75 @@
          
       </section>
 
-      <!-- Les profs pivots -->
-      <section class="profsPivots">
-         <h3> Les profs pivots</h3>
-         <!-- boite Professeurs -->
-         <div class="profsPivots__profs">
-            <!-- Professeur 1 -->
-            <div class="profsPivots__profs__prof1">
-               <!-- Image Professeur 1 -->
-               <img src="../images/DavidRoss.png" alt="David Ross" class="profsPivots__profs__prof1__img_prof1">
-               <!-- Info Professeur 1 -->
-               <div class="profsPivots__profs__prof1__infoProf1">
-                  <p>David Ross</p>
-                  <p>bureau: F-3004</p>
-                  <p>dross@cmaisonneuve.qc.ca</p>
+      <!-- les eleves -->
+      <section class="artistesAPropos">
+         <h3> Les artiste</h3>
+         <!-- boite artiste -->
+         <div class="artistesAPropos__artistes">
+
+            <!-- artiste 1 -->
+            <div class="artistesAPropos__artistes__artiste">
+               <!-- Image artiste 1 -->
+               <img src="../images/GregoryBony.png" alt="Méduse Mongeau" class="artistesAPropos__artistes__artiste__imgArtiste">
+               <!-- Info artiste 1 -->
+               <div class="artistesAPropos__artistes__artiste__infoArtiste">
+                  <p>Méduse Mongeau</p>
+                  <p>fact?</p>
+                  <p>link1</p>
                </div>
             </div>
-            <!-- Professeur 2 -->
-            <div class="profsPivots__profs__prof2">
-               <!-- Image Professeur 2 -->
-               <img src="../images/GregoryBony.png" alt="Grégory Bony" class="profsPivots__profs__prof2__img_prof2">
-               <!-- Info Professeur 2 -->
-               <div class="profsPivots__profs__prof2__infoProf2">
-                  <p>Grégory Bony</p>
-                  <p> bureau: F-3004</p>
-                  <p>gbony@cmaisonneuve.qc.ca</p>
+            
+            <!-- artiste 2 -->
+            <div class="artistesAPropos__artistes__artiste">
+               <!-- Image artiste 2 -->
+               <img src="../images/GregoryBony.png" alt="Samuel César" class="artistesAPropos__artistes__artiste__imgArtiste">
+               <!-- Info artiste 2 -->
+               <div class="artistesAPropos__artistes__artiste__infoArtiste">
+                  <p>Samuel César</p>
+                  <p>fact?</p>
+                  <p>link1</p>
+               </div>
+            </div>
+
+            <!-- artiste 3 -->
+            <div class="artistesAPropos__artistes__artiste">
+               <!-- Image artiste 3 -->
+               <img src="../images/GregoryBony.png" alt="Sébastien Malo" class="artistesAPropos__artistes__artiste__imgArtiste">
+               <!-- Info artiste 3 -->
+               <div class="artistesAPropos__artistes__artiste__infoArtiste">
+                  <p>Sébastien Malo</p>
+                  <p>fact?</p>
+                  <p>link1</p>
+               </div>
+            </div>
+            
+            <!-- artiste 4 -->
+            <div class="artistesAPropos__artistes__artiste">
+               <!-- Image artiste 4 -->
+               <img src="../images/GregoryBony.png" alt="Weiqiang Chen" class="artistesAPropos__artistes__artiste__imgArtiste">
+               <!-- Info artiste 4 -->
+               <div class="artistesAPropos__artistes__artiste__infoArtiste">
+                  <p>Weiqiang Chen</p>
+                  <p>fact?</p>
+                  <p>link1</p>
+               </div>
+
+            </div>
+            
+            <!-- artiste 5 -->
+            <div class="artistesAPropos__artistes__artiste">
+               <!-- Image artiste 5 -->
+               <img src="../images/GregoryBony.png" alt="Azpen Sbrizzi" class="artistesAPropos__artistes__artiste__imgArtiste">
+               <!-- Info artiste 5 -->
+               <div class="artistesAPropos__artistes__artiste__infoArtiste">
+                  <p>Azpen Sbrizzi</p>
+                  <p>fact?</p>
+                  <p>link1</p>
                </div>
             </div>
          </div>
       </section>
 
-
-
-      <!-- Liens utiles -->
-      <section class="liensApropos">
-         <h3>Liens utiles</h3>
-         <ul class="liensApropos__listelinks">
-            <a href="https://www.cmaisonneuve.qc.ca/programme/integration-multimedia/">Technique d'intégration Multimédia</a>
-            <a href="https://sites.google.com/view/centre-aide-tim/accueil">Centre d'aide TIM</a>
-         </ul>
-      </section>
 
    </main>
    <footer>

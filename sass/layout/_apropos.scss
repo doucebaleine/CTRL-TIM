@@ -43,7 +43,7 @@ body{
   }
 }
 
-.profsPivots{
+.artistesAPropos{
   
   margin-top: 3rem;
   padding: 1.5rem;
@@ -55,30 +55,29 @@ body{
     font-weight: 400;
     line-height: normal;
     }
-  &__profs{
+  &__artistes{
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
       align-content: center;
       justify-content: center;
 
-      &__prof1{
+      &__artiste{
         display: flex;
         flex-direction: row;
         align-items: center;
         margin: 1rem;
 
-      &__img_prof1{
+      &__imgArtiste{
         margin: 0.5rem;
         width: 250px;
         height: 300px;
         flex-shrink: 0;
         background-color: #CCC;
         }
-      &__infoProf1{
+      &__infoArtiste{
         width: 250px;
         height: 300px;
-
         border-radius: 20px;
         margin: 1.5rem;
         background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, #343b5570 100%);
@@ -92,64 +91,10 @@ body{
         }
     }
 
-    &__prof2{
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      margin: 1rem;
-
-      &__img_prof2{
-        margin: 0.5rem;
-        width: 250px;
-        height: 300px;
-        flex-shrink: 0;
-        background-color: #CCC;
-      }
-      &__infoProf2{
-        width: 250px;
-        height: 300px;
-
-        border-radius: 20px;
-        margin: 1.5rem;
-        background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, #343b5570 100%);
-        backdrop-filter: blur(3.75px);
-        
-        }
-       p{
-          margin:1rem;
-          color:var(--couleur-texte-pale);
-          font-family: "Bai Jamjuree";
-          font-size: 20px;
-          position: relative;
-        } 
-    }
   }
 
   
 }
 
-.liensApropos{
 
-  h3{
-    color: var(--couleur-titre-pale);
-    font-family: "Jersey 15";
-    font-size: 40px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-
-  &__listelinks{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 1.5rem;
-    padding: 1.5rem;
-    list-style-type: none;
-    :hover{
-            color:aqua;
-          }
-  }
-}
 

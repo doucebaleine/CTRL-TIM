@@ -3,7 +3,6 @@
   flex-direction: column;
   justify-content: start;
   height: 1500px;
-  background-color: var(--couleurBackground);
   color: var(--couleur-texte-pale);
   margin: 0;
   padding: 0;
@@ -18,13 +17,22 @@
     font-family: var(--policeTitre);
   }
 
-  &__subtitle {
+  &__filter {
     text-align: center;
-    color: var(--couleur-texte-sous-titre);
     max-width: 700px;
     padding: 0 80px 0 80px;
     margin: 0 auto 40px;
     line-height: 1.6;
+    
+    &__description {
+      color: var(--couleur-texte-sous-titre);
+    }
+
+    &__subtitle {
+      background-image: var(--galerie-projet-bordure-arcade);
+      color: transparent;
+      background-clip: text;
+    }
   }
 
   &__filter-bar {
@@ -160,12 +168,10 @@
   }
 
   &__galerieProjets {
-    background-color: var(--couleurBackground);
     height: 800px;
     width: 100%;
 
     &__projets {
-      background-color: var(--couleurBackground);
       height: 800px;
       width: 100%;
       display: flex;

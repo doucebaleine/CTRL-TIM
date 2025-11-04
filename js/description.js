@@ -5,9 +5,16 @@ document.addEventListener("DOMContentLoaded", () => {
     "1re année": "Dans le cours Conception graphique et imagerie vectorielle, les étudiants de première année ont réalisé une recherche sur un enjeu environnemental. À partir de cette recherche, ils ont imaginé un jeu vidéo ou une application permettant de sensibiliser la population à cet enjeu. Ils en ont conçu l’identité visuelle et l’ont présentée sous forme d’affiche. Le code QR présent sur chaque affiche donne accès à une présentation détaillant le projet proposé. ",
     "Finissants": "Les finissants de la Technique d’intégration multimédia présentent le projet synthèse de leur parcours. Après avoir exploré toutes les dimensions du multimédia – Jeu, web, design, programmation, création de médias, interactivité et plus encore – chaque étudiant a choisi le sujet qui le passionne le plus et a développé un projet original qui reflète son expertise et sa créativité. "
   };
+  const subtitles = {
+    "Tous": "Tous",
+    "Arcade": "2e année",
+    "1re année": "1ère année",
+    "Finissants": "3e année"
+  };
 
   const buttons = document.querySelectorAll(".pageGalerie__filter-bar__filter-btn");
-  const subtitle = document.querySelector(".pageGalerie__subtitle");
+  const description = document.querySelector(".pageGalerie__filter__description");
+  const subtitle = document.querySelector(".pageGalerie__filter__subtitle");
 
   buttons.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -15,7 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.classList.add("active");
 
       const label = btn.textContent.trim();
-      subtitle.textContent = descriptions[label] || "Explorez nos projets.";
+      description.textContent = descriptions[label] || "Explorez nos projets.";
+      subtitle.textContent = subtitles[label] || "Projets.";
     });
   });
 });

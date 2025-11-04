@@ -148,5 +148,75 @@
                 }
             });
         });
+
+        // Gestion des médias sociaux (section séparée)
+        wp.customize('media_a_modifier', function(control) {
+            control.bind(function(value) {
+                if (value && value !== '') {
+                    $.post(ctrlTimData.ajaxurl, {
+                        action: 'load_media_data',
+                        media_id: value,
+                        nonce: ctrlTimData.nonce
+                    }, function(response) {
+                        if (response.success) {
+                            var data = response.data;
+                            wp.customize('nom_media').set(data.nom || '');
+                            wp.customize('image_media').set(data.image_media || '');
+                            wp.customize('lien_media').set(data.lien || '');
+                        }
+                    });
+                } else {
+                    wp.customize('nom_media').set('');
+                    wp.customize('image_media').set('');
+                    wp.customize('lien_media').set('');
+                }
+            });
+        });
+
+        // (Le comportement d'exécution immédiate via la case 'trigger_media_action' a été retiré)
+
+        // Utility: refresh choices for a given type and control id
+        function refreshChoices(type, controlId) {
+            $.post(ctrlTimData.ajaxurl, {
+                action: 'get_choices',
+                type: type,
+                nonce: ctrlTimData.nonce
+            }, function(response) {
+                if (response.success) {
+                    var choices = response.data || {};
+                    var ctrl = wp.customize.control(controlId);
+                    if (!ctrl || !ctrl.container) return;
+
+                    // remember current value
+                    var current = '';
+                    try { current = wp.customize(controlId)() || ''; } catch(e) { current = ''; }
+
+                    var $select = ctrl.container.find('select');
+                    if ($select && $select.length) {
+                        $select.empty();
+                        // add default empty option
+                        $select.append($('<option>').attr('value','').text('-- Nouveau --'));
+                        for (var id in choices) {
+                            if (!choices.hasOwnProperty(id)) continue;
+                            var $opt = $('<option>').attr('value', id).text(choices[id]);
+                            $select.append($opt);
+                        }
+
+                        // re-select previous value if still present
+                        if (current !== '') {
+                            $select.val(current);
+                        }
+                    }
+                }
+            });
+        }
+
+        // When the Customizer is saved (Publish), refresh selects so new entries appear
+        wp.customize.bind('saved', function() {
+            // refresh medias, students and projects selects
+            refreshChoices('medias', 'media_a_modifier');
+            refreshChoices('etudiants', 'etudiant_a_modifier');
+            refreshChoices('projets', 'projet_a_modifier');
+        });
     });
 })(jQuery);

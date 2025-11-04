@@ -13,10 +13,8 @@ function ctrltim_enregistrer_customizer($wp_customize) {
     $projets_existing = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_projets ORDER BY id DESC");
     
     $projets_choices = array('' => '-- Nouveau projet --');
-    $projets_list = "<h4>Projets existants :</h4>";
     
     if ($projets_existing) {
-        $projets_list .= "<ul style='margin-left: 20px;'>";
         foreach ($projets_existing as $p) {
             $cat = '';
             switch ($p->cat_exposition) {
@@ -28,10 +26,8 @@ function ctrltim_enregistrer_customizer($wp_customize) {
                 case 'cat_evenement': $cat = 'Événement (ancien)'; break;
                 default: $cat = 'Non définie';
             }
-            $projets_list .= "<li style='margin-bottom: 5px;'>" . esc_html($p->titre_projet) . " <span style='color: #666;'>(" . $cat . ")</span></li>";
             $projets_choices[$p->id] = $p->titre_projet . " (" . $cat . ")";
         }
-        $projets_list .= "</ul>";
     }
 
     // Contrôle pour sélectionner le projet à modifier
@@ -44,7 +40,6 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         'section' => 'ctrltim_projets',
         'type' => 'select',
         'choices' => $projets_choices,
-        'description' => $projets_list,
     ));
 
     // Champs du projet
@@ -77,6 +72,34 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         'label' => __('Image du projet', 'ctrltim'),
         'section' => 'ctrltim_projets',
     )));
+
+    // Images supplémentaires pour carrousel (jusqu'à 5)
+    for ($i = 1; $i <= 5; $i++) {
+        $setting = 'image_projet_' . $i;
+        $wp_customize->add_setting($setting, array(
+            'default' => '',
+            'sanitize_callback' => 'esc_url_raw',
+        ));
+        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, $setting, array(
+            'label' => sprintf(__('Image carrousel #%d', 'ctrltim'), $i),
+            'section' => 'ctrltim_projets',
+        )));
+    }
+
+    // Filtre d'année pour le projet (ex: 2025 / 2026)
+    $wp_customize->add_setting('annee_projet', array(
+        'default' => '2025',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('annee_projet', array(
+        'label' => __('Filtrer par année', 'ctrltim'),
+        'section' => 'ctrltim_projets',
+        'type' => 'select',
+        'choices' => array(
+            '2025' => '2025',
+            '2026' => '2026',
+        ),
+    ));
 
     // Catégorie d'exposition
     $wp_customize->add_setting('cat_exposition', array(
@@ -184,16 +207,12 @@ function ctrltim_enregistrer_customizer($wp_customize) {
     $etudiants_existing = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_etudiants ORDER BY nom");
     
     $etudiants_choices = array('' => '-- Nouvel étudiant --');
-    $etudiants_list = "<h4>Étudiants existants :</h4>";
     
     if ($etudiants_existing) {
-        $etudiants_list .= "<ul style='margin-left: 20px;'>";
         foreach ($etudiants_existing as $e) {
             $annee = ($e->annee == 'premiere') ? '1ère année' : (($e->annee == 'deuxieme') ? '2ème année' : '3ème année');
-            $etudiants_list .= "<li style='margin-bottom: 5px;'>" . esc_html($e->nom) . " <span style='color: #666;'>(" . $annee . ")</span></li>";
             $etudiants_choices[$e->id] = $e->nom . " (" . $annee . ")";
         }
-        $etudiants_list .= "</ul>";
     }
 
     // Contrôle pour sélectionner l'étudiant à modifier
@@ -206,7 +225,6 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         'section' => 'ctrltim_etudiants',
         'type' => 'select',
         'choices' => $etudiants_choices,
-        'description' => $etudiants_list,
     ));
 
     // Nom de l'étudiant
@@ -260,6 +278,83 @@ function ctrltim_enregistrer_customizer($wp_customize) {
             'supprimer' => 'Supprimer',
         ),
     ));
+
+    // SECTION MEDIAS SOCIAUX
+    $wp_customize->add_section('ctrltim_medias_sociaux', array(
+        'title' => __('Gestion des Médias sociaux', 'ctrltim'),
+        'priority' => 36,
+    ));
+
+    // Récupérer les médias sociaux existants et créer les choix
+    $medias_existing = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_medias_sociaux ORDER BY nom");
+    $medias_choices = array('' => '-- Nouveau média social --');
+
+    if ($medias_existing) {
+        foreach ($medias_existing as $m) {
+            $medias_choices[$m->id] = $m->nom;
+        }
+    }
+
+    // Contrôle pour sélectionner le média à modifier
+    $wp_customize->add_setting('media_a_modifier', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('media_a_modifier', array(
+        'label' => __('Sélectionner le média à modifier', 'ctrltim'),
+        'section' => 'ctrltim_medias_sociaux',
+        'type' => 'select',
+        'choices' => $medias_choices,
+    ));
+
+    // Nom du média
+    $wp_customize->add_setting('nom_media', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('nom_media', array(
+        'label' => __('Nom du média', 'ctrltim'),
+        'section' => 'ctrltim_medias_sociaux',
+        'type' => 'text',
+    ));
+
+    // Image du média
+    $wp_customize->add_setting('image_media', array(
+        'default' => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'image_media', array(
+        'label' => __('Image du média', 'ctrltim'),
+        'section' => 'ctrltim_medias_sociaux',
+    )));
+
+    // Lien du média
+    $wp_customize->add_setting('lien_media', array(
+        'default' => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('lien_media', array(
+        'label' => __('Lien (URL)', 'ctrltim'),
+        'section' => 'ctrltim_medias_sociaux',
+        'type' => 'url',
+    ));
+
+    // Action pour le média
+    $wp_customize->add_setting('action_media', array(
+        'default' => 'sauvegarder',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('action_media', array(
+        'label' => __('Action', 'ctrltim'),
+        'section' => 'ctrltim_medias_sociaux',
+        'type' => 'select',
+        'choices' => array(
+            'sauvegarder' => 'Sauvegarder',
+            'supprimer' => 'Supprimer',
+        ),
+    ));
+
+    // (Le contrôle 'Exécuter l\'action' a été retiré — les médias sont gérés via la sauvegarde du Customizer)
 }
 add_action('customize_register', 'ctrltim_enregistrer_customizer');
 
@@ -272,6 +367,12 @@ function ctrltim_script_customizer() {
         'ajaxurl' => admin_url('admin-ajax.php'),
         'nonce' => wp_create_nonce('ctrltim_nonce')
     ));
+
+    // Debug: log the number of social medias when the Customizer controls are loaded (admin only)
+    if (current_user_can('edit_theme_options') && function_exists('ctrltim_get_all_social_medias')) {
+        $medias = ctrltim_get_all_social_medias();
+        error_log('ctrltim_medias_count: ' . count($medias));
+    }
 }
 add_action('customize_controls_enqueue_scripts', 'ctrltim_script_customizer');
 

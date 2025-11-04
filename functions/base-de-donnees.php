@@ -14,6 +14,8 @@ function ctrltim_creer_tables() {
         description_projet text,
         video_projet varchar(500),
         image_projet varchar(500),
+        images_projet text DEFAULT NULL,
+        annee_projet varchar(10) DEFAULT '2025',
         lien varchar(500),
         cours varchar(255),
         cat_exposition varchar(50) DEFAULT 'cat_premiere_annee',
@@ -95,6 +97,34 @@ function ctrltim_mettre_a_jour_tables() {
     
     if (empty($cours_column)) {
         $wpdb->query("ALTER TABLE {$wpdb->prefix}ctrltim_projets ADD COLUMN cours varchar(255) DEFAULT NULL");
+    }
+
+    // Vérifier si la colonne images_projet existe (nouveau: stocke JSON d'URLs pour carrousel)
+    $images_column = $wpdb->get_results($wpdb->prepare(
+        "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS 
+         WHERE TABLE_SCHEMA = %s 
+         AND TABLE_NAME = %s 
+         AND COLUMN_NAME = 'images_projet'",
+        DB_NAME,
+        $wpdb->prefix . 'ctrltim_projets'
+    ));
+
+    if (empty($images_column)) {
+        $wpdb->query("ALTER TABLE {$wpdb->prefix}ctrltim_projets ADD COLUMN images_projet text DEFAULT NULL");
+    }
+
+    // Vérifier si la colonne annee_projet existe (nouveau: année/filtre, ex: 2025/2026)
+    $annee_column = $wpdb->get_results($wpdb->prepare(
+        "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS 
+         WHERE TABLE_SCHEMA = %s 
+         AND TABLE_NAME = %s 
+         AND COLUMN_NAME = 'annee_projet'",
+        DB_NAME,
+        $wpdb->prefix . 'ctrltim_projets'
+    ));
+
+    if (empty($annee_column)) {
+        $wpdb->query("ALTER TABLE {$wpdb->prefix}ctrltim_projets ADD COLUMN annee_projet varchar(10) DEFAULT '2025'");
     }
     
     // Vérifier et corriger le nom de la colonne filtres
@@ -187,6 +217,14 @@ function ctrltim_sauvegarder_donnees() {
     $description = get_theme_mod('description_projet');
     $video = get_theme_mod('video_projet');
     $image = get_theme_mod('image_projet');
+    // Images pour carrousel (jusqu'à 5)
+    $images = array();
+    for ($i = 1; $i <= 5; $i++) {
+        $img = get_theme_mod('image_projet_' . $i);
+        if (!empty($img)) $images[] = $img;
+    }
+    // Année / filtre (ex: 2025, 2026)
+    $annee_projet = get_theme_mod('annee_projet', '2025');
     $lien = get_theme_mod('lien_projet');
     $cours = get_theme_mod('cours_projet');
     $cat = get_theme_mod('cat_exposition');
@@ -207,6 +245,8 @@ function ctrltim_sauvegarder_donnees() {
             'description_projet' => $description,
             'video_projet' => $video,
             'image_projet' => $image,
+            'images_projet' => json_encode($images),
+            'annee_projet' => $annee_projet,
             'lien' => $lien,
             'cours' => $cours,
             'cat_exposition' => $cat,
@@ -231,6 +271,8 @@ function ctrltim_sauvegarder_donnees() {
                 'description_projet' => $description,
                 'video_projet' => $video,
                 'image_projet' => $image,
+                'images_projet' => json_encode($images),
+                'annee_projet' => $annee_projet,
                 'lien' => $lien,
                 'cours' => $cours,
                 'cat_exposition' => $cat,
@@ -243,7 +285,7 @@ function ctrltim_sauvegarder_donnees() {
                 array('id' => $projet_a_modifier)
             );
             
-            ctrltim_vider_champs(['projet_a_modifier', 'titre_projet', 'description_projet', 'video_projet', 'image_projet', 'lien_projet', 'cours_projet', 'filtre_jeux', 'filtre_3d', 'filtre_video', 'filtre_web']);
+            ctrltim_vider_champs(['projet_a_modifier', 'titre_projet', 'description_projet', 'video_projet', 'image_projet', 'image_projet_1', 'image_projet_2', 'image_projet_3', 'image_projet_4', 'image_projet_5', 'annee_projet', 'lien_projet', 'cours_projet', 'filtre_jeux', 'filtre_3d', 'filtre_video', 'filtre_web']);
         }
     }
     
@@ -378,6 +420,8 @@ function ctrltim_ajax_charger_donnees_projet() {
             'description_projet' => $project->description_projet,
             'video_projet' => $project->video_projet,
             'image_projet' => $project->image_projet,
+            'images_projet' => json_decode($project->images_projet, true) ?: array(),
+            'annee_projet' => isset($project->annee_projet) ? $project->annee_projet : '2025',
             'lien' => $project->lien,
             'cours' => $project->cours,
             'cat_exposition' => $project->cat_exposition,

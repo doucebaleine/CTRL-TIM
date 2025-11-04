@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 
 // ------------------------------------------------------------------
 // 1) BASE DE DONNÉES PROJETS
-// Colonnes : id, titre_projet, description_projet, video_projet, image_projet, lien, cours, cat_exposition, filtres, etudiants_associes, date_creation
+// Colonnes : id, titre_projet, description_projet, video_projet, image_projet, images_projet, annee_projet, lien, cours, cat_exposition, filtres, etudiants_associes, date_creation
 // ------------------------------------------------------------------
 
 // Récupérer tous les projets (retourne tableau d'objets)
@@ -19,7 +19,7 @@ function ctrltim_get_all_projets() {
     global $wpdb;
     $nom_table = ctrltim_table_name('ctrltim_projets');
     // Trier par titre_projet A->Z
-    $sql = "SELECT id, titre_projet, description_projet, video_projet, image_projet, lien, cours, cat_exposition, filtres, etudiants_associes FROM {$nom_table} ORDER BY titre_projet ASC";
+  $sql = "SELECT id, titre_projet, description_projet, video_projet, image_projet, images_projet, annee_projet, lien, cours, cat_exposition, filtres, etudiants_associes FROM {$nom_table} ORDER BY titre_projet ASC";
     return $wpdb->get_results($sql);
 }
 
@@ -27,7 +27,7 @@ function ctrltim_get_all_projets() {
 function ctrltim_get_projet_by_id($id) {
     global $wpdb;
         $nom_table = ctrltim_table_name('ctrltim_projets');
-        $colonnes = 'id, titre_projet, description_projet, video_projet, image_projet, lien, cours, cat_exposition, filtres, etudiants_associes';
+  $colonnes = 'id, titre_projet, description_projet, video_projet, image_projet, images_projet, annee_projet, lien, cours, cat_exposition, filtres, etudiants_associes';
         return $wpdb->get_row($wpdb->prepare("SELECT {$colonnes} FROM {$nom_table} WHERE id = %d", $id));
 }
 
@@ -45,6 +45,30 @@ if ($project) {
     $cat = $project->cat_exposition;        // string (valeur de catégorie)
     $filtres = json_decode($project->filtres, true) ?: array(); // array
     $etudiants_associes = json_decode($project->etudiants_associes, true) ?: array(); // array d'IDs, voir fonction en dessous pour récupérer les détails
+}
+*/
+
+// ----- Exemple : utiliser les images pour un carrousel et le filtre d'année -----
+/*
+$project = ctrltim_get_projet_by_id(12);
+if ($project) {
+    // Images pour carrousel : stockées en JSON dans images_projet
+    $images = json_decode($project->images_projet, true) ?: array();
+
+
+    // Année / filtre
+    $annee = isset($project->annee_projet) ? $project->annee_projet : '2025';
+
+    // Exemple HTML simple (sans JS) pour un carrousel — vous pouvez adapter à votre librairie
+    if (!empty($images)) : ?>
+      <div class="project-carousel" data-project-year="<?php echo esc_attr($annee); ?>">
+        <?php foreach ($images as $image => $img_url) : if ($image >= 5) break; // max 5 images ?>
+          <div class="carousel-slide">
+            <img src="<?php echo esc_url($img_url); ?>" alt="<?php echo esc_attr($project->titre_projet); ?>">
+          </div>
+        <?php endforeach; ?>
+      </div>
+    <?php endif;
 }
 */
 

@@ -73,6 +73,34 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         'section' => 'ctrltim_projets',
     )));
 
+    // Images supplémentaires pour carrousel (jusqu'à 5)
+    for ($i = 1; $i <= 5; $i++) {
+        $setting = 'image_projet_' . $i;
+        $wp_customize->add_setting($setting, array(
+            'default' => '',
+            'sanitize_callback' => 'esc_url_raw',
+        ));
+        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, $setting, array(
+            'label' => sprintf(__('Image carrousel #%d', 'ctrltim'), $i),
+            'section' => 'ctrltim_projets',
+        )));
+    }
+
+    // Filtre d'année pour le projet (ex: 2025 / 2026)
+    $wp_customize->add_setting('annee_projet', array(
+        'default' => '2025',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('annee_projet', array(
+        'label' => __('Filtrer par année', 'ctrltim'),
+        'section' => 'ctrltim_projets',
+        'type' => 'select',
+        'choices' => array(
+            '2025' => '2025',
+            '2026' => '2026',
+        ),
+    ));
+
     // Catégorie d'exposition
     $wp_customize->add_setting('cat_exposition', array(
         'default' => 'cat_premiere_annee',

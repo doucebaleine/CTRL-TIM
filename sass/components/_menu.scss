@@ -31,7 +31,6 @@
 }
 
 .contenu-menu-hors-canvas{ 
-  width:420px;
   padding:48px; 
   color:var(--couleur-texte-pale); 
 }
@@ -68,7 +67,7 @@
 .bouton-menu{ 
   display:inline-block; 
   padding:12px 24px; 
-  border-radius:12px; 
+  border-radius: 5px;
   background:transparent; 
   color:var(--couleur-texte-pale); 
   text-decoration:none; 
@@ -79,7 +78,7 @@
 .bouton-menu.primaire{ 
   background: linear-gradient(90deg,#D167FF,#62B8FF); 
   color:#07101e; 
-  box-shadow: 6px 8px 20px rgba(45,20,80,0.35) 
+  box-shadow: -8px 6px 0px 0px rgba(45, 20, 80, 25);
 }
 
 /* animation temporaire lorsque primaire se déplace vers un nouvel élément */
@@ -89,6 +88,7 @@
 
 ul.menu-principal {
     list-style: none;
+    text-align: end;
 }
 
 @keyframes menu-pop {

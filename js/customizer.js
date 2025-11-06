@@ -54,7 +54,7 @@
                             wp.customize('image_projet').set(data.image_projet || '');
                             wp.customize('lien_projet').set(data.lien || '');
                             wp.customize('cours_projet').set(data.cours || '');
-                            wp.customize('cat_exposition').set(data.cat_exposition || 'cat_premiere_annee');
+                            wp.customize('cat_exposition').set(data.cat_exposition || '');
                             
                             // Filtres
                             var filtres = data.filtres || [];
@@ -75,7 +75,7 @@
                     wp.customize('image_projet').set('');
                     wp.customize('lien_projet').set('');
                     wp.customize('cours_projet').set('');
-                    wp.customize('cat_exposition').set('cat_premiere_annee');
+                    wp.customize('cat_exposition').set('');
                     wp.customize('filtre_jeux').set(false);
                     wp.customize('filtre_3d').set(false);
                     wp.customize('filtre_video').set(false);
@@ -173,6 +173,26 @@
             });
         });
 
+        // Gestion des catégories (section séparée)
+        wp.customize('categorie_a_modifier', function(control) {
+            control.bind(function(value) {
+                if (value && value !== '') {
+                    $.post(ctrlTimData.ajaxurl, {
+                        action: 'load_category_data',
+                        category_id: value,
+                        nonce: ctrlTimData.nonce
+                    }, function(response) {
+                        if (response.success) {
+                            var data = response.data;
+                            wp.customize('nom_categorie').set(data.nom || '');
+                        }
+                    });
+                } else {
+                    wp.customize('nom_categorie').set('');
+                }
+            });
+        });
+
         // (Le comportement d'exécution immédiate via la case 'trigger_media_action' a été retiré)
 
         // Utility: refresh choices for a given type and control id
@@ -217,6 +237,9 @@
             refreshChoices('medias', 'media_a_modifier');
             refreshChoices('etudiants', 'etudiant_a_modifier');
             refreshChoices('projets', 'projet_a_modifier');
+            refreshChoices('categories', 'categorie_a_modifier');
+            // Also refresh the category select used by projects
+            refreshChoices('categories', 'cat_exposition');
         });
     });
 })(jQuery);

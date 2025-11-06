@@ -44,14 +44,23 @@ function ctrltim_creer_tables() {
         date_creation datetime DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (id)
     ) $charset;";
+
+    // Catégories
+    $sql4 = "CREATE TABLE {$wpdb->prefix}ctrltim_categories (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        nom varchar(255) NOT NULL,
+        date_creation datetime DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)
+    ) $charset;";
     
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql1);
     dbDelta($sql2);
     dbDelta($sql3);
+    dbDelta($sql4);
 }
 
-add_action('after_switch_theme', 'ctrltim_creer_tables');
+// Table creation is hooked below (after updates) to avoid duplicate registrations
 
 // Fonction pour mettre à jour les tables existantes
 function ctrltim_mettre_a_jour_tables() {
@@ -203,6 +212,21 @@ function ctrltim_get_all_students() {
 function ctrltim_get_all_social_medias() {
     global $wpdb;
     return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_medias_sociaux ORDER BY nom ASC");
+}
+
+// Fonction pour récupérer toutes les catégories
+function ctrltim_get_all_categories() {
+    global $wpdb;
+    return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_categories ORDER BY nom ASC");
+}
+
+// Retourne le nom d'une catégorie par son id (ou chaîne vide)
+function ctrltim_get_category_name($id) {
+    global $wpdb;
+    $id = intval($id);
+    if (!$id) return '';
+    $row = $wpdb->get_row($wpdb->prepare("SELECT nom FROM {$wpdb->prefix}ctrltim_categories WHERE id = %d", $id));
+    return $row ? $row->nom : '';
 }
 
 // =====================
@@ -372,6 +396,43 @@ function ctrltim_sauvegarder_donnees() {
             );
 
             ctrltim_vider_champs(['media_a_modifier', 'nom_media', 'image_media', 'lien_media']);
+        }
+    }
+
+    // CATÉGORIES - Gestion simple (uniquement 'nom')
+    $nom_categorie = get_theme_mod('nom_categorie');
+    $categorie_a_modifier = get_theme_mod('categorie_a_modifier');
+    $action_categorie = get_theme_mod('action_categorie');
+
+    // CAS 1: AJOUTER une nouvelle catégorie (pas d'ID sélectionné + nom rempli)
+    if (empty($categorie_a_modifier) && !empty($nom_categorie)) {
+        $cat_data = array(
+            'nom' => $nom_categorie
+        );
+
+        $wpdb->insert($wpdb->prefix . 'ctrltim_categories', $cat_data);
+        ctrltim_vider_champs(['categorie_a_modifier', 'nom_categorie']);
+    }
+
+    // CAS 2: MODIFIER une catégorie existante (ID sélectionné + nom rempli)
+    elseif (!empty($categorie_a_modifier) && !empty($nom_categorie)) {
+        if ($action_categorie === 'supprimer') {
+            // Supprimer la catégorie
+            $wpdb->delete($wpdb->prefix . 'ctrltim_categories', array('id' => $categorie_a_modifier));
+            ctrltim_vider_champs(['categorie_a_modifier', 'nom_categorie']);
+        } else {
+            // Mettre à jour la catégorie
+            $cat_data = array(
+                'nom' => $nom_categorie
+            );
+
+            $wpdb->update(
+                $wpdb->prefix . 'ctrltim_categories',
+                $cat_data,
+                array('id' => $categorie_a_modifier)
+            );
+
+            ctrltim_vider_champs(['categorie_a_modifier', 'nom_categorie']);
         }
     }
 }
@@ -589,6 +650,77 @@ function ctrltim_ajax_manage_media() {
 }
 add_action('wp_ajax_manage_media', 'ctrltim_ajax_manage_media');
 
+// AJAX pour charger les données d'une catégorie
+function ctrltim_ajax_charger_donnees_categorie() {
+    if (!wp_verify_nonce($_POST['nonce'], 'ctrltim_nonce')) {
+        wp_die('Erreur de sécurité');
+    }
+
+    global $wpdb;
+    $cat_id = intval($_POST['category_id']);
+
+    $cat = $wpdb->get_row($wpdb->prepare(
+        "SELECT * FROM {$wpdb->prefix}ctrltim_categories WHERE id = %d",
+        $cat_id
+    ));
+
+    if ($cat) {
+        wp_send_json_success($cat);
+    } else {
+        wp_send_json_error('Catégorie non trouvée');
+    }
+}
+add_action('wp_ajax_load_category_data', 'ctrltim_ajax_charger_donnees_categorie');
+
+// AJAX pour gérer une catégorie (insert/update/delete)
+function ctrltim_ajax_manage_category() {
+    if (!wp_verify_nonce($_POST['nonce'], 'ctrltim_nonce')) {
+        wp_send_json_error('Erreur de sécurité');
+    }
+
+    global $wpdb;
+    $category_id = isset($_POST['category_id']) ? intval($_POST['category_id']) : 0;
+    $action = isset($_POST['category_action']) ? sanitize_text_field($_POST['category_action']) : 'sauvegarder';
+    $nom = isset($_POST['nom_categorie']) ? sanitize_text_field($_POST['nom_categorie']) : '';
+
+    if ($action === 'supprimer') {
+        if (!$category_id) {
+            wp_send_json_error('ID manquant pour suppression');
+        }
+
+        $deleted = $wpdb->delete($wpdb->prefix . 'ctrltim_categories', array('id' => $category_id));
+        if ($deleted !== false) {
+            wp_send_json_success('Catégorie supprimée');
+        } else {
+            wp_send_json_error('Erreur lors de la suppression');
+        }
+    } else {
+        // sauvegarder (insert ou update)
+        if (empty($nom)) {
+            wp_send_json_error('Le nom est requis');
+        }
+
+        $data = array('nom' => $nom);
+
+        if ($category_id) {
+            $updated = $wpdb->update($wpdb->prefix . 'ctrltim_categories', $data, array('id' => $category_id));
+            if ($updated !== false) {
+                wp_send_json_success('Catégorie mise à jour');
+            } else {
+                wp_send_json_error('Erreur lors de la mise à jour');
+            }
+        } else {
+            $inserted = $wpdb->insert($wpdb->prefix . 'ctrltim_categories', $data);
+            if ($inserted !== false) {
+                wp_send_json_success('Catégorie ajoutée');
+            } else {
+                wp_send_json_error('Erreur lors de l\'insertion');
+            }
+        }
+    }
+}
+add_action('wp_ajax_manage_category', 'ctrltim_ajax_manage_category');
+
 
 ?>
 
@@ -596,14 +728,26 @@ add_action('wp_ajax_manage_media', 'ctrltim_ajax_manage_media');
 // Ensure tables exist on admin load (helps when theme wasn't re-activated)
 function ctrltim_ensure_tables() {
     global $wpdb;
-    $table = $wpdb->prefix . 'ctrltim_medias_sociaux';
+    $required = array(
+        $wpdb->prefix . 'ctrltim_projets',
+        $wpdb->prefix . 'ctrltim_etudiants',
+        $wpdb->prefix . 'ctrltim_medias_sociaux',
+        $wpdb->prefix . 'ctrltim_categories'
+    );
 
-    // Use SHOW TABLES LIKE to detect existence
-    $exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table));
-    if (empty($exists)) {
+    $missing = false;
+    foreach ($required as $table) {
+        $exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table));
+        if (empty($exists)) {
+            $missing = true;
+            break;
+        }
+    }
+
+    if ($missing) {
         // Try to create missing tables (will run dbDelta for all defined SQL)
         ctrltim_creer_tables();
-        error_log('ctrltim: tables checked/created on admin_init');
+        error_log('ctrltim: missing tables detected - ctrltim_creer_tables() executed on admin_init');
     }
 }
 add_action('admin_init', 'ctrltim_ensure_tables');
@@ -646,8 +790,14 @@ function ctrltim_ajax_get_choices() {
             $label = $r->titre_projet . ($cat ? ' (' . $cat . ')' : '');
             $result[intval($r->id)] = $label;
         }
+    } elseif ($type === 'categories') {
+        $rows = $wpdb->get_results("SELECT id, nom FROM {$wpdb->prefix}ctrltim_categories ORDER BY nom ASC");
+        foreach ($rows as $r) {
+            $result[intval($r->id)] = $r->nom;
+        }
     } else {
         wp_send_json_error('Type invalide');
+        return;
     }
 
     wp_send_json_success($result);

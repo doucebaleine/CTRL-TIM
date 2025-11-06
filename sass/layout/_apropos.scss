@@ -1,68 +1,32 @@
 body{
-  background: #090D20;
+  background: var(--couleurBackground);
 }
 
-.titreApropos{
-  color: --couleur-titre-pale;
-  text-align: center;
-  font-family: "Jersey 15";
-  font-size: 4rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  text-align: center;
+.mainArtistes{
+  margin-top: 8rem;
 }
 
-.infosaPropos{
-
-  h3{
-    color: var(--couleur-titre-pale);
-    font-family: "Jersey 15";
-    font-size: 40px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-
-  &__textBut{
-    border-radius: 20px;
-    margin: 1.5rem;
-    background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, #343b5570 100%);
-    backdrop-filter: blur(3.75px);
-    
-    p{
-      color: var(--couleur-texte-pale);
-      font-family: "Bai Jamjuree";
-      font-size: 1.5rem;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      margin: 2rem;
-      padding: 1rem;
-    }
-  }
-}
-
-.artistesAPropos{
+.artistes{
   
   margin-top: 3rem;
   padding: 1.5rem;
-  h3{
+  h2{
     color: var(--couleur-titre-pale);
     font-family: "Jersey 15";
-    font-size: 40px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+    //font-size: 40px;
+    //font-style: normal;
+    //font-weight: 400;
+    //line-height: normal;
+    text-align: center;
     }
-  &__artistes{
+  &__boiteArtistes{
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
       align-content: center;
       justify-content: center;
 
-      &__artiste{
+      &__artisteSingle{
         display: flex;
         flex-direction: row;
         align-items: center;

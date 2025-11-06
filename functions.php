@@ -7,7 +7,6 @@ $functions_dir = get_template_directory() . '/functions/';
 $function_files = array(
     'customizer.php',
     'base-de-donnees.php',
-        'integration-db.php',
 );
 
 // Boucle pour inclure tous les fichiers

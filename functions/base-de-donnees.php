@@ -54,7 +54,7 @@ function ctrltim_creer_tables() {
     ) $charset;";
     
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-    dbDelta($sql1);
+    ($sql1);
     dbDelta($sql2);
     dbDelta($sql3);
     dbDelta($sql4);

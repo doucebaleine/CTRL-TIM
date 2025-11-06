@@ -422,6 +422,8 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         ),
     ));
 
+    // (Action immédiate supprimée — gestion via pub/sub ou AJAX externe possible)
+
     // (Le contrôle 'Exécuter l\'action' a été retiré — les médias sont gérés via la sauvegarde du Customizer)
 }
 add_action('customize_register', 'ctrltim_enregistrer_customizer');

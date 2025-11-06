@@ -193,6 +193,8 @@
             });
         });
 
+        // Category immediate-action handler removed; categories are managed via Customizer save or separate AJAX UI
+
         // (Le comportement d'exécution immédiate via la case 'trigger_media_action' a été retiré)
 
         // Utility: refresh choices for a given type and control id

@@ -1,3 +1,4 @@
+
 <?php
 
 // Définir le chemin vers le dossier "functions"
@@ -350,6 +351,50 @@ if ($media) {
     $image = $media->image_media;
     $lien = $media->lien;
 }
+*/
+
+?>
+<?php
+/**
+ * ////////////////////////BASE DE DONNÉES CATÉGORIES/////////////////////////
+ *
+ * @param int|string $cat_val id de la catégorie ou clé legacy
+ * @return string nom lisible de la catégorie (échappé)
+ */
+function ctrltim_get_category_label($cat_val) {
+    global $ctrltim_db, $wpdb;
+
+    // Si vide
+    if (empty($cat_val) && $cat_val !== '0') return '';
+
+    // Si valeur numérique => chercher dans la table
+    if (is_numeric($cat_val) && intval($cat_val) > 0) {
+        $id = intval($cat_val);
+        // Utiliser $ctrltim_db si disponible, sinon $wpdb
+        $db = !empty($ctrltim_db) ? $ctrltim_db : $wpdb;
+        $table = $wpdb->prefix . 'ctrltim_categories';
+        $row = $db->get_row($db->prepare("SELECT nom FROM {$table} WHERE id = %d", $id));
+        if ($row && !empty($row->nom)) {
+            return esc_html($row->nom);
+        }
+        return '';
+    }
+}
+
+/**
+ * Exemple: Afficher la catégorie d'un projet
+ */
+/*
+<?php
+  $project = ctrltim_get_projet_by_id(12);
+  if ($project) :
+    $cat_val = $project->cat_exposition; // peut être id numérique ou clé text
+    $cat_label = ctrltim_get_category_label($cat_val);
+?>
+  <?php if (!empty($cat_label)) : ?>
+    <p class="project-category"><?php echo $cat_label; ?></p>
+  <?php endif; ?>
+<?php endif; ?>
 */
 
 ?>

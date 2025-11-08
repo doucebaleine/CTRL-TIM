@@ -18,8 +18,8 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         foreach ($projets_existing as $p) {
             $cat_label = '';
             // Si la valeur est numérique, on cherche dans la table categories
-            if (is_numeric($p->cat_exposition) && intval($p->cat_exposition) > 0 && function_exists('ctrltim_get_category_name')) {
-                $cat_label = ctrltim_get_category_name(intval($p->cat_exposition));
+            if (is_numeric($p->cat_exposition) && intval($p->cat_exposition) > 0 && function_exists('ctrltim_get_nom_categorie')) {
+                $cat_label = ctrltim_get_nom_categorie(intval($p->cat_exposition));
             } else {
                 // Valeur non numérique (ancienne clé) — afficher telle quelle pour l'instant.
                 $cat_label = is_string($p->cat_exposition) && !empty($p->cat_exposition) ? $p->cat_exposition : 'Non définie';
@@ -84,7 +84,7 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         )));
     }
 
-    // Filtre d'année pour le projet — supprimé (variable 'annee_projet' retirée)
+    // Filtre d'année pour le projet — retiré
 
     // Catégorie d'exposition
     // Construire la liste des catégories depuis la table
@@ -416,8 +416,8 @@ function ctrltim_script_customizer() {
     ));
 
     // Debug: log the number of social medias when the Customizer controls are loaded (admin only)
-    if (current_user_can('edit_theme_options') && function_exists('ctrltim_get_all_social_medias')) {
-        $medias = ctrltim_get_all_social_medias();
+    if (current_user_can('edit_theme_options') && function_exists('ctrltim_get_all_medias')) {
+        $medias = ctrltim_get_all_medias();
         // debug removed
     }
 }

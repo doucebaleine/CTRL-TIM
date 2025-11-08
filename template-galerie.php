@@ -28,7 +28,7 @@ Template Name: Galerie
     <div class="pageGalerie__filter-bar">
       <button class="pageGalerie__filter-bar__filter-btn active">Tous</button>
       <?php
-        $cats = function_exists('ctrltim_get_toutes_categories') ? ctrltim_get_toutes_categories() : (function_exists('ctrltim_get_all_categories') ? ctrltim_get_all_categories() : array());
+  $cats = function_exists('ctrltim_get_all_categories') ? ctrltim_get_all_categories() : array();
         if (!empty($cats)) {
             foreach ($cats as $c) {
                 // Use the category name as the button label so filter.js (which matches by text) works correctly
@@ -75,8 +75,8 @@ Template Name: Galerie
                 $cat_label = '';
                 if (function_exists('ctrltim_get_category_label')) {
                     $cat_label = ctrltim_get_category_label($p->cat_exposition);
-                } elseif (function_exists('ctrltim_get_category_name')) {
-                    $cat_label = ctrltim_get_category_name(intval($p->cat_exposition));
+        } elseif (function_exists('ctrltim_get_nom_categorie')) {
+          $cat_label = ctrltim_get_nom_categorie(intval($p->cat_exposition));
                 }
         ?>
 

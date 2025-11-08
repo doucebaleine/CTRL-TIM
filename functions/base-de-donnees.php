@@ -59,7 +59,7 @@ function ctrltim_creer_tables() {
     dbDelta($sql4);
 }
 
-// Table creation is hooked below (after updates) to avoid duplicate registrations
+// La création des tables est appelée plus bas (après les mises à jour) pour éviter les enregistrements en double
 
 // Fonction pour mettre à jour les tables existantes
 function ctrltim_mettre_a_jour_tables() {
@@ -121,9 +121,6 @@ function ctrltim_mettre_a_jour_tables() {
         $wpdb->query("ALTER TABLE {$wpdb->prefix}ctrltim_projets ADD COLUMN images_projet text DEFAULT NULL");
     }
 
-    // NOTE: project-level "annee_projet" column was removed from the schema.
-    // A one-time migration will back up existing values and drop the column.
-    // See ctrltim_migrer_et_supprimer_annee_projet() hooked to admin_init below.
     
     // Vérifier et corriger le nom de la colonne filtres
     $old_column = $wpdb->get_results($wpdb->prepare(
@@ -143,9 +140,8 @@ function ctrltim_mettre_a_jour_tables() {
 add_action('after_switch_theme', 'ctrltim_creer_tables');
 add_action('after_switch_theme', 'ctrltim_mettre_a_jour_tables');
 
-// The project-level `annee_projet` column and automatic migration were removed.
-// Migration code has been deleted since the site no longer requires it and
-// a backup was taken during the initial migration run.
+// La colonne `annee_projet` et la migration automatique ont été supprimées.
+// Le code de migration a été retiré car il n'est plus nécessaire ; une sauvegarde a été effectuée.
 
 // Fonction pour récupérer les étudiants associés à un projet
 function ctrltim_obtenir_etudiants_projet($project_id) {
@@ -189,78 +185,54 @@ function ctrltim_vider_champs($fields) {
     }
 }
 
-// Fonction pour récupérer tous les projets
-// English-name wrapper -> calls French primary
-function ctrltim_get_all_projects() {
-    if (function_exists('ctrltim_get_all_projets')) return ctrltim_get_all_projets();
-    global $wpdb;
-    return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_projets ORDER BY date_creation DESC");
-}
-
-// French primary implementation
+// Fonction pour récupérer tous les projets (implémentation principale)
 function ctrltim_get_all_projets() {
     global $wpdb;
     return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_projets ORDER BY date_creation DESC");
 }
 
-// Fonction pour récupérer tous les étudiants
-// English-name wrapper -> calls French primary
-function ctrltim_get_all_students() {
-    if (function_exists('ctrltim_get_all_etudiants')) return ctrltim_get_all_etudiants();
-    global $wpdb;
-    return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_etudiants ORDER BY nom ASC");
-}
-
-// French primary implementation
+// Fonction pour récupérer tous les étudiants (implémentation principale)
 function ctrltim_get_all_etudiants() {
     global $wpdb;
     return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_etudiants ORDER BY nom ASC");
 }
 
-// Fonction pour récupérer tous les médias sociaux
-// English-name wrapper -> calls French primary
-function ctrltim_get_all_social_medias() {
-    if (function_exists('ctrltim_get_all_medias')) return ctrltim_get_all_medias();
-    global $wpdb;
-    return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_medias_sociaux ORDER BY nom ASC");
-}
-
-// French primary implementation
+// Fonction pour récupérer tous les médias sociaux (implémentation principale)
 function ctrltim_get_all_medias() {
     global $wpdb;
     return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_medias_sociaux ORDER BY nom ASC");
 }
 
-// English-name wrapper -> calls French primary
+// Fonction pour récupérer toutes les catégories (implémentation principale)
 function ctrltim_get_all_categories() {
-    if (function_exists('ctrltim_get_toutes_categories')) return ctrltim_get_toutes_categories();
     global $wpdb;
     return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_categories ORDER BY nom ASC");
 }
 
-// French primary implementation
-function ctrltim_get_toutes_categories() {
-    global $wpdb;
-    return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_categories ORDER BY nom ASC");
-}
-
-// English wrapper -> calls French primary
-function ctrltim_get_category_name($id) {
-    if (function_exists('ctrltim_get_nom_categorie')) return ctrltim_get_nom_categorie($id);
-    global $wpdb;
-    $id = intval($id);
-    if (!$id) return '';
-    $row = $wpdb->get_row($wpdb->prepare("SELECT nom FROM {$wpdb->prefix}ctrltim_categories WHERE id = %d", $id));
-    return $row ? $row->nom : '';
-}
-
-// French primary implementation: retourne le nom d'une catégorie par son id
+// Retourne le nom d'une catégorie par son id (implémentation principale)
 function ctrltim_get_nom_categorie($id) {
     global $wpdb;
     $id = intval($id);
     if (!$id) return '';
     $row = $wpdb->get_row($wpdb->prepare("SELECT nom FROM {$wpdb->prefix}ctrltim_categories WHERE id = %d", $id));
     return $row ? $row->nom : '';
+}
+
+// Wrapper de compatibilité : retourne un projet par son id
+function ctrltim_get_projet_by_id($id) {
+    global $wpdb;
+    $id = intval($id);
+    if (!$id) return null;
+    return $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}ctrltim_projets WHERE id = %d", $id));
+}
+
+// Wrapper de compatibilité : retourne les étudiants associés à un projet
+function ctrltim_get_etudiants_for_projet($project_id) {
+    // Utilise la fonction existante en français
+    if (function_exists('ctrltim_obtenir_etudiants_projet')) {
+        return ctrltim_obtenir_etudiants_projet($project_id);
+    }
+    return array();
 }
 
 
@@ -817,8 +789,8 @@ function ctrltim_ajax_get_choices() {
         foreach ($rows as $r) {
             $cat_label = '';
             // si la valeur est numérique, chercher dans les catégories
-            if (is_numeric($r->cat_exposition) && intval($r->cat_exposition) > 0 && function_exists('ctrltim_get_category_name')) {
-                $cat_label = ctrltim_get_category_name(intval($r->cat_exposition));
+            if (is_numeric($r->cat_exposition) && intval($r->cat_exposition) > 0 && function_exists('ctrltim_get_nom_categorie')) {
+                $cat_label = ctrltim_get_nom_categorie(intval($r->cat_exposition));
             } else {
                 // valeur non numérique (ancienne clé) — afficher telle quelle (migration automatique prévue)
                 $cat_label = is_string($r->cat_exposition) ? $r->cat_exposition : '';

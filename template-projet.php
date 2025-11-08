@@ -108,25 +108,42 @@ if ($project_id && function_exists('ctrltim_get_projet_by_id')) {
     $post_id = get_the_ID();
     $pageProjet_images = array();
 
-    // Récupérer les images depuis le contenu du post
-    $post = get_post($post_id);
-    $content = $post->post_content;
-    
-    // Chercher les IDs des images dans le contenu
-    preg_match_all('/wp-image-(\d+)/', $content, $matches);
-    
-    if (!empty($matches[1])) {
-        // Utiliser toutes les images trouvées (sans limite)
-        $image_ids = $matches[1];
-        
-        foreach ($image_ids as $image_id) {
-            $image_url = wp_get_attachment_url($image_id);
-            if ($image_url) {
-                $pageProjet_images[] = $image_url;
+    // Priorité aux images enregistrées dans la colonne images_projet (JSON) du projet
+    if (isset($project) && $project && !empty($project->images_projet)) {
+        $stored = json_decode($project->images_projet, true);
+        if (is_array($stored) && !empty($stored)) {
+            foreach ($stored as $img) {
+                // Si la valeur est un ID numérique, essayer de récupérer l'URL
+                if (is_numeric($img)) {
+                    $url = wp_get_attachment_url(intval($img));
+                    if ($url) $pageProjet_images[] = $url;
+                } else {
+                    // sinon on suppose une URL
+                    if (!empty($img)) $pageProjet_images[] = $img;
+                }
             }
         }
     }
 
+    // Si aucune image depuis le customizer, retomber sur les images présentes dans le contenu du post
+    if (empty($pageProjet_images)) {
+        // Récupérer les images depuis le contenu du post
+        $post = get_post($post_id);
+        $content = $post ? $post->post_content : '';
+        // Chercher les IDs des images dans le contenu
+        preg_match_all('/wp-image-(\d+)/', $content, $matches);
+        if (!empty($matches[1])) {
+            $image_ids = $matches[1];
+            foreach ($image_ids as $image_id) {
+                $image_url = wp_get_attachment_url($image_id);
+                if ($image_url) {
+                    $pageProjet_images[] = $image_url;
+                }
+            }
+        }
+    }
+
+    // Nombre d'images trouvées
     $pageProjet_nb_images = count($pageProjet_images);
     
     ?>

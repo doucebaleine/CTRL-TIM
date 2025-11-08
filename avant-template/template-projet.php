@@ -6,45 +6,25 @@
     get_header();
 ?>
 
-<?php
-// Try to get a project id from query string, otherwise use the first project
-$project_id = isset($_GET['project_id']) ? intval($_GET['project_id']) : 0;
-// If no id passed, try to get the first project (helper name in French)
-if (empty($project_id) && function_exists('ctrltim_get_all_projets')) {
-    $all = ctrltim_get_all_projets();
-    if (!empty($all) && is_array($all) && count($all) > 0) {
-        $project_id = intval($all[0]->id);
-    }
-}
-
-// Load project object using helper (keep this DB connection logic)
-$project = null;
-if ($project_id && function_exists('ctrltim_get_projet_by_id')) {
-    $project = ctrltim_get_projet_by_id($project_id);
-}
-?>
-
 <section class="pageProjet__titre">
     <div class="crochets">
         <div class="pageProjet__titre__boiteTitre">
             <div class="pageProjet__titre__boiteTitre__texte">
-                <h2><?php echo $project ? esc_html($project->titre_projet) : esc_html(get_the_title()); ?></h2>
+                <h2>Hachiman</h2>
             </div>
             <div class="pageProjet__titre__boiteTitre__etudiants">
-                <?php
-                // If project exists, list associated students (helper returns detailed students)
-                if ($project && function_exists('ctrltim_get_etudiants_for_projet')) {
-                    $students = ctrltim_get_etudiants_for_projet($project->id);
-                    if (!empty($students)) {
-                        foreach ($students as $s) {
-                            echo '<div class="pageProjet__titre__boiteTitre__etudiants__contenant"><span>' . esc_html($s->nom) . '</span></div>';
-                        }
-                    }
-                } else {
-                    // fallback to post author or static content
-                    echo '<div class="pageProjet__titre__boiteTitre__etudiants__contenant"><span>' . esc_html(get_bloginfo('name')) . '</span></div>';
-                }
-                ?>
+                <div class="pageProjet__titre__boiteTitre__etudiants__contenant">
+                    <span>Malaïka Abevi</span>
+                </div>
+                <div class="pageProjet__titre__boiteTitre__etudiants__contenant">
+                    <span>Sébastien Malo</span>
+                </div>
+                <div class="pageProjet__titre__boiteTitre__etudiants__contenant">
+                    <span>Yanis Oulmane</span>
+                </div>
+                <div class="pageProjet__titre__boiteTitre__etudiants__contenant">
+                    <span>Matys Voisin</span>
+                </div>
             </div>
         </div>
     </div>
@@ -53,14 +33,10 @@ if ($project_id && function_exists('ctrltim_get_projet_by_id')) {
 <section class="pageProjet__contenu">
     <div class="pageProjet__contenu__affiche">
         <?php
-        if ($project && !empty($project->image_projet)) {
-            echo '<img src="' . esc_url($project->image_projet) . '" alt="' . esc_attr($project->titre_projet) . '" class="pageProjet__contenu__affiche__image">';
+        if (has_post_thumbnail()) {
+            the_post_thumbnail('full', array('class' => 'pageProjet__contenu__affiche__image'));
         } else {
-            if (has_post_thumbnail()) {
-                the_post_thumbnail('full', array('class' => 'pageProjet__contenu__affiche__image'));
-            } else {
-                echo '<img src="' . esc_url( get_template_directory_uri() . '/images/default.jpg' ) . '" alt="Image par défaut" class="pageProjet__contenu__affiche__image">';
-            }
+            echo '<img src="' . esc_url( get_template_directory_uri() . '/images/default.jpg' ) . '" alt="Image par défaut" class="pageProjet__contenu__affiche__image">';
         }
         ?>
     </div>
@@ -68,27 +44,16 @@ if ($project_id && function_exists('ctrltim_get_projet_by_id')) {
     <div class="pageProjet__contenu__information">
         <div class="pageProjet__contenu__information__description">
             <h4>Description</h4>
-            <p><?php echo $project ? wp_kses_post($project->description_projet) : get_the_excerpt(); ?></p>
+            <p><?php the_excerpt(); // ou le contenu custom ?></p>
         </div>
 
         <div class="pageProjet__contenu__information__video">
-            <?php
-            // Video can be stored in project->video_projet (url or embed)
-            $video_html = '';
-            if ($project && !empty($project->video_projet)) {
-                // try to get oEmbed HTML
-                if (function_exists('wp_oembed_get')) {
-                    $video_html = wp_oembed_get($project->video_projet);
-                }
-                // fallback: raw output
-                if (empty($video_html)) {
-                    $video_html = esc_url($project->video_projet);
-                }
-            }
+            <?php 
+            $video = get_field('video_url'); // 🔹 Récupère le champ ACF (oEmbed)
 
-            if ($video_html) : ?>
+            if ( $video ) : ?>
                 <div class="pageProjet__contenu__information__video__conteneur">
-                    <?php echo $video_html; ?>
+                    <?php echo $video; // 🔹 ACF retourne déjà l'iframe complet ?>
                 </div>
             <?php else : ?>
                 <div class="pageProjet__contenu__information__video__boiteFond">

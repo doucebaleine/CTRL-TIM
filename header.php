@@ -10,6 +10,9 @@
 	<?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
+<?php
+// header restored to original state (debug banners removed)
+?>
 <header class="entete-site">
 	<div class="interieur-entete">
 		<div class="logo">

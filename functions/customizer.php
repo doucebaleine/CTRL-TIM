@@ -18,21 +18,11 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         foreach ($projets_existing as $p) {
             $cat_label = '';
             // Si la valeur est numérique, on cherche dans la table categories
-            if (is_numeric($p->cat_exposition) && intval($p->cat_exposition) > 0) {
-                if (function_exists('ctrltim_get_category_name')) {
-                    $cat_label = ctrltim_get_category_name(intval($p->cat_exposition));
-                }
+            if (is_numeric($p->cat_exposition) && intval($p->cat_exposition) > 0 && function_exists('ctrltim_get_category_name')) {
+                $cat_label = ctrltim_get_category_name(intval($p->cat_exposition));
             } else {
-                // Compatibilité avec les anciennes valeurs non numériques
-                switch ($p->cat_exposition) {
-                    case 'cat_premiere_annee': $cat_label = '1ère année'; break;
-                    case 'cat_arcade': $cat_label = 'Arcade'; break;
-                    case 'cat_finissants': $cat_label = 'Finissants'; break;
-                    // Compatibilité avec les anciennes catégories
-                    case 'cat_bibliotheque': $cat_label = 'Bibliothèque (ancien)'; break;
-                    case 'cat_evenement': $cat_label = 'Événement (ancien)'; break;
-                    default: $cat_label = 'Non définie';
-                }
+                // Valeur non numérique (ancienne clé) — afficher telle quelle pour l'instant.
+                $cat_label = is_string($p->cat_exposition) && !empty($p->cat_exposition) ? $p->cat_exposition : 'Non définie';
             }
             $projets_choices[$p->id] = $p->titre_projet . ($cat_label ? " (" . $cat_label . ")" : '');
         }
@@ -94,20 +84,7 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         )));
     }
 
-    // Filtre d'année pour le projet (ex: 2025 / 2026)
-    $wp_customize->add_setting('annee_projet', array(
-        'default' => '2025',
-        'sanitize_callback' => 'sanitize_text_field',
-    ));
-    $wp_customize->add_control('annee_projet', array(
-        'label' => __('Filtrer par année', 'ctrltim'),
-        'section' => 'ctrltim_projets',
-        'type' => 'select',
-        'choices' => array(
-            '2025' => '2025',
-            '2026' => '2026',
-        ),
-    ));
+    // Filtre d'année pour le projet — supprimé (variable 'annee_projet' retirée)
 
     // Catégorie d'exposition
     // Construire la liste des catégories depuis la table
@@ -441,7 +418,7 @@ function ctrltim_script_customizer() {
     // Debug: log the number of social medias when the Customizer controls are loaded (admin only)
     if (current_user_can('edit_theme_options') && function_exists('ctrltim_get_all_social_medias')) {
         $medias = ctrltim_get_all_social_medias();
-        error_log('ctrltim_medias_count: ' . count($medias));
+        // debug removed
     }
 }
 add_action('customize_controls_enqueue_scripts', 'ctrltim_script_customizer');

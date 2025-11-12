@@ -11,7 +11,7 @@
   &__titre {
     text-align: center;
     font-size: clamp(48px, 8vw, 96px);
-    margin-top: 60px;
+    margin-top: 40px;
     margin-bottom: 10px;
     font-weight: 400;
     font-family: var(--policeTitre);
@@ -21,7 +21,7 @@
     text-align: center;
     max-width: 700px;
     padding: 0 80px 0 80px;
-    margin: 0 auto 40px;
+    margin: 0 auto 0px;
     line-height: 1.6;
     
     &__description {
@@ -39,7 +39,7 @@
     display: flex;
     justify-content: space-between;
     width: fit-content;
-    height: 84px;
+    height: 64px;
     margin: 30px auto;
     flex-shrink: 0;
     border-radius: 11px;
@@ -53,7 +53,7 @@
       color: var(--galerie-filter-btn-texte);
       padding: 0;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: transform 0.3s ease, color 0.3s ease;
       font-weight: 500;
       min-width: 83px;
       width: 10vw;
@@ -70,8 +70,9 @@
         background: var(--couleurGradientBlueViolet, linear-gradient(90deg, #d26eff, #58b5ff));;
         color: var(--galerie-filter-btn-texte-active);
         border-radius: 8px;
-        margin: 4px;
+        margin: 8px;
         font-weight: 700;
+        transform: translateX(5px);
       }
     }
   }
@@ -175,7 +176,7 @@
       height: 800px;
       width: 100%;
       display: flex;
-      flex-direction: row-reverse;
+      flex-direction: row;
       align-items: center;
       justify-content: center;
       overflow-x: hidden;
@@ -202,12 +203,18 @@
       &__projet {
         width: 400px;
         height: 560px;
+        flex-shrink: 0; 
+        overflow: hidden;
         margin-right: -100px;
         border-radius: 25px;
         border: 2px solid rgba(255, 255, 255, 0.1);
         box-shadow: 5px 0 35px 0 #000;
         position: relative;
         transition: transform 0.3s ease, filter 0.3s ease;
+
+        &__link{
+          color: var(--couleur-texte-pale);
+        }
 
         &:hover {
           transform: translateY(-100px) scale(1.03);
@@ -246,8 +253,9 @@
         }
 
         img {
-          width: 400px;
-          height: auto;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
           border-radius: 25px;
           user-select: none;
           pointer-events: none;

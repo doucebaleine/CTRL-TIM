@@ -15,10 +15,9 @@ function ctrltim_creer_tables() {
         video_projet varchar(500),
         image_projet varchar(500),
         images_projet text DEFAULT NULL,
-        annee_projet varchar(10) DEFAULT '2025',
         lien varchar(500),
         cours varchar(255),
-        cat_exposition varchar(50) DEFAULT 'cat_premiere_annee',
+    cat_exposition varchar(50) DEFAULT '',
         filtres text DEFAULT NULL,
         etudiants_associes text DEFAULT NULL,
         date_creation datetime DEFAULT CURRENT_TIMESTAMP,
@@ -44,14 +43,23 @@ function ctrltim_creer_tables() {
         date_creation datetime DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (id)
     ) $charset;";
+
+    // Catégories
+    $sql4 = "CREATE TABLE {$wpdb->prefix}ctrltim_categories (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        nom varchar(255) NOT NULL,
+        date_creation datetime DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)
+    ) $charset;";
     
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql1);
     dbDelta($sql2);
     dbDelta($sql3);
+    dbDelta($sql4);
 }
 
-add_action('after_switch_theme', 'ctrltim_creer_tables');
+// La création des tables est appelée plus bas (après les mises à jour) pour éviter les enregistrements en double
 
 // Fonction pour mettre à jour les tables existantes
 function ctrltim_mettre_a_jour_tables() {
@@ -113,19 +121,6 @@ function ctrltim_mettre_a_jour_tables() {
         $wpdb->query("ALTER TABLE {$wpdb->prefix}ctrltim_projets ADD COLUMN images_projet text DEFAULT NULL");
     }
 
-    // Vérifier si la colonne annee_projet existe (nouveau: année/filtre, ex: 2025/2026)
-    $annee_column = $wpdb->get_results($wpdb->prepare(
-        "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS 
-         WHERE TABLE_SCHEMA = %s 
-         AND TABLE_NAME = %s 
-         AND COLUMN_NAME = 'annee_projet'",
-        DB_NAME,
-        $wpdb->prefix . 'ctrltim_projets'
-    ));
-
-    if (empty($annee_column)) {
-        $wpdb->query("ALTER TABLE {$wpdb->prefix}ctrltim_projets ADD COLUMN annee_projet varchar(10) DEFAULT '2025'");
-    }
     
     // Vérifier et corriger le nom de la colonne filtres
     $old_column = $wpdb->get_results($wpdb->prepare(
@@ -144,6 +139,9 @@ function ctrltim_mettre_a_jour_tables() {
 
 add_action('after_switch_theme', 'ctrltim_creer_tables');
 add_action('after_switch_theme', 'ctrltim_mettre_a_jour_tables');
+
+// La colonne `annee_projet` et la migration automatique ont été supprimées.
+// Le code de migration a été retiré car il n'est plus nécessaire ; une sauvegarde a été effectuée.
 
 // Fonction pour récupérer les étudiants associés à un projet
 function ctrltim_obtenir_etudiants_projet($project_id) {
@@ -187,23 +185,57 @@ function ctrltim_vider_champs($fields) {
     }
 }
 
-// Fonction pour récupérer tous les projets
-function ctrltim_get_all_projects() {
+// Fonction pour récupérer tous les projets (implémentation principale)
+function ctrltim_get_all_projets() {
     global $wpdb;
     return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_projets ORDER BY date_creation DESC");
 }
 
-// Fonction pour récupérer tous les étudiants
-function ctrltim_get_all_students() {
+// Fonction pour récupérer tous les étudiants (implémentation principale)
+function ctrltim_get_all_etudiants() {
     global $wpdb;
     return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_etudiants ORDER BY nom ASC");
 }
 
-// Fonction pour récupérer tous les médias sociaux
-function ctrltim_get_all_social_medias() {
+// Fonction pour récupérer tous les médias sociaux (implémentation principale)
+function ctrltim_get_all_medias() {
     global $wpdb;
     return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_medias_sociaux ORDER BY nom ASC");
 }
+
+// Fonction pour récupérer toutes les catégories (implémentation principale)
+function ctrltim_get_all_categories() {
+    global $wpdb;
+    return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_categories ORDER BY nom ASC");
+}
+
+// Retourne le nom d'une catégorie par son id (implémentation principale)
+function ctrltim_get_nom_categorie($id) {
+    global $wpdb;
+    $id = intval($id);
+    if (!$id) return '';
+    $row = $wpdb->get_row($wpdb->prepare("SELECT nom FROM {$wpdb->prefix}ctrltim_categories WHERE id = %d", $id));
+    return $row ? $row->nom : '';
+}
+
+// Wrapper de compatibilité : retourne un projet par son id
+function ctrltim_get_projet_by_id($id) {
+    global $wpdb;
+    $id = intval($id);
+    if (!$id) return null;
+    return $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}ctrltim_projets WHERE id = %d", $id));
+}
+
+// Wrapper de compatibilité : retourne les étudiants associés à un projet
+function ctrltim_get_etudiants_for_projet($project_id) {
+    // Utilise la fonction existante en français
+    if (function_exists('ctrltim_obtenir_etudiants_projet')) {
+        return ctrltim_obtenir_etudiants_projet($project_id);
+    }
+    return array();
+}
+
+
 
 // =====================
 // FONCTION PRINCIPALE DE SAUVEGARDE
@@ -223,8 +255,7 @@ function ctrltim_sauvegarder_donnees() {
         $img = get_theme_mod('image_projet_' . $i);
         if (!empty($img)) $images[] = $img;
     }
-    // Année / filtre (ex: 2025, 2026)
-    $annee_projet = get_theme_mod('annee_projet', '2025');
+    // Année / filtre (supprimé) — ne plus récupérer la valeur depuis le Customizer
     $lien = get_theme_mod('lien_projet');
     $cours = get_theme_mod('cours_projet');
     $cat = get_theme_mod('cat_exposition');
@@ -246,7 +277,6 @@ function ctrltim_sauvegarder_donnees() {
             'video_projet' => $video,
             'image_projet' => $image,
             'images_projet' => json_encode($images),
-            'annee_projet' => $annee_projet,
             'lien' => $lien,
             'cours' => $cours,
             'cat_exposition' => $cat,
@@ -272,7 +302,6 @@ function ctrltim_sauvegarder_donnees() {
                 'video_projet' => $video,
                 'image_projet' => $image,
                 'images_projet' => json_encode($images),
-                'annee_projet' => $annee_projet,
                 'lien' => $lien,
                 'cours' => $cours,
                 'cat_exposition' => $cat,
@@ -285,7 +314,7 @@ function ctrltim_sauvegarder_donnees() {
                 array('id' => $projet_a_modifier)
             );
             
-            ctrltim_vider_champs(['projet_a_modifier', 'titre_projet', 'description_projet', 'video_projet', 'image_projet', 'image_projet_1', 'image_projet_2', 'image_projet_3', 'image_projet_4', 'image_projet_5', 'annee_projet', 'lien_projet', 'cours_projet', 'filtre_jeux', 'filtre_3d', 'filtre_video', 'filtre_web']);
+            ctrltim_vider_champs(['projet_a_modifier', 'titre_projet', 'description_projet', 'video_projet', 'image_projet', 'image_projet_1', 'image_projet_2', 'image_projet_3', 'image_projet_4', 'image_projet_5', 'lien_projet', 'cours_projet', 'filtre_jeux', 'filtre_3d', 'filtre_video', 'filtre_web']);
         }
     }
     
@@ -374,6 +403,43 @@ function ctrltim_sauvegarder_donnees() {
             ctrltim_vider_champs(['media_a_modifier', 'nom_media', 'image_media', 'lien_media']);
         }
     }
+
+    // CATÉGORIES - Gestion simple (uniquement 'nom')
+    $nom_categorie = get_theme_mod('nom_categorie');
+    $categorie_a_modifier = get_theme_mod('categorie_a_modifier');
+    $action_categorie = get_theme_mod('action_categorie');
+
+    // CAS 1: AJOUTER une nouvelle catégorie (pas d'ID sélectionné + nom rempli)
+    if (empty($categorie_a_modifier) && !empty($nom_categorie)) {
+        $cat_data = array(
+            'nom' => $nom_categorie
+        );
+
+        $wpdb->insert($wpdb->prefix . 'ctrltim_categories', $cat_data);
+        ctrltim_vider_champs(['categorie_a_modifier', 'nom_categorie']);
+    }
+
+    // CAS 2: MODIFIER une catégorie existante (ID sélectionné + nom rempli)
+    elseif (!empty($categorie_a_modifier) && !empty($nom_categorie)) {
+        if ($action_categorie === 'supprimer') {
+            // Supprimer la catégorie
+            $wpdb->delete($wpdb->prefix . 'ctrltim_categories', array('id' => $categorie_a_modifier));
+            ctrltim_vider_champs(['categorie_a_modifier', 'nom_categorie']);
+        } else {
+            // Mettre à jour la catégorie
+            $cat_data = array(
+                'nom' => $nom_categorie
+            );
+
+            $wpdb->update(
+                $wpdb->prefix . 'ctrltim_categories',
+                $cat_data,
+                array('id' => $categorie_a_modifier)
+            );
+
+            ctrltim_vider_champs(['categorie_a_modifier', 'nom_categorie']);
+        }
+    }
 }
 
 // Hook pour sauvegarder les données
@@ -382,7 +448,8 @@ add_action('customize_save_after', 'ctrltim_sauvegarder_donnees');
 // AJAX pour charger les données d'un projet
 function ctrltim_ajax_charger_donnees_projet() {
     if (!wp_verify_nonce($_POST['nonce'], 'ctrltim_nonce')) {
-        wp_die('Erreur de sécurité');
+        wp_send_json_error('Accès refusé', 403);
+        return;
     }
 
     global $wpdb;
@@ -421,7 +488,6 @@ function ctrltim_ajax_charger_donnees_projet() {
             'video_projet' => $project->video_projet,
             'image_projet' => $project->image_projet,
             'images_projet' => json_decode($project->images_projet, true) ?: array(),
-            'annee_projet' => isset($project->annee_projet) ? $project->annee_projet : '2025',
             'lien' => $project->lien,
             'cours' => $project->cours,
             'cat_exposition' => $project->cat_exposition,
@@ -439,7 +505,8 @@ add_action('wp_ajax_load_project_data', 'ctrltim_ajax_charger_donnees_projet');
 // AJAX pour charger les données d'un étudiant
 function ctrltim_ajax_charger_donnees_etudiant() {
     if (!wp_verify_nonce($_POST['nonce'], 'ctrltim_nonce')) {
-        wp_die('Erreur de sécurité');
+        wp_send_json_error('Accès refusé', 403);
+        return;
     }
 
     global $wpdb;
@@ -461,7 +528,8 @@ add_action('wp_ajax_load_student_data', 'ctrltim_ajax_charger_donnees_etudiant')
 // AJAX pour charger les données d'un média social
 function ctrltim_ajax_charger_donnees_media() {
     if (!wp_verify_nonce($_POST['nonce'], 'ctrltim_nonce')) {
-        wp_die('Erreur de sécurité');
+        wp_send_json_error('Accès refusé', 403);
+        return;
     }
 
     global $wpdb;
@@ -483,7 +551,8 @@ add_action('wp_ajax_load_media_data', 'ctrltim_ajax_charger_donnees_media');
 // AJAX pour gérer les associations étudiants-projets
 function ctrltim_ajax_manage_project_students() {
     if (!wp_verify_nonce($_POST['nonce'], 'ctrltim_nonce')) {
-        wp_die('Erreur de sécurité');
+        wp_send_json_error('Accès refusé', 403);
+        return;
     }
 
     global $wpdb;
@@ -537,7 +606,8 @@ add_action('customize_save_after', 'ctrltim_sauvegarder_donnees');
 // AJAX pour gérer un média social (utilisé par le Customizer pour actions rapides)
 function ctrltim_ajax_manage_media() {
     if (!wp_verify_nonce($_POST['nonce'], 'ctrltim_nonce')) {
-        wp_send_json_error('Erreur de sécurité');
+        wp_send_json_error('Accès refusé', 403);
+        return;
     }
 
     global $wpdb;
@@ -589,6 +659,79 @@ function ctrltim_ajax_manage_media() {
 }
 add_action('wp_ajax_manage_media', 'ctrltim_ajax_manage_media');
 
+// AJAX pour charger les données d'une catégorie
+function ctrltim_ajax_charger_donnees_categorie() {
+    if (!wp_verify_nonce($_POST['nonce'], 'ctrltim_nonce')) {
+        wp_send_json_error('Accès refusé', 403);
+        return;
+    }
+
+    global $wpdb;
+    $cat_id = intval($_POST['category_id']);
+
+    $cat = $wpdb->get_row($wpdb->prepare(
+        "SELECT * FROM {$wpdb->prefix}ctrltim_categories WHERE id = %d",
+        $cat_id
+    ));
+
+    if ($cat) {
+        wp_send_json_success($cat);
+    } else {
+        wp_send_json_error('Catégorie non trouvée');
+    }
+}
+add_action('wp_ajax_load_category_data', 'ctrltim_ajax_charger_donnees_categorie');
+
+// AJAX pour gérer une catégorie (insert/update/delete)
+function ctrltim_ajax_manage_category() {
+    if (!wp_verify_nonce($_POST['nonce'], 'ctrltim_nonce')) {
+        wp_send_json_error('Accès refusé', 403);
+        return;
+    }
+
+    global $wpdb;
+    $category_id = isset($_POST['category_id']) ? intval($_POST['category_id']) : 0;
+    $action = isset($_POST['category_action']) ? sanitize_text_field($_POST['category_action']) : 'sauvegarder';
+    $nom = isset($_POST['nom_categorie']) ? sanitize_text_field($_POST['nom_categorie']) : '';
+
+    if ($action === 'supprimer') {
+        if (!$category_id) {
+            wp_send_json_error('ID manquant pour suppression');
+        }
+
+        $deleted = $wpdb->delete($wpdb->prefix . 'ctrltim_categories', array('id' => $category_id));
+        if ($deleted !== false) {
+            wp_send_json_success('Catégorie supprimée');
+        } else {
+            wp_send_json_error('Erreur lors de la suppression');
+        }
+    } else {
+        // sauvegarder (insert ou update)
+        if (empty($nom)) {
+            wp_send_json_error('Le nom est requis');
+        }
+
+        $data = array('nom' => $nom);
+
+        if ($category_id) {
+            $updated = $wpdb->update($wpdb->prefix . 'ctrltim_categories', $data, array('id' => $category_id));
+            if ($updated !== false) {
+                wp_send_json_success('Catégorie mise à jour');
+            } else {
+                wp_send_json_error('Erreur lors de la mise à jour');
+            }
+        } else {
+            $inserted = $wpdb->insert($wpdb->prefix . 'ctrltim_categories', $data);
+            if ($inserted !== false) {
+                wp_send_json_success('Catégorie ajoutée');
+            } else {
+                wp_send_json_error('Erreur lors de l\'insertion');
+            }
+        }
+    }
+}
+add_action('wp_ajax_manage_category', 'ctrltim_ajax_manage_category');
+
 
 ?>
 
@@ -596,25 +739,33 @@ add_action('wp_ajax_manage_media', 'ctrltim_ajax_manage_media');
 // Ensure tables exist on admin load (helps when theme wasn't re-activated)
 function ctrltim_ensure_tables() {
     global $wpdb;
-    $table = $wpdb->prefix . 'ctrltim_medias_sociaux';
+    $required = array(
+        $wpdb->prefix . 'ctrltim_projets',
+        $wpdb->prefix . 'ctrltim_etudiants',
+        $wpdb->prefix . 'ctrltim_medias_sociaux',
+        $wpdb->prefix . 'ctrltim_categories'
+    );
 
-    // Use SHOW TABLES LIKE to detect existence
-    $exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table));
-    if (empty($exists)) {
+    $missing = false;
+    foreach ($required as $table) {
+        $exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table));
+        if (empty($exists)) {
+            $missing = true;
+            break;
+        }
+    }
+
+    if ($missing) {
         // Try to create missing tables (will run dbDelta for all defined SQL)
         ctrltim_creer_tables();
-        error_log('ctrltim: tables checked/created on admin_init');
     }
 }
 add_action('admin_init', 'ctrltim_ensure_tables');
-
-?>
-
-<?php
 // AJAX pour récupérer les choix dynamiques (projets / etudiants / medias)
 function ctrltim_ajax_get_choices() {
     if (!wp_verify_nonce($_POST['nonce'], 'ctrltim_nonce')) {
-        wp_send_json_error('Erreur de sécurité');
+        wp_send_json_error('Accès refusé', 403);
+        return;
     }
 
     global $wpdb;
@@ -636,18 +787,25 @@ function ctrltim_ajax_get_choices() {
     } elseif ($type === 'projets') {
         $rows = $wpdb->get_results("SELECT id, titre_projet, cat_exposition FROM {$wpdb->prefix}ctrltim_projets ORDER BY id DESC");
         foreach ($rows as $r) {
-            $cat = '';
-            switch ($r->cat_exposition) {
-                case 'cat_premiere_annee': $cat = '1ère année'; break;
-                case 'cat_arcade': $cat = 'Arcade'; break;
-                case 'cat_finissants': $cat = 'Finissants'; break;
-                default: $cat = '';
+            $cat_label = '';
+            // si la valeur est numérique, chercher dans les catégories
+            if (is_numeric($r->cat_exposition) && intval($r->cat_exposition) > 0 && function_exists('ctrltim_get_nom_categorie')) {
+                $cat_label = ctrltim_get_nom_categorie(intval($r->cat_exposition));
+            } else {
+                // valeur non numérique (ancienne clé) — afficher telle quelle (migration automatique prévue)
+                $cat_label = is_string($r->cat_exposition) ? $r->cat_exposition : '';
             }
-            $label = $r->titre_projet . ($cat ? ' (' . $cat . ')' : '');
+            $label = $r->titre_projet . ($cat_label ? ' (' . $cat_label . ')' : '');
             $result[intval($r->id)] = $label;
+        }
+    } elseif ($type === 'categories') {
+        $rows = $wpdb->get_results("SELECT id, nom FROM {$wpdb->prefix}ctrltim_categories ORDER BY nom ASC");
+        foreach ($rows as $r) {
+            $result[intval($r->id)] = $r->nom;
         }
     } else {
         wp_send_json_error('Type invalide');
+        return;
     }
 
     wp_send_json_success($result);

@@ -9,7 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
       filterProjects(btn.textContent.toLowerCase());
     });
   });
+});
 
+document.addEventListener("DOMContentLoaded", () => {
   const dropdowns = document.querySelectorAll(".pageGalerie__dropdown");
 
   dropdowns.forEach((dropdown) => {
@@ -48,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
 
 function filterProjects(filter) {
   const projects = document.querySelectorAll('.pageGalerie__galerieProjets__projets__projet');

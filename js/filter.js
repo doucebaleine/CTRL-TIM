@@ -56,7 +56,7 @@ function filterProjects(filter) {
     const category = project.getAttribute('data-category');
     
     if (filter === 'tous' || (category && category.toLowerCase() === filter)) {
-      project.style.display = 'block';
+      project.style.display = 'inline-flex';
     } else {
       project.style.display = 'none';
     }

@@ -19,7 +19,7 @@
             <div class="pile-affiches" aria-live="polite">
                <div class="carte-affiche affiche-haut" data-id="0">
                   <button class="bouton-fermer-affiche" aria-label="Fermer">✕</button>
-                  <img src="<?php echo esc_url( get_template_directory_uri() . '/images/logo.svg' ); ?>" alt="Logo" />
+                  <img src="<?php echo esc_url( get_template_directory_uri() . '/images/hero-logo.svg' ); ?>" alt="Logo" />
                </div>
 
                <div class="carte-affiche affiche-milieu" data-id="1">

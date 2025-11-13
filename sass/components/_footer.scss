@@ -51,19 +51,27 @@
   align-items:center;
   gap:12px;
   padding:6px 12px;
-  background: linear-gradient(90deg, rgba(50,50,70,0.6), rgba(30,20,40,0.4));
   box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-  border: 1px solid rgba(120,120,140,0.06);
   pointer-events: auto;
   position: relative;
+  background: #141633;
+  border: 2px solid #2e306a;
 }
 .recherche-pied-page input{
   flex:1;
   background:transparent;
   border:none;
   outline:none;
-  color:var(--footer-couleur-texte);
-  padding:6px;
+  color: #737cb5;
+  font-family: var(--policeTexte);
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.recherche-pied-page input::placeholder {
+  color: #737cb5;
 }
 
 .boite-logo-pied-page{

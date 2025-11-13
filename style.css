@@ -667,11 +667,11 @@ body::before {
   align-items: center;
   gap: 12px;
   padding: 6px 12px;
-  background: linear-gradient(90deg, rgba(50, 50, 70, 0.6), rgba(30, 20, 40, 0.4));
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(120, 120, 140, 0.06);
   pointer-events: auto;
   position: relative;
+  background: #141633;
+  border: 2px solid #2e306a;
 }
 
 .recherche-pied-page input {
@@ -679,8 +679,16 @@ body::before {
   background: transparent;
   border: none;
   outline: none;
-  color: var(--footer-couleur-texte);
-  padding: 6px;
+  color: #737cb5;
+  font-family: var(--policeTexte);
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.recherche-pied-page input::placeholder {
+  color: #737cb5;
 }
 
 .boite-logo-pied-page {
@@ -841,26 +849,10 @@ h2 {
 .bouton-fermer-menu {
   cursor: pointer;
   position: absolute;
-  top: 10px;
+  top: 3.5%;
+  right: 2%;
   background: transparent;
   border: none;
-}
-
-.recherche-hors-canvas {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  background: linear-gradient(90deg, rgba(50, 50, 70, 0.6), rgba(30, 20, 40, 0.4));
-  padding: 10px 14px;
-  border-radius: 22px;
-  margin-bottom: 32px;
-}
-
-.recherche-hors-canvas input {
-  background: transparent;
-  border: none;
-  color: var(--couleur-texte-pale);
-  outline: none;
 }
 
 .nav-hors-canvas {
@@ -972,13 +964,14 @@ ul.menu-principal {
 .barreRecherche {
   width: 45%;
   max-width: 720px;
-  background: linear-gradient(90deg, rgba(50, 50, 70, 0.6), rgba(30, 20, 40, 0.4));
-  border-radius: 28px;
   padding: 8px 16px;
   display: flex;
   gap: 12px;
   box-shadow: 0 0 0 3px rgba(175, 120, 255, 0.08), 0 8px 30px rgba(0, 0, 0, 0.6);
   z-index: 5;
+  border-radius: 14px;
+  background: #141633;
+  border: 2px solid #2e306a;
 }
 
 .barreRecherche input {
@@ -986,8 +979,16 @@ ul.menu-principal {
   background: transparent;
   border: none;
   outline: none;
-  color: var(--couleur-texte-pale);
+  color: #737cb5;
   font-family: var(--policeTexte);
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+input::placeholder {
+  color: #737cb5;
 }
 
 .iconeRecherche {

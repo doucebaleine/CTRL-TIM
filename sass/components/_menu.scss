@@ -38,24 +38,10 @@
 .bouton-fermer-menu{ 
   cursor: pointer;
   position:absolute; 
-  top:10px; 
+  top: 3.5%;
+  right: 2%;
   background:transparent;
   border:none;
-}
-
-.recherche-hors-canvas{ 
-  display:flex; 
-  gap:12px; 
-  align-items:center; 
-  background: linear-gradient(90deg, rgba(50,50,70,0.6), rgba(30,20,40,0.4)); 
-  padding:10px 14px;
-  border-radius:22px; 
-  margin-bottom:32px 
-}
-.recherche-hors-canvas input{ 
-  background:transparent;
-  border:none;
-  color:var(--couleur-texte-pale);outline:none 
 }
 
 .nav-hors-canvas{ 

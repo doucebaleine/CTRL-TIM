@@ -40,12 +40,6 @@
 	<button class="bouton-fermer-menu" aria-label="Fermer le menu">
 		<img class="iconeFermerMenu" src="<?php echo esc_url( get_template_directory_uri() . '/images/close-icon.svg' ); ?>" aria-hidden="true" />
 	</button>
-	<div class="contenu-menu-hors-canvas">
-        <div class="recherche-hors-canvas" role="search">
-            <img class="iconeRecherche" src="<?php echo esc_url( get_template_directory_uri() . '/images/search-icon.svg' ); ?>" aria-hidden="true" />
-            <input type="search" name="s" placeholder="Recherche..." aria-label="Recherche">
-        </div>
-
 		<nav class="nav-hors-canvas" aria-label="Navigation principale">
 			<?php
 			wp_nav_menu(array(

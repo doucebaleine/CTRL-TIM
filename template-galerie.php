@@ -104,7 +104,6 @@ Template Name: Galerie
   </main>
   <script src="<?php echo get_template_directory_uri(); ?>/js/description.js"></script>
   <script src="<?php echo get_template_directory_uri(); ?>/js/galerie.js"></script>
-  <script src="<?php echo get_template_directory_uri(); ?>/js/filter.js"></script>
 </body>
 
 <?php get_footer(); ?>

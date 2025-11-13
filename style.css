@@ -1232,7 +1232,7 @@ footer {
 .pageGalerie__dropdown {
   position: relative;
   width: 250px;
-  margin: 2em auto;
+  margin: 1.5em auto;
   color: var(--couleur-texte-pale);
   font-family: var(--policeTexte);
 }
@@ -1309,42 +1309,36 @@ footer {
   width: 100%;
 }
 .pageGalerie__galerieProjets__projets {
-  height: 800px;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  white-space: nowrap;
-  user-select: none;
-  cursor: pointer;
-  transform: scale(1);
-  position: relative;
-  transition: transform 0.3s ease;
-}
-.pageGalerie__galerieProjets__projets::before {
-  content: "";
-  display: block;
-  width: 425px;
-  flex-shrink: 0;
+  height: 800px; /* done */
+  padding: 120px 0 50px 0; /* done */
+  width: 100%; /* done */
+  overflow-x: scroll; /* done */
+  overflow-y: hidden; /* done */
+  white-space: nowrap; /* done */
+  user-select: none; /* done */
+  cursor: pointer; /* done */
+  transform: scale(1); /* done */
+  will-change: transform; /* done */
+  position: relative; /* done */
+  transition: all 0.2s; /* done */
 }
 .pageGalerie__galerieProjets__projets.active {
   cursor: grabbing;
   transform: scale(1.02);
 }
 .pageGalerie__galerieProjets__projets__projet {
-  width: 400px;
-  height: 560px;
-  flex-shrink: 0;
+  width: 400px; /* done */
+  height: 560px; /* done */
+  display: inline-flex; /* done */
+  align-items: center; /* done */
+  justify-content: center; /* done */
   overflow: hidden;
-  margin-right: -100px;
+  margin-right: -100px; /* done */
   border-radius: 25px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 3.5px solid rgba(255, 255, 255, 0.1);
   box-shadow: 5px 0 35px 0 #000;
-  position: relative;
   transition: transform 0.3s ease, filter 0.3s ease;
+  z-index: 1;
 }
 .pageGalerie__galerieProjets__projets__projet__link {
   color: var(--couleur-texte-pale);

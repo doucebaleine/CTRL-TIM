@@ -85,8 +85,11 @@ Template Name: Galerie
        data-category="<?php echo esc_attr($data_category); ?>">
           <a class="pageGalerie__galerieProjets__projets__projet__link" href="<?php echo esc_url( add_query_arg( 'project_id', intval($p->id), home_url('/projet/') ) ); ?>">
             <img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($titre); ?>">
+            <div class="pageGalerie__galerieProjets__projets__projet__overlay"></div>
             <div class="pageGalerie__galerieProjets__projets__projet__info">
-              <span class="pageGalerie__galerieProjets__projets__projet__info__titre"><?php echo esc_html($cat_label); ?></span>
+              <span class="pageGalerie__galerieProjets__projets__projet__info__titre"
+              data-category="<?php echo esc_attr($data_category); ?>">
+              <?php echo esc_html($cat_label); ?></span>
               <h3 class="pageGalerie__galerieProjets__projets__projet__info__titre"><?php echo esc_html($titre); ?></h3>
             </div>
           </a>

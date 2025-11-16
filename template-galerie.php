@@ -42,12 +42,11 @@ Template Name: Galerie
         <div class="pageGalerie__dropdown__caret"></div>
       </div>
       <ul class="pageGalerie__dropdown__menu">
-        <li class="active">All</li>
-        <li>Jeux Video</li>
-        <li>3D</li>
-        <li>Animation 3D</li>
-        <li>Web</li>
-        <li>Video</li>
+        <li class="active" data-filter="all">All</li>
+        <li data-filter="jeux">Jeux Video</li>
+        <li data-filter="3d">3D</li>
+        <li data-filter="web">Web</li>
+        <li data-filter="video">Video</li>
       </ul>
     </section>
 
@@ -55,48 +54,77 @@ Template Name: Galerie
       <div class="pageGalerie__galerieProjets__projets">
 
         <?php
-    // Récupérer tous les projets depuis la base de données
-    $projets = function_exists('ctrltim_get_all_projets') ? ctrltim_get_all_projets() : array();
-    if (!empty($projets)) :
-      foreach ($projets as $p) :
-                // Image, titre et catégorie
-                $img = !empty($p->image_projet) ? $p->image_projet : get_template_directory_uri() . '/images/default.jpg';
-                $titre = !empty($p->titre_projet) ? $p->titre_projet : __('Projet sans titre', 'ctrltim');
-                $cat_label = '';
-                if (function_exists('ctrltim_get_category_label')) {
-                    $cat_label = ctrltim_get_category_label($p->cat_exposition);
-        } elseif (function_exists('ctrltim_get_nom_categorie')) {
-          $cat_label = ctrltim_get_nom_categorie(intval($p->cat_exposition));
+        $projets = function_exists('ctrltim_get_all_projets') ? ctrltim_get_all_projets() : array();
+        if (!empty($projets)) :
+          foreach ($projets as $p) :
+            $img = !empty($p->image_projet) ? $p->image_projet : get_template_directory_uri() . '/images/default.jpg';
+            $titre = !empty($p->titre_projet) ? $p->titre_projet : __('Projet sans titre', 'ctrltim');
+            
+            // Get category label
+            $cat_label = '';
+            if (function_exists('ctrltim_get_category_label')) {
+                $cat_label = ctrltim_get_category_label($p->cat_exposition);
+            } elseif (function_exists('ctrltim_get_nom_categorie')) {
+                $cat_label = ctrltim_get_nom_categorie(intval($p->cat_exposition));
+            }
+            
+            // Get filters (from filtres JSON field)
+            $filtres_array = array();
+            if (!empty($p->filtres)) {
+                $decoded = json_decode($p->filtres, true);
+                if (is_array($decoded)) {
+                    $filtres_array = $decoded;
                 }
+            }
+            
+            // Map filter keys to simpler values
+            $filter_map = array(
+                'filtre_jeux' => 'jeux',
+                'filtre_3d' => '3d',
+                'filtre_video' => 'video',
+                'filtre_web' => 'web'
+            );
+            
+            $mapped_filters = array();
+            foreach ($filtres_array as $f) {
+                if (isset($filter_map[$f])) {
+                    $mapped_filters[] = $filter_map[$f];
+                }
+            }
+            
+            $data_filters = !empty($mapped_filters) ? implode(',', $mapped_filters) : '';
+            
+            // Prepare data-category
+            $data_category = '';
+            if (!empty($cat_label)) {
+                $data_category = $cat_label;
+            } elseif (!empty($p->cat_exposition) && !is_numeric($p->cat_exposition)) {
+                $data_category = $p->cat_exposition;
+            }
         ?>
-
-    <?php
-        // Ensure the data-category attribute contains the human-readable category label
-        $data_category = '';
-        if (!empty($cat_label)) {
-          $data_category = $cat_label;
-        } elseif (!empty($p->cat_exposition) && !is_numeric($p->cat_exposition)) {
-          // fallback to raw string value (legacy)
-          $data_category = $p->cat_exposition;
-        }
-    ?>
-     <div class="pageGalerie__galerieProjets__projets__projet"
-       data-id="<?php echo intval($p->id); ?>"
-       data-category="<?php echo esc_attr($data_category); ?>">
-          <a class="pageGalerie__galerieProjets__projets__projet__link" href="<?php echo esc_url( add_query_arg( 'project_id', intval($p->id), home_url('/projet/') ) ); ?>">
+        
+        <div class="pageGalerie__galerieProjets__projets__projet"
+             data-id="<?php echo intval($p->id); ?>"
+             data-category="<?php echo esc_attr($data_category); ?>"
+             data-filters="<?php echo esc_attr($data_filters); ?>">
+          <a class="pageGalerie__galerieProjets__projets__projet__link" 
+             href="<?php echo esc_url(add_query_arg('project_id', intval($p->id), home_url('/projet/'))); ?>">
             <img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($titre); ?>">
             <div class="pageGalerie__galerieProjets__projets__projet__overlay"></div>
             <div class="pageGalerie__galerieProjets__projets__projet__info">
               <span class="pageGalerie__galerieProjets__projets__projet__info__titre"
               data-category="<?php echo esc_attr($data_category); ?>">
-              <?php echo esc_html($cat_label); ?></span>
-              <h3 class="pageGalerie__galerieProjets__projets__projet__info__titre"><?php echo esc_html($titre); ?></h3>
+                <?php echo esc_html($cat_label); ?>
+              </span>
+              <h3 class="pageGalerie__galerieProjets__projets__projet__info__titre">
+                <?php echo esc_html($titre); ?>
+              </h3>
             </div>
           </a>
         </div>
 
         <?php
-            endforeach;
+          endforeach;
         else :
         ?>
         <p><?php echo esc_html__('Aucun projet trouvé.', 'ctrltim'); ?></p>

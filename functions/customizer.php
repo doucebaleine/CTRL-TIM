@@ -16,17 +16,15 @@ function ctrltim_enregistrer_customizer($wp_customize) {
     
     if ($projets_existing) {
         foreach ($projets_existing as $p) {
-            $cat = '';
-            switch ($p->cat_exposition) {
-                case 'cat_premiere_annee': $cat = '1ère année'; break;
-                case 'cat_arcade': $cat = 'Arcade'; break;
-                case 'cat_finissants': $cat = 'Finissants'; break;
-                // Compatibilité avec les anciennes catégories
-                case 'cat_bibliotheque': $cat = 'Bibliothèque (ancien)'; break;
-                case 'cat_evenement': $cat = 'Événement (ancien)'; break;
-                default: $cat = 'Non définie';
+            $cat_label = '';
+            // Si la valeur est numérique, on cherche dans la table categories
+            if (is_numeric($p->cat_exposition) && intval($p->cat_exposition) > 0 && function_exists('ctrltim_get_nom_categorie')) {
+                $cat_label = ctrltim_get_nom_categorie(intval($p->cat_exposition));
+            } else {
+                // Valeur non numérique (ancienne clé) — afficher telle quelle pour l'instant.
+                $cat_label = is_string($p->cat_exposition) && !empty($p->cat_exposition) ? $p->cat_exposition : 'Non définie';
             }
-            $projets_choices[$p->id] = $p->titre_projet . " (" . $cat . ")";
+            $projets_choices[$p->id] = $p->titre_projet . ($cat_label ? " (" . $cat_label . ")" : '');
         }
     }
 
@@ -86,35 +84,29 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         )));
     }
 
-    // Filtre d'année pour le projet (ex: 2025 / 2026)
-    $wp_customize->add_setting('annee_projet', array(
-        'default' => '2025',
-        'sanitize_callback' => 'sanitize_text_field',
-    ));
-    $wp_customize->add_control('annee_projet', array(
-        'label' => __('Filtrer par année', 'ctrltim'),
-        'section' => 'ctrltim_projets',
-        'type' => 'select',
-        'choices' => array(
-            '2025' => '2025',
-            '2026' => '2026',
-        ),
-    ));
+    // Filtre d'année pour le projet — retiré
 
     // Catégorie d'exposition
+    // Construire la liste des catégories depuis la table
+    $categories_for_select = array('' => 'Non définie');
+    if (function_exists('ctrltim_get_all_categories')) {
+        $cats = ctrltim_get_all_categories();
+        if ($cats) {
+            foreach ($cats as $c) {
+                $categories_for_select[$c->id] = $c->nom;
+            }
+        }
+    }
+
     $wp_customize->add_setting('cat_exposition', array(
-        'default' => 'cat_premiere_annee',
+        'default' => '',
         'sanitize_callback' => 'sanitize_text_field',
     ));
     $wp_customize->add_control('cat_exposition', array(
         'label' => __('Catégorie d\'exposition', 'ctrltim'),
         'section' => 'ctrltim_projets',
         'type' => 'select',
-        'choices' => array(
-            'cat_premiere_annee' => '1ère année',
-            'cat_arcade' => 'Arcade',
-            'cat_finissants' => 'Finissants',
-        ),
+        'choices' => $categories_for_select,
     ));
 
     // Filtres
@@ -354,6 +346,61 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         ),
     ));
 
+    // SECTION CATÉGORIES
+    $wp_customize->add_section('ctrltim_categories', array(
+        'title' => __('Gestion des Catégories', 'ctrltim'),
+        'priority' => 37,
+    ));
+
+    // Récupérer les catégories existantes et créer les choix
+    $categories_existing = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_categories ORDER BY nom");
+    $categories_choices = array('' => '-- Nouvelle catégorie --');
+    if ($categories_existing) {
+        foreach ($categories_existing as $c) {
+            $categories_choices[$c->id] = $c->nom;
+        }
+    }
+
+    // Contrôle pour sélectionner la catégorie à modifier
+    $wp_customize->add_setting('categorie_a_modifier', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('categorie_a_modifier', array(
+        'label' => __('Sélectionner la catégorie à modifier', 'ctrltim'),
+        'section' => 'ctrltim_categories',
+        'type' => 'select',
+        'choices' => $categories_choices,
+    ));
+
+    // Nom de la catégorie
+    $wp_customize->add_setting('nom_categorie', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('nom_categorie', array(
+        'label' => __('Nom de la catégorie', 'ctrltim'),
+        'section' => 'ctrltim_categories',
+        'type' => 'text',
+    ));
+
+    // Action pour la catégorie
+    $wp_customize->add_setting('action_categorie', array(
+        'default' => 'sauvegarder',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('action_categorie', array(
+        'label' => __('Action', 'ctrltim'),
+        'section' => 'ctrltim_categories',
+        'type' => 'select',
+        'choices' => array(
+            'sauvegarder' => 'Sauvegarder',
+            'supprimer' => 'Supprimer',
+        ),
+    ));
+
+    // (Action immédiate supprimée — gestion via pub/sub ou AJAX externe possible)
+
     // (Le contrôle 'Exécuter l\'action' a été retiré — les médias sont gérés via la sauvegarde du Customizer)
 }
 add_action('customize_register', 'ctrltim_enregistrer_customizer');
@@ -369,9 +416,9 @@ function ctrltim_script_customizer() {
     ));
 
     // Debug: log the number of social medias when the Customizer controls are loaded (admin only)
-    if (current_user_can('edit_theme_options') && function_exists('ctrltim_get_all_social_medias')) {
-        $medias = ctrltim_get_all_social_medias();
-        error_log('ctrltim_medias_count: ' . count($medias));
+    if (current_user_can('edit_theme_options') && function_exists('ctrltim_get_all_medias')) {
+        $medias = ctrltim_get_all_medias();
+        // debug removed
     }
 }
 add_action('customize_controls_enqueue_scripts', 'ctrltim_script_customizer');

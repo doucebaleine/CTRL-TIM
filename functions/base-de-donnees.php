@@ -323,6 +323,20 @@ function ctrltim_sauvegarder_donnees() {
     $nom = get_theme_mod('nom_etudiant');
     $image_etudiant = get_theme_mod('image_etudiant');
     $annee = get_theme_mod('annee_etudiant');
+    // Normaliser l'année reçue (accepte 'premiere' ou labels '1ère année', etc.)
+    if (!function_exists('ctrltim_normalize_annee')) {
+        function ctrltim_normalize_annee($val) {
+            if (!is_string($val) && !is_numeric($val)) return 'premiere';
+            $s = mb_strtolower(trim((string)$val), 'UTF-8');
+            // Cas courants
+            if (strpos($s, '1') !== false || strpos($s, 'prem') !== false || strpos($s, '1ère') !== false) return 'premiere';
+            if (strpos($s, '2') !== false || strpos($s, 'deux') !== false) return 'deuxieme';
+            if (strpos($s, '3') !== false || strpos($s, 'troi') !== false) return 'troisieme';
+            // fallback
+            return 'premiere';
+        }
+    }
+    $annee = ctrltim_normalize_annee($annee);
     $etudiant_a_modifier = get_theme_mod('etudiant_a_modifier');
     $action_etudiant = get_theme_mod('action_etudiant');
     
@@ -781,25 +795,111 @@ function ctrltim_ajax_get_choices() {
             $result[intval($r->id)] = $r->nom;
         }
     } elseif ($type === 'etudiants') {
+        // Retourner les étudiants groupés par année (3ème, 2ème, 1ère) avec séparateurs
         $rows = $wpdb->get_results("SELECT id, nom, annee FROM {$wpdb->prefix}ctrltim_etudiants ORDER BY nom ASC");
+        $ordered_years = array('troisieme', 'deuxieme', 'premiere');
+        $year_labels = array(
+            'troisieme' => '3ème année',
+            'deuxieme' => '2ème année',
+            'premiere' => '1ère année'
+        );
+
+        $groups = array();
         foreach ($rows as $r) {
-            $annee = ($r->annee == 'premiere') ? '1ère année' : (($r->annee == 'deuxieme') ? '2ème année' : '3ème année');
-            $result[intval($r->id)] = $r->nom . ' (' . $annee . ')';
+            $key = isset($r->annee) ? $r->annee : 'autre';
+            if (in_array($key, $ordered_years)) {
+                $groups[$key][] = $r;
+            } else {
+                $other_key = 'other_' . sanitize_title($key);
+                $groups[$other_key][] = $r;
+            }
         }
+
+        // construire le résultat ordonné (tableau) avec séparateurs
+        $out = array();
+        // construire le résultat ordonné (tableau) sans séparateurs
+        $out = array();
+        $out[] = array('key' => '', 'label' => '-- Nouvel étudiant --');
+        foreach ($ordered_years as $k) {
+            if (!empty($groups[$k])) {
+                foreach ($groups[$k] as $e) {
+                    $label = isset($year_labels[$k]) ? $year_labels[$k] : '';
+                    $out[] = array('key' => (string) intval($e->id), 'label' => $e->nom . ($label ? ' (' . $label . ')' : ''));
+                }
+            }
+        }
+
+        // autres groupes — ajouter après les années ordonnées
+        foreach ($groups as $gkey => $items) {
+            if (in_array($gkey, $ordered_years) || strpos($gkey, 'other_') !== 0) continue;
+            foreach ($items as $e) {
+                $out[] = array('key' => (string) intval($e->id), 'label' => $e->nom . ' (' . $e->annee . ')');
+            }
+        }
+
+        $result = $out;
     } elseif ($type === 'projets') {
+        // Retourner les projets groupés selon l'ordre souhaité (finissant, arcade, graphisme)
         $rows = $wpdb->get_results("SELECT id, titre_projet, cat_exposition FROM {$wpdb->prefix}ctrltim_projets ORDER BY id DESC");
+        $ordered_keys = array('finissant', 'arcade', 'graphisme');
+        $groups = array();
+
         foreach ($rows as $r) {
             $cat_label = '';
-            // si la valeur est numérique, chercher dans les catégories
             if (is_numeric($r->cat_exposition) && intval($r->cat_exposition) > 0 && function_exists('ctrltim_get_nom_categorie')) {
                 $cat_label = ctrltim_get_nom_categorie(intval($r->cat_exposition));
             } else {
-                // valeur non numérique (ancienne clé) — afficher telle quelle (migration automatique prévue)
-                $cat_label = is_string($r->cat_exposition) ? $r->cat_exposition : '';
+                $cat_label = is_string($r->cat_exposition) ? $r->cat_exposition : 'Non définie';
             }
-            $label = $r->titre_projet . ($cat_label ? ' (' . $cat_label . ')' : '');
-            $result[intval($r->id)] = $label;
+
+            $normalized = mb_strtolower(trim($cat_label), 'UTF-8');
+            $trans = @iconv('UTF-8', 'ASCII//TRANSLIT', $normalized);
+            if ($trans !== false) $normalized = $trans;
+
+            $matched = false;
+            foreach ($ordered_keys as $key) {
+                if (strpos($normalized, $key) !== false) {
+                    $groups[$key][] = array('proj' => $r, 'label' => $cat_label);
+                    $matched = true;
+                    break;
+                }
+            }
+
+            if (!$matched) {
+                $other_key = 'other_' . sanitize_title($cat_label);
+                $groups[$other_key][] = array('proj' => $r, 'label' => $cat_label);
+            }
         }
+
+        // Construire le résultat ordonné (tableau) avec séparateurs
+        $out = array();
+        // Construire le résultat ordonné (tableau) sans séparateurs
+        $out = array();
+        $out[] = array('key' => '', 'label' => '-- Nouveau projet --');
+
+        foreach ($ordered_keys as $key) {
+            if (!empty($groups[$key])) {
+                foreach ($groups[$key] as $item) {
+                    $r = $item['proj'];
+                    $cat_label = $item['label'];
+                    $cat_label_lower = $cat_label ? mb_strtolower($cat_label, 'UTF-8') : '';
+                    $out[] = array('key' => (string) intval($r->id), 'label' => $r->titre_projet . ($cat_label_lower ? ' (' . $cat_label_lower . ')' : ''));
+                }
+            }
+        }
+
+        // autres groupes
+        foreach ($groups as $gkey => $items) {
+            if (in_array($gkey, $ordered_keys) || strpos($gkey, 'other_') !== 0) continue;
+            foreach ($items as $item) {
+                $r = $item['proj'];
+                $cat_label = $item['label'];
+                $cat_label_lower = $cat_label ? mb_strtolower($cat_label, 'UTF-8') : '';
+                $out[] = array('key' => (string) intval($r->id), 'label' => $r->titre_projet . ($cat_label_lower ? ' (' . $cat_label_lower . ')' : ''));
+            }
+        }
+
+        $result = $out;
     } elseif ($type === 'categories') {
         $rows = $wpdb->get_results("SELECT id, nom FROM {$wpdb->prefix}ctrltim_categories ORDER BY nom ASC");
         foreach ($rows as $r) {

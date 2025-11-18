@@ -216,12 +216,42 @@
                     var $select = ctrl.container.find('select');
                     if ($select && $select.length) {
                         $select.empty();
-                        // add default empty option
-                        $select.append($('<option>').attr('value','').text('-- Nouveau --'));
-                        for (var id in choices) {
-                            if (!choices.hasOwnProperty(id)) continue;
-                            var $opt = $('<option>').attr('value', id).text(choices[id]);
-                            $select.append($opt);
+
+                        // If server returned an ordered array (with {key,label}), respect that order.
+                        if (Array.isArray(choices)) {
+                            choices.forEach(function(item) {
+                                if (!item || typeof item.key === 'undefined') return;
+                                var label = item.label;
+                                if (typeof label !== 'string') {
+                                    if (label && typeof label.label === 'string') {
+                                        label = label.label;
+                                    } else {
+                                        try { label = JSON.stringify(label); } catch(e) { label = String(label); }
+                                    }
+                                }
+                                var $opt = $('<option>').attr('value', item.key).text(label);
+                                $select.append($opt);
+                            });
+                        } else {
+                            // Backwards-compatible: object map (may reorder numeric keys)
+                            // Only add a default empty option if the server didn't provide one
+                            var hasEmpty = Object.prototype.hasOwnProperty.call(choices, '');
+                            if (!hasEmpty) {
+                                $select.append($('<option>').attr('value','').text('-- Nouveau --'));
+                            }
+                            for (var id in choices) {
+                                if (!choices.hasOwnProperty(id)) continue;
+                                var lab = choices[id];
+                                if (typeof lab !== 'string') {
+                                    if (lab && typeof lab.label === 'string') {
+                                        lab = lab.label;
+                                    } else {
+                                        try { lab = JSON.stringify(lab); } catch(e) { lab = String(lab); }
+                                    }
+                                }
+                                var $opt = $('<option>').attr('value', id).text(lab);
+                                $select.append($opt);
+                            }
                         }
 
                         // re-select previous value if still present

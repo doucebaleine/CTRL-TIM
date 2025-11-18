@@ -55,8 +55,6 @@ function ctrltim_enregistrer_customizer($wp_customize) {
     // Ajouter les groupes ordonnés d'abord
     foreach ($ordered_keys as $key) {
         if (!empty($groups[$key])) {
-            // séparateur non sélectionnable (géré par le sanitize callback)
-            $projets_choices['__sep_' . $key] = '— ' . ucfirst($key) . ' —';
             foreach ($groups[$key] as $item) {
                 $p = $item['proj'];
                 $cat_label = $item['label'];
@@ -71,7 +69,6 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         if (in_array($gkey, $ordered_keys) || strpos($gkey, 'other_') !== 0) continue;
         // extraire le nom lisible
         $label_sample = isset($items[0]['label']) ? $items[0]['label'] : $gkey;
-        $projets_choices['__sep_' . $gkey] = '— ' . $label_sample . ' —';
         foreach ($items as $item) {
             $p = $item['proj'];
             $cat_label = $item['label'];
@@ -276,7 +273,6 @@ function ctrltim_enregistrer_customizer($wp_customize) {
 
     foreach ($ordered_keys as $k) {
         if (!empty($groups[$k])) {
-            $etudiants_choices['__sep_' . $k] = '— ' . $year_labels[$k] . ' —';
             foreach ($groups[$k] as $e) {
                 $label = isset($year_labels[$k]) ? $year_labels[$k] : '';
                 $etudiants_choices[$e->id] = $e->nom . ($label ? " (" . mb_strtolower($label, 'UTF-8') . ")" : '');
@@ -288,7 +284,6 @@ function ctrltim_enregistrer_customizer($wp_customize) {
     foreach ($groups as $gkey => $items) {
         if (in_array($gkey, $ordered_keys) || strpos($gkey, 'other_') !== 0) continue;
         $label_sample = isset($items[0]->annee) ? $items[0]->annee : $gkey;
-        $etudiants_choices['__sep_' . $gkey] = '— ' . $label_sample . ' —';
         foreach ($items as $e) {
             $etudiants_choices[$e->id] = $e->nom . ' (' . $e->annee . ')';
         }
@@ -492,34 +487,20 @@ function ctrltim_enregistrer_customizer($wp_customize) {
 }
 add_action('customize_register', 'ctrltim_enregistrer_customizer');
 
-// Sanitize callback pour le sélecteur de projet : empêche la sélection des séparateurs
-function ctrltim_sanitize_projet_selector($value) {
-    // Accept numeric IDs or strings. Convert to string for checks.
-    if (is_numeric($value) || is_string($value)) {
-        $value = (string) $value;
-    } else {
+    // Sanitize callback pour le sélecteur de projet
+    function ctrltim_sanitize_projet_selector($value) {
+        if (is_numeric($value) || is_string($value)) {
+            return sanitize_text_field((string)$value);
+        }
         return '';
     }
 
-    // Prevent selecting separator entries
-    if (strpos($value, '__sep_') === 0) return '';
-
-    return sanitize_text_field($value);
-}
-
-// Sanitize callback pour le sélecteur d'étudiant : empêche la sélection des séparateurs
+// Sanitize callback pour le sélecteur d'étudiant
 function ctrltim_sanitize_etudiant_selector($value) {
-    // Accept numeric IDs or strings. Convert to string for checks.
     if (is_numeric($value) || is_string($value)) {
-        $value = (string) $value;
-    } else {
-        return '';
+        return sanitize_text_field((string)$value);
     }
-
-    // Prevent selecting separator entries
-    if (strpos($value, '__sep_') === 0) return '';
-
-    return sanitize_text_field($value);
+    return '';
 }
 
 // JavaScript pour améliorer l'expérience utilisateur

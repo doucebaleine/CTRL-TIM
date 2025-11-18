@@ -314,7 +314,8 @@ function ctrltim_sauvegarder_donnees() {
                 array('id' => $projet_a_modifier)
             );
             
-            ctrltim_vider_champs(['projet_a_modifier', 'titre_projet', 'description_projet', 'video_projet', 'image_projet', 'image_projet_1', 'image_projet_2', 'image_projet_3', 'image_projet_4', 'image_projet_5', 'lien_projet', 'cours_projet', 'filtre_jeux', 'filtre_3d', 'filtre_video', 'filtre_web']);
+            // Ne pas vider 'projet_a_modifier' après une mise à jour — conserver la sélection
+            ctrltim_vider_champs(['titre_projet', 'description_projet', 'video_projet', 'image_projet', 'image_projet_1', 'image_projet_2', 'image_projet_3', 'image_projet_4', 'image_projet_5', 'lien_projet', 'cours_projet', 'filtre_jeux', 'filtre_3d', 'filtre_video', 'filtre_web']);
         }
     }
     
@@ -342,7 +343,8 @@ function ctrltim_sauvegarder_donnees() {
         if ($action_etudiant === 'supprimer') {
             // Supprimer l'étudiant
             $wpdb->delete($wpdb->prefix . 'ctrltim_etudiants', array('id' => $etudiant_a_modifier));
-            ctrltim_vider_champs(['etudiant_a_modifier', 'nom_etudiant', 'image_etudiant', 'annee_etudiant']);
+            // Ne pas vider 'etudiant_a_modifier' après une mise à jour — conserver la sélection
+            ctrltim_vider_champs(['nom_etudiant', 'image_etudiant', 'annee_etudiant']);
         } else {
             // Mettre à jour l'étudiant
             $student_data = array(

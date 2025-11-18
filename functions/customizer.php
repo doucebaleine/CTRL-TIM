@@ -494,15 +494,31 @@ add_action('customize_register', 'ctrltim_enregistrer_customizer');
 
 // Sanitize callback pour le sélecteur de projet : empêche la sélection des séparateurs
 function ctrltim_sanitize_projet_selector($value) {
-    if (!is_string($value)) return '';
+    // Accept numeric IDs or strings. Convert to string for checks.
+    if (is_numeric($value) || is_string($value)) {
+        $value = (string) $value;
+    } else {
+        return '';
+    }
+
+    // Prevent selecting separator entries
     if (strpos($value, '__sep_') === 0) return '';
+
     return sanitize_text_field($value);
 }
 
 // Sanitize callback pour le sélecteur d'étudiant : empêche la sélection des séparateurs
 function ctrltim_sanitize_etudiant_selector($value) {
-    if (!is_string($value)) return '';
+    // Accept numeric IDs or strings. Convert to string for checks.
+    if (is_numeric($value) || is_string($value)) {
+        $value = (string) $value;
+    } else {
+        return '';
+    }
+
+    // Prevent selecting separator entries
     if (strpos($value, '__sep_') === 0) return '';
+
     return sanitize_text_field($value);
 }
 

@@ -10,7 +10,11 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener('click', () => {
       categoryButtons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      currentCategory = btn.getAttribute('data-category').toLowerCase();
+      
+      // Get category from button text instead of data-category
+      const buttonText = btn.textContent.trim();
+      currentCategory = buttonText.toLowerCase();
+      
       filterProjects();
     });
   });

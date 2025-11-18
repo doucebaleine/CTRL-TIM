@@ -11,9 +11,11 @@ function ctrltim_enregistrer_customizer($wp_customize) {
 
     // Récupérer les projets existants et créer les choix
     $projets_existing = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_projets ORDER BY id DESC");
-    
-    $projets_choices = array('' => '-- Nouveau projet --');
-    
+
+    // Préparer les groupes et l'ordre souhaité
+    $ordered_keys = array('finissant', 'arcade', 'graphisme');
+    $groups = array();
+
     if ($projets_existing) {
         foreach ($projets_existing as $p) {
             $cat_label = '';
@@ -24,14 +26,64 @@ function ctrltim_enregistrer_customizer($wp_customize) {
                 // Valeur non numérique (ancienne clé) — afficher telle quelle pour l'instant.
                 $cat_label = is_string($p->cat_exposition) && !empty($p->cat_exposition) ? $p->cat_exposition : 'Non définie';
             }
-            $projets_choices[$p->id] = $p->titre_projet . ($cat_label ? " (" . $cat_label . ")" : '');
+
+            // Normaliser le libellé pour déterminer le groupe
+            $normalized = mb_strtolower(trim($cat_label), 'UTF-8');
+            $trans = @iconv('UTF-8', 'ASCII//TRANSLIT', $normalized);
+            if ($trans !== false) $normalized = $trans;
+
+            $matched = false;
+            foreach ($ordered_keys as $key) {
+                if (strpos($normalized, $key) !== false) {
+                    $groups[$key][] = array('proj' => $p, 'label' => $cat_label);
+                    $matched = true;
+                    break;
+                }
+            }
+
+            if (!$matched) {
+                // groupe par nom de catégorie non-ordonné
+                $other_key = 'other_' . sanitize_title($cat_label);
+                $groups[$other_key][] = array('proj' => $p, 'label' => $cat_label);
+            }
+        }
+    }
+
+    // Construire le liste de choix avec séparateurs
+    $projets_choices = array('' => '-- Nouveau projet --');
+
+    // Ajouter les groupes ordonnés d'abord
+    foreach ($ordered_keys as $key) {
+        if (!empty($groups[$key])) {
+            // séparateur non sélectionnable (géré par le sanitize callback)
+            $projets_choices['__sep_' . $key] = '— ' . ucfirst($key) . ' —';
+            foreach ($groups[$key] as $item) {
+                $p = $item['proj'];
+                $cat_label = $item['label'];
+                $cat_label_lower = $cat_label ? mb_strtolower($cat_label, 'UTF-8') : '';
+                $projets_choices[$p->id] = $p->titre_projet . ($cat_label_lower ? " (" . $cat_label_lower . ")" : '');
+            }
+        }
+    }
+
+    // Ajouter les autres groupes (ordre stable)
+    foreach ($groups as $gkey => $items) {
+        if (in_array($gkey, $ordered_keys) || strpos($gkey, 'other_') !== 0) continue;
+        // extraire le nom lisible
+        $label_sample = isset($items[0]['label']) ? $items[0]['label'] : $gkey;
+        $projets_choices['__sep_' . $gkey] = '— ' . $label_sample . ' —';
+        foreach ($items as $item) {
+            $p = $item['proj'];
+            $cat_label = $item['label'];
+            $cat_label_lower = $cat_label ? mb_strtolower($cat_label, 'UTF-8') : '';
+            $projets_choices[$p->id] = $p->titre_projet . ($cat_label_lower ? " (" . $cat_label_lower . ")" : '');
         }
     }
 
     // Contrôle pour sélectionner le projet à modifier
     $wp_customize->add_setting('projet_a_modifier', array(
         'default' => '',
-        'sanitize_callback' => 'sanitize_text_field',
+        'sanitize_callback' => 'ctrltim_sanitize_projet_selector',
     ));
     $wp_customize->add_control('projet_a_modifier', array(
         'label' => __('Sélectionner le projet à modifier', 'ctrltim'),
@@ -195,22 +247,57 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         'priority' => 35,
     ));
 
-    // Récupérer les étudiants existants et créer les choix
+    // Récupérer les étudiants existants et créer les choix groupés par année
     $etudiants_existing = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_etudiants ORDER BY nom");
-    
-    $etudiants_choices = array('' => '-- Nouvel étudiant --');
-    
+
+    // Ordre souhaité : 3ème, 2ème, 1ère
+    $ordered_keys = array('troisieme', 'deuxieme', 'premiere');
+    $year_labels = array(
+        'troisieme' => '3ème année',
+        'deuxieme' => '2ème année',
+        'premiere' => '1ère année'
+    );
+
+    $groups = array();
     if ($etudiants_existing) {
         foreach ($etudiants_existing as $e) {
-            $annee = ($e->annee == 'premiere') ? '1ère année' : (($e->annee == 'deuxieme') ? '2ème année' : '3ème année');
-            $etudiants_choices[$e->id] = $e->nom . " (" . $annee . ")";
+            $key = isset($e->annee) ? $e->annee : 'autre';
+            if (in_array($key, $ordered_keys)) {
+                $groups[$key][] = $e;
+            } else {
+                $other_key = 'other_' . sanitize_title($key);
+                $groups[$other_key][] = $e;
+            }
+        }
+    }
+
+    // Construire les choix avec séparateurs
+    $etudiants_choices = array('' => '-- Nouvel étudiant --');
+
+    foreach ($ordered_keys as $k) {
+        if (!empty($groups[$k])) {
+            $etudiants_choices['__sep_' . $k] = '— ' . $year_labels[$k] . ' —';
+            foreach ($groups[$k] as $e) {
+                $label = isset($year_labels[$k]) ? $year_labels[$k] : '';
+                $etudiants_choices[$e->id] = $e->nom . ($label ? " (" . mb_strtolower($label, 'UTF-8') . ")" : '');
+            }
+        }
+    }
+
+    // Ajouter les autres groupes
+    foreach ($groups as $gkey => $items) {
+        if (in_array($gkey, $ordered_keys) || strpos($gkey, 'other_') !== 0) continue;
+        $label_sample = isset($items[0]->annee) ? $items[0]->annee : $gkey;
+        $etudiants_choices['__sep_' . $gkey] = '— ' . $label_sample . ' —';
+        foreach ($items as $e) {
+            $etudiants_choices[$e->id] = $e->nom . ' (' . $e->annee . ')';
         }
     }
 
     // Contrôle pour sélectionner l'étudiant à modifier
     $wp_customize->add_setting('etudiant_a_modifier', array(
         'default' => '',
-        'sanitize_callback' => 'sanitize_text_field',
+        'sanitize_callback' => 'ctrltim_sanitize_etudiant_selector',
     ));
     $wp_customize->add_control('etudiant_a_modifier', array(
         'label' => __('Sélectionner l\'étudiant à modifier', 'ctrltim'),
@@ -404,6 +491,20 @@ function ctrltim_enregistrer_customizer($wp_customize) {
     // (Le contrôle 'Exécuter l\'action' a été retiré — les médias sont gérés via la sauvegarde du Customizer)
 }
 add_action('customize_register', 'ctrltim_enregistrer_customizer');
+
+// Sanitize callback pour le sélecteur de projet : empêche la sélection des séparateurs
+function ctrltim_sanitize_projet_selector($value) {
+    if (!is_string($value)) return '';
+    if (strpos($value, '__sep_') === 0) return '';
+    return sanitize_text_field($value);
+}
+
+// Sanitize callback pour le sélecteur d'étudiant : empêche la sélection des séparateurs
+function ctrltim_sanitize_etudiant_selector($value) {
+    if (!is_string($value)) return '';
+    if (strpos($value, '__sep_') === 0) return '';
+    return sanitize_text_field($value);
+}
 
 // JavaScript pour améliorer l'expérience utilisateur
 function ctrltim_script_customizer() {

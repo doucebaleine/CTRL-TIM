@@ -20,10 +20,11 @@
 			</a>
 		</div>
 
-		 <div class="barreRecherche" role="search">
-				<img class="iconeRecherche" src="<?php echo esc_url( get_template_directory_uri() . '/images/search-icon.svg' ); ?>" aria-hidden="true" />
-				<input type="search" name="s" placeholder="Recherche..." aria-label="Recherche">
-			</div>
+		  <form class="barreRecherche" role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>" autocomplete="off">
+			  <img class="iconeRecherche" src="<?php echo esc_url( get_template_directory_uri() . '/images/search-icon.svg' ); ?>" aria-hidden="true" />
+			<input type="search" name="s" placeholder="Recherche..." aria-label="Recherche" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+			<button type="button" class="search-clear" aria-label="Effacer l'historique">Effacer</button>
+		  </form>
 
 		<button class="menu-burger" aria-label="Ouvrir le menu" aria-expanded="false">
 			<img class="icone-burger" src="<?php echo esc_url( get_template_directory_uri() . '/images/menu-burger.svg' ); ?>" aria-hidden="true" />

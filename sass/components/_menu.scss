@@ -57,13 +57,14 @@
   background:transparent; 
   color:var(--couleur-texte-pale); 
   text-decoration:none; 
-  font-size:2rem; 
+  font-size:2.5rem; 
   font-family:var(--policeTitre) 
 }
 
-.bouton-menu.primaire{ 
-  background: linear-gradient(90deg,#D167FF,#62B8FF); 
-  color:#07101e; 
+.bouton-menu.primaire,
+.bouton-menu.current-menu-item {
+  background: linear-gradient(90deg,#D167FF,#62B8FF);
+  color: #07101e;
   box-shadow: -8px 6px 0px 0px rgba(45, 20, 80, 25);
 }
 
@@ -75,6 +76,7 @@
 ul.menu-principal {
     list-style: none;
     text-align: end;
+    display: contents;
 }
 
 @keyframes menu-pop {
@@ -180,4 +182,11 @@ ul.menu-principal {
 .menu-ouvert #menuHorsCanvas,
 .menu-ouvert #fondHorsCanvas {
   pointer-events: auto !important;
+}
+
+@media (min-width: 1300px) {
+  .nav-hors-canvas {
+    display: flex;
+    justify-content: center;
+  }
 }

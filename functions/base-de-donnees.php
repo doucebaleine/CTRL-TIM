@@ -871,8 +871,6 @@ function ctrltim_ajax_get_choices() {
             }
         }
 
-        // Construire le résultat ordonné (tableau) avec séparateurs
-        $out = array();
         // Construire le résultat ordonné (tableau) sans séparateurs
         $out = array();
         $out[] = array('key' => '', 'label' => '-- Nouveau projet --');

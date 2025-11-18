@@ -125,23 +125,23 @@ if ($project_id && function_exists('ctrltim_get_projet_by_id')) {
         }
     }
 
-    // Si aucune image depuis le customizer, retomber sur les images présentes dans le contenu du post
-    if (empty($pageProjet_images)) {
-        // Récupérer les images depuis le contenu du post
-        $post = get_post($post_id);
-        $content = $post ? $post->post_content : '';
-        // Chercher les IDs des images dans le contenu
-        preg_match_all('/wp-image-(\d+)/', $content, $matches);
-        if (!empty($matches[1])) {
-            $image_ids = $matches[1];
-            foreach ($image_ids as $image_id) {
-                $image_url = wp_get_attachment_url($image_id);
-                if ($image_url) {
-                    $pageProjet_images[] = $image_url;
-                }
-            }
-        }
-    }
+    // // Si aucune image depuis le customizer, retomber sur les images présentes dans le contenu du post
+    // if (empty($pageProjet_images)) {
+    //     // Récupérer les images depuis le contenu du post
+    //     $post = get_post($post_id);
+    //     $content = $post ? $post->post_content : '';
+    //     // Chercher les IDs des images dans le contenu
+    //     preg_match_all('/wp-image-(\d+)/', $content, $matches);
+    //     if (!empty($matches[1])) {
+    //         $image_ids = $matches[1];
+    //         foreach ($image_ids as $image_id) {
+    //             $image_url = wp_get_attachment_url($image_id);
+    //             if ($image_url) {
+    //                 $pageProjet_images[] = $image_url;
+    //             }
+    //         }
+    //     }
+    // }
 
     // Nombre d'images trouvées
     $pageProjet_nb_images = count($pageProjet_images);

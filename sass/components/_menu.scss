@@ -31,7 +31,6 @@
 }
 
 .contenu-menu-hors-canvas{ 
-  width:420px;
   padding:48px; 
   color:var(--couleur-texte-pale); 
 }
@@ -39,24 +38,10 @@
 .bouton-fermer-menu{ 
   cursor: pointer;
   position:absolute; 
-  top:10px; 
+  top: 3.5%;
+  right: 2%;
   background:transparent;
   border:none;
-}
-
-.recherche-hors-canvas{ 
-  display:flex; 
-  gap:12px; 
-  align-items:center; 
-  background: linear-gradient(90deg, rgba(50,50,70,0.6), rgba(30,20,40,0.4)); 
-  padding:10px 14px;
-  border-radius:22px; 
-  margin-bottom:32px 
-}
-.recherche-hors-canvas input{ 
-  background:transparent;
-  border:none;
-  color:var(--couleur-texte-pale);outline:none 
 }
 
 .nav-hors-canvas{ 
@@ -68,18 +53,33 @@
 .bouton-menu{ 
   display:inline-block; 
   padding:12px 24px; 
-  border-radius:12px; 
+  border-radius: 5px;
   background:transparent; 
   color:var(--couleur-texte-pale); 
   text-decoration:none; 
-  font-size:2rem; 
+  font-size:2.5rem; 
   font-family:var(--policeTitre) 
 }
 
-.bouton-menu.primaire{ 
-  background: linear-gradient(90deg,#D167FF,#62B8FF); 
-  color:#07101e; 
-  box-shadow: 6px 8px 20px rgba(45,20,80,0.35) 
+.bouton-menu.primaire,
+.bouton-menu.current-menu-item {
+  background: linear-gradient(90deg,#D167FF,#62B8FF);
+  color: #07101e;
+  box-shadow: -8px 6px 0px 0px rgba(45, 20, 80, 25);
+}
+
+/* rendre visuellement et fonctionnellement non cliquable l'élément primaire/current */
+.bouton-menu.primaire,
+.bouton-menu.current-menu-item {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.95;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+.bouton-menu.primaire:hover,
+.bouton-menu.current-menu-item:hover {
+  opacity: 0.95;
+  transform: none;
 }
 
 /* animation temporaire lorsque primaire se déplace vers un nouvel élément */
@@ -89,6 +89,8 @@
 
 ul.menu-principal {
     list-style: none;
+    text-align: end;
+    display: contents;
 }
 
 @keyframes menu-pop {
@@ -194,4 +196,11 @@ ul.menu-principal {
 .menu-ouvert #menuHorsCanvas,
 .menu-ouvert #fondHorsCanvas {
   pointer-events: auto !important;
+}
+
+@media (min-width: 1300px) {
+  .nav-hors-canvas {
+    display: flex;
+    justify-content: center;
+  }
 }

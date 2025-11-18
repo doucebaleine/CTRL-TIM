@@ -8,8 +8,9 @@
          <img class="effet-titre-deux" src="<?php echo esc_url( get_template_directory_uri() . '/images/effetTitre.svg' ); ?>" aria-hidden="true" />
          <div class="description-exposition-principale">
          <h2>EXPOSITION MULTIMÉDIA</h2>
-         <p>« CTRL+TIM » est une vitrine annuelle qui met en lumière la créativité, la diversité et la qualité des projets réalisés par les étudiants en Techniques d’intégration multimédia.
-         </p>
+         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis harum laboriosam optio ipsam aut eveniet
+            at neque error suscipit minima nostrum, necessitatibus rem. Cum sequi praesentium, blanditiis quam corrupti
+            eveniet?</p>
          </div>
       </section>
 
@@ -44,7 +45,7 @@
                    ?>
                    <div class="carte-affiche affiche-haut" data-id="0">
                       <button class="bouton-fermer-affiche" aria-label="Fermer">✕</button>
-                      <img src="<?php echo esc_url( get_template_directory_uri() . '/images/hero-logo.svg' ); ?>" alt="Logo" />
+                      <img src="<?php echo esc_url( get_template_directory_uri() . '/images/logo.svg' ); ?>" alt="Logo" />
                    </div>
 
                    <div class="carte-affiche affiche-milieu" data-id="1">

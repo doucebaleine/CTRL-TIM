@@ -1,0 +1,36 @@
+.interieur-entete{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo{
+  z-index: 9999;
+}
+
+.logo .logo-link{
+  display:inline-block
+}
+
+.barreRecherche input{
+  flex:1;
+  background:transparent;
+  border:none;
+  outline:none;
+  color:var(--couleur-texte-pale);
+  padding:6px 4px
+}
+.iconeRecherche{
+  color:var(--couleur-texte-pale);
+  opacity:0.95
+}
+
+@media (max-width:900px){
+  .barreRecherche{
+    width:70%
+  }
+  
+  .logo{
+    left:12px
+  }
+}

@@ -1,0 +1,28 @@
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+header{
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+footer{
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+@media (max-width:900px){ 
+  main{ 
+    display: block;
+  } 
+}

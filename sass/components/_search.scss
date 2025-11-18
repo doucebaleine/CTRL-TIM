@@ -1,0 +1,270 @@
+/* Barre de recherche centrée en haut */
+.barreRecherche{
+  width: 45%;
+  max-width: 720px;
+  padding: 8px 16px;
+  display: flex;
+  gap: 12px;
+  box-shadow: 0 0 0 3px rgba(175, 120, 255, 0.08), 0 8px 30px rgba(0, 0, 0, 0.6);
+  z-index: 5;
+  border-radius: 14px;
+  background: #141633;
+  border: 2px solid #2e306a;
+}
+
+.barreRecherche input{
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #737cb5;
+  font-family: var(--policeTexte);
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  /* leave room for the clear button on the right */
+  padding-right: 64px;
+}
+
+input::placeholder {
+  color: #737cb5;
+}
+
+.iconeRecherche{
+  width: 20px;
+  height: 20px;
+}
+
+/* Bouton pour effacer l'historique */
+.barreRecherche {
+  position: relative; /* déjà used, but ensure positioning */
+}
+.barreRecherche .search-clear {
+  background: transparent;
+  border: none;
+  color: #9aa0d6;
+  font-size: 20px;
+  line-height: 0;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 160ms, transform 160ms;
+}
+.barreRecherche .search-clear:hover {
+  background: rgba(255,255,255,0.03);
+}
+.barreRecherche .search-clear.cleared {
+  transform: scale(0.9);
+  opacity: 0.6;
+}
+
+/* Liste d'historique (fallback pour navigateurs) */
+.search-history-list {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 6px);
+  background: #0f0e1a;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  padding: 6px 0;
+  list-style: none;
+  margin: 0;
+  z-index: 12000;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+/* Position the clear button inside the search bar so it remains visible on narrow screens */
+.barreRecherche { position: relative; }
+.barreRecherche .search-clear {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+/* Hide native clear/cancel 'X' from browsers (WebKit + Edge) so only our button shows */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  display: none;
+}
+input[type="search"]::-ms-clear,
+input[type="search"]::-ms-reveal {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Small screens: reduce padding but keep space for clear button */
+@media (max-width: 480px) {
+  .barreRecherche input { padding-right: 56px; }
+}
+.search-history-item {
+  padding: 8px 16px;
+  color: #b6c2e0;
+  cursor: pointer;
+}
+.search-history-item:hover {
+  background: rgba(255,255,255,0.02);
+  color: #fff;
+}
+
+/* Toast de confirmation */
+.search-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%) translateY(10px);
+  background: rgba(20,18,40,0.96);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 12px;
+  box-shadow: 0 8px 36px rgba(12,10,30,0.6);
+  opacity: 0;
+  transition: opacity 220ms ease, transform 220ms ease;
+  z-index: 13000;
+  font-size: 0.95rem;
+}
+.search-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+// Styles pour la page de résultats de recherche
+.resultats-recherche {
+  max-width: 700px;
+  margin: 48px auto 0 auto;
+  background: rgba(20, 18, 40, 0.92);
+  border-radius: 16px;
+  box-shadow: 0 4px 32px 0 rgba(80, 60, 160, 0.12);
+  padding: 2.5rem 2rem 2rem 2rem;
+  color: var(--couleur-texte-pale);
+}
+.resultats-recherche h1 {
+  font-size: 2.1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.mot-cle-recherche {
+  color: #62B8FF;
+  font-weight: 700;
+}
+.liste-resultats {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.resultat-item {
+  background: rgba(255,255,255,0.04);
+  border-radius: 8px;
+  margin-bottom: 1.2rem;
+  padding: 1.2rem 1rem 1rem 1.2rem;
+  box-shadow: 0 2px 8px 0 rgba(80, 60, 160, 0.08);
+  transition: background 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.resultat-item:hover {
+  background: linear-gradient(90deg,#D167FF22,#62B8FF22);
+}
+.lien-resultat {
+  color: #fff;
+  font-size: 1.25rem;
+  font-family: var(--policeTitre);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.lien-resultat:hover {
+  color: #62B8FF;
+}
+.type-resultat {
+  font-size: 0.95rem;
+  color: #D167FF;
+  font-weight: 700;
+  margin-left: 0.5rem;
+}
+.desc-resultat {
+  font-size: 1rem;
+  color: #b6c2e0;
+  margin-top: 0.2rem;
+}
+.aucun-resultat {
+  text-align: center;
+  color: #ff6b6b;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}
+
+// Styles page 404
+.page-404 {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+}
+.contenu-404 {
+  background: rgba(20,18,40,0.97);
+  border-radius: 18px;
+  box-shadow: 0 8px 40px rgba(80,60,160,0.13);
+  padding: 3.5rem 2.5rem 2.5rem 2.5rem;
+  text-align: center;
+  max-width: 420px;
+  margin: 48px auto 0 auto;
+  color: var(--couleur-texte-pale,#fff);
+  position: relative;
+  animation: fadeIn404 0.7s cubic-bezier(.2,.9,.2,1);
+}
+.erreur-404-emoji {
+  font-size: 3.2rem;
+  margin-bottom: 0.5rem;
+  user-select: none;
+}
+.titre-404 {
+  font-size: 4.5rem;
+  font-family: var(--policeTitre, 'Jersey 15', monospace);
+  margin: 0 0 0.2em 0;
+  color: #D167FF;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+}
+.sous-titre-404 {
+  font-size: 1.5rem;
+  margin-bottom: 1.2rem;
+  color: #62B8FF;
+  font-weight: 600;
+}
+.texte-404 {
+  font-size: 1.1rem;
+  margin-bottom: 2.2rem;
+  color: #b6c2e0;
+}
+.bouton-404 {
+  display: inline-block;
+  background: linear-gradient(90deg,#D167FF,#62B8FF);
+  color: #07101e;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 12px 32px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 12px rgba(80,60,160,0.10);
+  transition: background 0.2s, color 0.2s, transform 0.18s;
+}
+.bouton-404:hover {
+  background: linear-gradient(90deg,#62B8FF,#D167FF);
+  color: #fff;
+  transform: translateY(-2px) scale(1.04);
+}
+@keyframes fadeIn404 {
+  from { opacity: 0; transform: translateY(30px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}

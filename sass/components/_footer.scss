@@ -1,0 +1,97 @@
+// Pied de page du site
+.pied-page-site{
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(180deg,#0B0E21,#070713);
+  color: #222640;
+  padding-top: 20px;
+  z-index: 9999;
+}
+
+.interieur-pied-page{
+  display:flex;
+  align-items:center;
+  justify-content:space-evenly;
+}
+
+.icone-sociale{
+  width:64px;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Colonne gauche : icône unique en haut au-dessus d'une rangée de trois icônes */
+.colonne-pied-page.gauche{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.rangee-icones{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  justify-content:center;
+}
+
+.centre-pied-page{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.recherche-pied-page{
+  width:60%;
+  max-width:720px;
+  min-width:300px;
+  height:34px;
+  border-radius:22px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:6px 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  pointer-events: auto;
+  position: relative;
+  background: #141633;
+  border: 2px solid #2e306a;
+}
+.recherche-pied-page input{
+  flex:1;
+  background:transparent;
+  border:none;
+  outline:none;
+  color: #737cb5;
+  font-family: var(--policeTexte);
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.recherche-pied-page input::placeholder {
+  color: #737cb5;
+}
+
+.boite-logo-pied-page{
+  width:140px;
+  height:96px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor: pointer;
+}
+
+/* petits écrans : empiler le pied de page */
+@media (max-width:900px){
+  .interieur-pied-page{
+    align-items:center
+  }
+  .centre-pied-page{
+    width:100%
+  }
+  .recherche-pied-page{
+    width:90%
+  }
+}

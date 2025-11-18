@@ -1,0 +1,206 @@
+/* Styles du menu hors-canvas */
+.menu-hors-canvas{
+  position: fixed;
+  inset: 0 0 0 50%;
+  background: linear-gradient(90deg, rgba(10,8,20,0.95), rgba(8,6,18,0.98));
+  z-index: 20000;
+  transform: translateX(100%);
+  transition: transform 320ms ease;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+}
+
+/* fond couvrant le reste de la page pendant que le menu est ouvert */
+.fond-hors-canvas {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 19990; /* en dessous du menu mais au-dessus du contenu de la page */
+  opacity: 0;
+  transition: opacity 240ms ease;
+  pointer-events: none;
+}
+.fond-hors-canvas.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu-hors-canvas.ouvert{
+  transform: translateX(0%); 
+}
+
+.contenu-menu-hors-canvas{ 
+  padding:48px; 
+  color:var(--couleur-texte-pale); 
+}
+
+.bouton-fermer-menu{ 
+  cursor: pointer;
+  position:absolute; 
+  top: 3.5%;
+  right: 2%;
+  background:transparent;
+  border:none;
+}
+
+.nav-hors-canvas{ 
+  display:flex; 
+  flex-direction:column; 
+  gap:22px 
+
+}
+.bouton-menu{ 
+  display:inline-block; 
+  padding:12px 24px; 
+  border-radius: 5px;
+  background:transparent; 
+  color:var(--couleur-texte-pale); 
+  text-decoration:none; 
+  font-size:2.5rem; 
+  font-family:var(--policeTitre) 
+}
+
+.bouton-menu.primaire,
+.bouton-menu.current-menu-item {
+  background: linear-gradient(90deg,#D167FF,#62B8FF);
+  color: #07101e;
+  box-shadow: -8px 6px 0px 0px rgba(45, 20, 80, 25);
+}
+
+/* rendre visuellement et fonctionnellement non cliquable l'élément primaire/current */
+.bouton-menu.primaire,
+.bouton-menu.current-menu-item {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.95;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+.bouton-menu.primaire:hover,
+.bouton-menu.current-menu-item:hover {
+  opacity: 0.95;
+  transform: none;
+}
+
+/* animation temporaire lorsque primaire se déplace vers un nouvel élément */
+.bouton-menu.anime-changement {
+  animation: menu-pop 420ms cubic-bezier(0.2,0.9,0.2,1);
+}
+
+ul.menu-principal {
+    list-style: none;
+    text-align: end;
+    display: contents;
+}
+
+@keyframes menu-pop {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  40% { transform: translateY(-6px) scale(1.04); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.menu-burger{
+  cursor: pointer;
+  z-index: 9999;
+  background: transparent;
+  border: none;
+  display: flex;
+}
+
+.icone-burger{
+  width: 36px;
+  height: 36px;
+}
+
+// /* Menu WordPress */
+// .menu-principal {
+//   list-style: none;
+//   padding: 0;
+//   margin: 0;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 1rem;
+// }
+
+// .menu-principal li {
+//   margin: 0;
+// }
+
+// .menu-principal a {
+//   display: block;
+//   padding: 12px 24px;
+//   background: rgba(92, 104, 181, 0.8);
+//   color: var(--couleur-texte-pale);
+//   text-decoration: none;
+//   border-radius: 8px;
+//   transition: all 240ms ease;
+//   font-weight: 500;
+//   text-align: center;
+// }
+
+// .menu-principal a:hover {
+//   background: rgba(92, 104, 181, 1);
+//   transform: translateY(-2px);
+// }
+
+// .menu-principal .current-menu-item a,
+// .menu-principal a.primaire {
+//   background: var(--couleurCrochets);
+//   font-weight: 700;
+// }
+
+/* empêcher le défilement de la page pendant que le menu est ouvert */
+.pas-defilement{ 
+  overflow:hidden; 
+}
+
+@media (max-width:480px){ 
+  .contenu-menu-hors-canvas{ 
+    width:100%; 
+    padding:6px; 
+  } 
+  .bouton-menu{ 
+    font-size:1.4rem 
+  } 
+}
+
+@media (min-width:481px) and (max-width:900px){ 
+  .contenu-menu-hors-canvas{ 
+    padding: 1px;
+  } 
+  
+}
+
+@media (max-width:900px){
+  .bouton-fermer-menu {
+    top: 60px;
+  }
+}
+
+/* Lorsque le menu est ouvert, désactiver les interactions et les effets de survol en dehors du menu
+   en désactivant pointer-events sur les régions principales de la page. Le fond ci-dessus capture
+   les événements de pointeur ; c'est une sécurité CSS défensive pour tout élément qui pourrait
+   encore recevoir des survols/clics. */
+.menu-ouvert .page-accueil,
+.menu-ouvert header,
+.menu-ouvert main,
+.menu-ouvert .footer-search,
+.menu-ouvert .barreRecherche,
+.menu-ouvert .poster-stack,
+.menu-ouvert .galerieBoiteGenerale {
+  pointer-events: none !important;
+  user-select: none !important;
+}
+
+/* Assurer que le panneau hors-canvas et le fond restent interactifs */
+.menu-ouvert #menuHorsCanvas,
+.menu-ouvert #fondHorsCanvas {
+  pointer-events: auto !important;
+}
+
+@media (min-width: 1300px) {
+  .nav-hors-canvas {
+    display: flex;
+    justify-content: center;
+  }
+}

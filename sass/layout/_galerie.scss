@@ -1,0 +1,369 @@
+.pageGalerie {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  height: 1500px;
+  color: var(--couleur-texte-pale);
+  margin: 0;
+  padding: 0;
+  font-family: var(--policeTexte);
+
+  &__titre {
+    text-align: center;
+    font-size: clamp(48px, 8vw, 96px);
+    margin-top: 40px;
+    margin-bottom: 10px;
+    font-weight: 400;
+    font-family: var(--policeTitre);
+  }
+
+  &__filter {
+    text-align: center;
+    max-width: 700px;
+    padding: 0 80px 0 80px;
+    margin: 0 auto 0px;
+    line-height: 1.6;
+    
+    &__description {
+      color: var(--couleur-texte-sous-titre);
+    }
+
+    &__subtitle {
+      background-image: var(--galerie-projet-bordure-arcade);
+      color: transparent;
+      background-clip: text;
+    }
+  }
+
+  &__filter-bar {
+    display: flex;
+    justify-content: space-between;
+    width: fit-content;
+    height: 64px;
+    margin: 30px auto;
+    flex-shrink: 0;
+    border-radius: 11px;
+    border: 2px solid var(--couleurBordure);
+    background: radial-gradient(50% 50% at 50% 50%, #0e1431 0%, #12193c 100%) ;
+    overflow: hidden;
+
+    &__filter-btn {
+      background: none;
+      border: none;
+      color: var(--galerie-filter-btn-texte);
+      padding: 0;
+      cursor: pointer;
+      transition: transform 0.3s ease, color 0.3s ease;
+      font-weight: 500;
+      min-width: 83px;
+      width: 10vw;
+      text-align: center;
+      font-family: var(--policeTexte);
+      font-size: clamp(0.875rem, 1vw + 0.5rem, 1.25rem);
+      line-height: normal;
+
+      &:hover {
+        color: var(--couleur-texte-pale);
+      }
+
+      &.active {
+        background: var(--couleurGradientBlueViolet, linear-gradient(90deg, #d26eff, #58b5ff));;
+        color: var(--galerie-filter-btn-texte-active);
+        border-radius: 8px;
+        margin: 8px;
+        font-weight: 700;
+        transform: translateX(5px);
+      }
+    }
+  }
+
+  &__dropdown {
+    position: relative;
+    width: 250px;
+    margin: 1.5em auto;
+    color: var(--couleur-texte-pale);
+    font-family: var(--policeTexte);
+
+    * {
+      box-sizing: border-box;
+    }
+
+    &__select {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1em;
+      border: 2px solid transparent;
+      border-radius: 0.5em;
+      cursor: pointer;
+      background-image:
+        linear-gradient(#0e1431, #0e1431),
+        linear-gradient(90deg, #d26eff, #58b5ff);
+      background-origin: padding-box, border-box;
+      background-clip: padding-box, border-box;
+      transition: background 0.3s;
+
+      &:hover {
+        background-image:
+          linear-gradient(#212a56, #212a56),
+          linear-gradient(90deg, #d26eff, #58b5ff);
+      }
+
+      &.clicked {
+        box-shadow: 0 0 0.8em var(--couleurBordure);
+      }
+    }
+
+    &__caret {
+      border-top: 6px solid var(--galerie-caret-color);
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      transition: 0.3s;
+
+      &.rotate {
+        transform: rotate(180deg);
+      }
+    }
+
+    &__menu {
+      list-style: none;
+      padding: 0.2em 0.5em;
+      background: radial-gradient(50% 50% at 50% 50%, #0e1431 0%, #12193c 100%);
+      border: 2px solid var(--couleurBordure);
+      border-radius: 0.5em;
+      position: absolute;
+      top: 3.5em;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      display: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      transform: translateY(-10px);
+      z-index: 10;
+
+      &.open {
+        opacity: 1;
+        display: block;
+        transform: translateY(0);
+      }
+
+      li {
+        padding: 0.7em 0.5em;
+        border-radius: 0.3em;
+        cursor: pointer;
+        color: var(--galerie-dropdown-menu-li-texte);
+
+        &:hover {
+          background: var(--galerie-dropdown-menu-li-hover);
+        }
+
+        &.active {
+          color: var(--couleur-texte-pale);
+          background-color: var(--couleurBordure);
+        }
+      }
+    }
+
+    &__selected {
+      font-size: 1.1em;
+    }
+  }
+
+  &__galerieProjets {
+    height: 800px;
+    width: 100%;
+
+    &__projets {
+      height: 800px; /* done */
+      padding: 120px 0 50px 0; /* done */
+      width: 100%; /* done */
+      overflow-x: scroll; /* done */
+      overflow-y: hidden; /* done */
+      white-space: nowrap; /* done */
+      user-select: none; /* done */
+      cursor: pointer; /* done */
+      transform: scale(1); /* done */
+      will-change: transform; /* done */
+      position: relative; /* done */
+      transition: all 0.2s; /* done */
+
+      &.active {
+        cursor: grabbing;
+        transform: scale(1.02);
+      }
+
+      &__projet {
+        width: 400px; /* done */
+        height: 560px;/* done */
+        display: inline-flex;/* done */
+        align-items: center; /* done */
+        justify-content: center; /* done */
+        overflow: hidden;
+        margin-right: -100px;/* done */
+        border-radius: 25px;
+        border: 3.5px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 5px 0 35px 0 #000;
+        transition: transform 0.3s ease, filter 0.3s ease;
+        z-index: 1;
+
+        &__link{
+          color: var(--couleur-texte-pale);
+        }
+
+        &:hover {
+          transform: translateY(-100px) scale(1.03);
+          filter: brightness(1.1);
+          z-index: 0;
+          background: var(--galerie-projet-bordure-arcade);
+        }
+
+        &:hover[data-category="Arcade"] {
+          background: var(--galerie-projet-bordure-arcade);
+        }
+
+        &:hover[data-category="Graphisme"] {
+          background: var(--galerie-projet-bordure-graphisme);
+        }
+
+        &:hover[data-category="Finissant•e•s"] {
+          background: var(--galerie-projet-bordure-finissants);
+        }
+
+        &__overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border-radius: 25px;
+          pointer-events: none;
+
+          backdrop-filter: blur(15px);
+
+          background: linear-gradient(
+            to bottom,
+            rgba(0, 10, 29, 0.95) 0%,
+            rgba(0, 0, 0, 0) 100%
+          );
+
+          mask-image: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 1) 0%,
+            rgba(0, 0, 0, 0) 100%
+          );
+
+          mask-repeat: no-repeat;
+          mask-size: cover;
+
+          opacity: 0;
+          transition: opacity 0.4s ease;
+          z-index: 2;
+        }
+
+        &:hover &__overlay {
+          opacity: 1;
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 25px;
+          user-select: none;
+          pointer-events: none;
+          transition: filter 0.4s ease;
+        }
+
+        &__info {
+          position: absolute;
+          top: 20px;
+          left: 20px;
+          opacity: 0;
+          z-index: 3;
+          transform: translateY(20px);
+          transition: opacity 0.4s ease, transform 0.4s ease;
+
+          h3 {
+            font-size: 48px;
+            margin: 0;
+            font-family: var(--policeTitre);
+            font-weight: lighter;
+          }
+
+          span {
+            background: var(--galerie-projet-bordure-arcade);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+          }
+
+          span[data-category="Graphisme"] {
+            background: var(--galerie-projet-bordure-graphisme);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+          }
+          span[data-category="Finissant•e•s"] {
+            background: var(--galerie-projet-bordure-finissants);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+          }
+        }
+
+        &:hover &__info {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .pageGalerie__galerieProjets__projets {
+    height: 500px;
+
+    &__projet {
+      width: 250px;
+      height: 350px;
+      margin-right: -60px;
+      border-radius: 18px;
+
+      img {
+        width: 250px;
+        height: auto;
+        border-radius: 18px;
+      }
+
+      &__info {
+        top: 15px;
+        left: 15px;
+
+        h3 {
+          font-size: 28px;
+        }
+
+        span {
+          font-size: 14px;
+        }
+      }
+
+      &::after {
+        height: 45%;
+        border-radius: 18px;
+        backdrop-filter: blur(10px);
+      }
+
+      &:hover {
+        transform: translateY(-40px) scale(1.03);
+      }
+    }
+  }
+}

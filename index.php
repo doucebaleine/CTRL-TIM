@@ -8,9 +8,8 @@
          <img class="effet-titre-deux" src="<?php echo esc_url( get_template_directory_uri() . '/images/effetTitre.svg' ); ?>" aria-hidden="true" />
          <div class="description-exposition-principale">
          <h2>EXPOSITION MULTIMÉDIA</h2>
-         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis harum laboriosam optio ipsam aut eveniet
-            at neque error suscipit minima nostrum, necessitatibus rem. Cum sequi praesentium, blanditiis quam corrupti
-            eveniet?</p>
+         <p>« CTRL+TIM » est une vitrine annuelle qui met en lumière la créativité, la diversité et la qualité des projets réalisés par les étudiants en Techniques d’intégration multimédia.
+         </p>
          </div>
       </section>
 

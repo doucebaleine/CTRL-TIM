@@ -23,6 +23,8 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  /* leave room for the clear button on the right */
+  padding-right: 64px;
 }
 
 input::placeholder {
@@ -72,6 +74,36 @@ input::placeholder {
   z-index: 12000;
   max-height: 220px;
   overflow-y: auto;
+}
+
+/* Position the clear button inside the search bar so it remains visible on narrow screens */
+.barreRecherche { position: relative; }
+.barreRecherche .search-clear {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+/* Hide native clear/cancel 'X' from browsers (WebKit + Edge) so only our button shows */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  display: none;
+}
+input[type="search"]::-ms-clear,
+input[type="search"]::-ms-reveal {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Small screens: reduce padding but keep space for clear button */
+@media (max-width: 480px) {
+  .barreRecherche input { padding-right: 56px; }
 }
 .search-history-item {
   padding: 8px 16px;

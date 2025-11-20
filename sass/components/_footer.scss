@@ -84,9 +84,11 @@
 }
 
 /* petits écrans : empiler le pied de page */
-@media (max-width:900px){
+@media screen and (max-width: 600px) {
   .interieur-pied-page{
-    align-items:center
+    align-items:center;
+    flex-direction:column;
+    gap:20px;
   }
   .centre-pied-page{
     width:100%

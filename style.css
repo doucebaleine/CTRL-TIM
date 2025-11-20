@@ -560,7 +560,7 @@ body::before {
   position: absolute;
   top: 8px;
   right: 10px;
-  background: rgba(67, 67, 67, 0.5);
+  background: rgba(67, 67, 67, 0.005);
   color: #fff;
   border: none;
   width: 32px;
@@ -576,7 +576,7 @@ body::before {
   /* focus clavier pour l'accessibilité */
 }
 .bouton-fermer-affiche:hover {
-  background: rgba(67, 67, 67, 0.85);
+  background: rgba(67, 67, 67, 0.0085);
 }
 .bouton-fermer-affiche:active {
   transform: translateY(1px) scale(0.98);
@@ -584,7 +584,7 @@ body::before {
 .bouton-fermer-affiche:focus-visible {
   outline: 2px solid rgba(209, 103, 255, 0.9);
   outline-offset: 2px;
-  background: rgba(67, 67, 67, 0.65);
+  background: rgba(67, 67, 67, 0.0065);
 }
 
 /* animation de fermeture */
@@ -703,9 +703,11 @@ body::before {
 }
 
 /* petits écrans : empiler le pied de page */
-@media (max-width: 900px) {
+@media screen and (max-width: 600px) {
   .interieur-pied-page {
     align-items: center;
+    flex-direction: column;
+    gap: 20px;
   }
   .centre-pied-page {
     width: 100%;
@@ -750,21 +752,18 @@ body::before {
     left: 12px;
   }
 }
-/* Disposition héros : titre à gauche et description */
-.page-accueil {
-  display: grid;
-  grid-template-columns: 1fr 540px;
-  gap: 2rem;
-  align-items: center;
-  min-height: calc(100vh - 120px);
-  position: relative;
-  z-index: 2;
+.acceuil__TextePrincipal__Titre {
+  width: 50%;
+}
+
+.galerieBoiteGenerale {
+  width: 50%;
 }
 
 .titre h1 {
   color: var(--couleur-titre-pale);
   font-family: var(--policeTitre);
-  font-size: 7.5rem;
+  font-size: clamp(0.75rem, 1vw + 0.5rem, 1.25rem);
   line-height: 0.9;
   text-transform: uppercase;
   letter-spacing: 6px;
@@ -787,14 +786,10 @@ h2 {
 }
 
 .effet-titre {
-  position: absolute;
-  top: 180px;
   width: 446px;
 }
 
 .effet-titre-deux {
-  position: absolute;
-  top: 230px;
   width: 446px;
 }
 
@@ -1508,7 +1503,7 @@ footer {
   width: 10vw;
   text-align: center;
   font-family: var(--policeTexte);
-  font-size: clamp(0.875rem, 1vw + 0.5rem, 1.25rem);
+  font-size: clamp(0.75rem, 1vw + 0.5rem, 1.25rem);
   line-height: normal;
 }
 .pageGalerie__filter-bar__filter-btn:hover {
@@ -2039,4 +2034,4 @@ footer {
     width: 40px;
     height: 40px;
   }
-}/*# sourceMappingURL=style.css.map */
+}

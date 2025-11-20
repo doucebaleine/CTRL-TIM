@@ -1,18 +1,15 @@
-/* Disposition héros : titre à gauche et description */
-.page-accueil{
-  display: grid;
-  grid-template-columns: 1fr 540px;
-  gap: 2rem;
-  align-items: center;
-  min-height: calc(100vh - 120px);
-  position: relative;
-  z-index: 2;
+.acceuil__TextePrincipal__Titre{
+  width: 50%;
+}
+
+.galerieBoiteGenerale{
+  width: 50%;
 }
 
 .titre h1{
   color: var(--couleur-titre-pale);
   font-family: var(--policeTitre);
-  font-size: 7.5rem;
+  font-size: clamp(0.75rem, 1vw + 0.5rem, 1.25rem);
   line-height: 0.9;
   text-transform: uppercase;
   letter-spacing: 6px;
@@ -35,14 +32,10 @@ h2{
 }
 
 .effet-titre{
-    position: absolute;
-    top: 180px;
     width: 446px;
 }
 
 .effet-titre-deux{
-    position: absolute;
-    top: 230px;
     width: 446px;
 }
 

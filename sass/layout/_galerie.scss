@@ -44,7 +44,7 @@
     flex-shrink: 0;
     border-radius: 11px;
     border: 2px solid var(--couleurBordure);
-    background: radial-gradient(50% 50% at 50% 50%, #0e1431 0%, #12193c 100%) ;
+    background: radial-gradient(50% 50% at 50% 50%, #0e1431 0%, #12193c 100%);
     overflow: hidden;
 
     &__filter-btn {
@@ -59,7 +59,7 @@
       width: 10vw;
       text-align: center;
       font-family: var(--policeTexte);
-      font-size: clamp(0.875rem, 1vw + 0.5rem, 1.25rem);
+      font-size: clamp(0.75rem, 1vw + 0.5rem, 1.25rem);
       line-height: normal;
 
       &:hover {

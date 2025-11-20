@@ -63,7 +63,7 @@
   position: absolute;
   top: 8px;
   right: 10px;
-  background: rgb(67 67 67 / 50%);
+  background: rgba(67, 67, 67, 0.50%);
   color: #fff;
   border: none;
   width: 32px;
@@ -78,7 +78,7 @@
 
   /* Survol & focus : assombrir l'arrière-plan pour augmenter le contraste */
   &:hover {
-    background: rgb(67 67 67 / 85%);
+    background: rgba(67, 67, 67, 0.85%);
   }
 
   &:active {
@@ -89,7 +89,7 @@
   &:focus-visible {
     outline: 2px solid rgba(209,103,255,0.9);
     outline-offset: 2px;
-    background: rgb(67 67 67 / 65%);
+    background: rgba(67, 67, 67, 0.65%);
   }
 }
 

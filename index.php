@@ -2,10 +2,13 @@
     <!-- header déplacé dans header.php -->
    <main>
       <!-- TITRE DE L'EXPOSITION -->
-      <section class="titre">
-         <h1>CTRL+TIM</h1>
-         <img class="effet-titre" src="<?php echo esc_url( get_template_directory_uri() . '/images/effetTitre.svg' ); ?>" aria-hidden="true" />
-         <img class="effet-titre-deux" src="<?php echo esc_url( get_template_directory_uri() . '/images/effetTitre.svg' ); ?>" aria-hidden="true" />
+      <section class="acceuil__TextePrincipal">
+         <div class="acceuil__TextePrincipal__Titre">
+            <h1>CTRL+TIM</h1>
+            <img class="effet-titre" src="<?php echo esc_url( get_template_directory_uri() . '/images/effetTitre.svg' ); ?>" aria-hidden="true" />
+            <img class="effet-titre-deux" src="<?php echo esc_url( get_template_directory_uri() . '/images/effetTitre.svg' ); ?>" aria-hidden="true" />
+         </div>
+         
          <div class="description-exposition-principale">
          <h2>EXPOSITION MULTIMÉDIA</h2>
          <p>« CTRL+TIM » est une vitrine annuelle qui met en lumière la créativité, la diversité et la qualité des projets réalisés par les étudiants en Techniques d’intégration multimédia.

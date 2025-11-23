@@ -1,5 +1,4 @@
 .pile-affiches {
-    width: 900px;
     height: 400px;
     pointer-events: auto;
     display: flex;
@@ -9,8 +8,8 @@
 
 .carte-affiche {
   position: absolute;
-  width: 560px;
-  height: 380px;
+  aspect-ratio: 560 / 380;
+  width: min(80vw, 560px); 
   border-radius: 10px;
   --border-grad: linear-gradient(90deg,#D167FF,#62B8FF);
   background: linear-gradient(180deg, rgba(18, 18, 30, 0.9), rgba(12, 12, 22, 0.9));

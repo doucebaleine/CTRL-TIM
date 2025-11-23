@@ -4,9 +4,9 @@
       <!-- TITRE DE L'EXPOSITION -->
       <section class="acceuil__TextePrincipal">
          <div class="acceuil__TextePrincipal__Titre">
-            <h1>CTRL+TIM</h1>
+            <img class="effet-titre" src="<?php echo esc_url( get_template_directory_uri() . '/images/CTRLTIM.png' ); ?>" aria-hidden="true" />
             <img class="effet-titre" src="<?php echo esc_url( get_template_directory_uri() . '/images/effetTitre.svg' ); ?>" aria-hidden="true" />
-            <img class="effet-titre-deux" src="<?php echo esc_url( get_template_directory_uri() . '/images/effetTitre.svg' ); ?>" aria-hidden="true" />
+            <img class="effet-titre" src="<?php echo esc_url( get_template_directory_uri() . '/images/effetTitre.svg' ); ?>" aria-hidden="true" />
          </div>
          
          <div class="description-exposition-principale">

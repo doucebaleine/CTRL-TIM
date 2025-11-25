@@ -646,6 +646,12 @@ body::before {
   align-items: center;
 }
 
+.colonne-pied-page.droite p {
+  color: #ffffff;
+  font-size: 0.6rem;
+  text-align: center;
+}
+
 .rangee-icones {
   display: flex;
   gap: 14px;

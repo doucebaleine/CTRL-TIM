@@ -23,7 +23,9 @@
     padding: 0 80px 0 80px;
     margin: 0 auto 0px;
     line-height: 1.6;
-    
+    #btnLirePlus {
+      display: none;
+    }
     &__description {
       color: var(--couleur-texte-sous-titre);
     }
@@ -365,5 +367,18 @@
         transform: translateY(-40px) scale(1.03);
       }
     }
+  }
+
+  .pageGalerie__filter__lirePlus {
+    display: none;    
+  }
+  .pageGalerie__filter__lirePlus.open {
+    display: inline;    
+  }
+  .pageGalerie__filter__lirePlus.open + #btnLirePlus {
+    display: block;    
+  }
+  .pageGalerie__filter #btnLirePlus {
+    display: inline;
   }
 }

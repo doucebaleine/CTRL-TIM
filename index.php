@@ -23,17 +23,29 @@
                // Classes initiales pour les trois cartes empilées (JS attend ces classes pour l'animation)
                $classes = array('affiche-haut', 'affiche-milieu', 'affiche-arriere');
 
+               $imagesJS = array(); // tableau pour JS
+
             if (!empty($projects)) {
                // N'afficher que les projets dont la catégorie (cat_exposition) est l'ID 2 (Finissant)
                $display_index = 0;
                foreach ($projects as $proj) {
                   if (!isset($proj->cat_exposition)) continue;
-                  if (intval($proj->cat_exposition) !== 2) continue;
+                  if (intval($proj->cat_exposition) !== 1) continue;
                   $card_class = isset($classes[$display_index]) ? $classes[$display_index] : 'affiche-arriere';
                   $img_src = !empty($proj->image_projet) ? esc_url($proj->image_projet) : esc_url(get_template_directory_uri() . '/images/default.jpg');
+                  if ($img_src !== '') {
+                     $imagesJS[] = $img_src;
+                  }
+                  
                   $alt = !empty($proj->titre_projet) ? esc_attr($proj->titre_projet) : 'Projet';
                   // utiliser l'ID du projet comme data-id pour que le JS puisse s'y référer
-                  echo '<div class="carte-affiche ' . $card_class . '" data-id="' . intval($proj->id) . '">';
+                  echo '<div class="carte-affiche ' . $card_class . '" 
+                  data-id="' . intval($proj->id) . '" 
+                  data-lien="' . esc_url(add_query_arg(
+                     'project_id', 
+                     intval($proj->id), 
+                     home_url('/index.php/projet/')
+                  )) . '">';
                   echo '<button class="bouton-fermer-affiche" aria-label="Fermer">✕</button>';
                   echo '<img src="' . $img_src . '" alt="' . $alt . '" />';
                   echo '</div>';
@@ -63,5 +75,9 @@
          </div>
 
       </main>
+
+      <script type="text/javascript">
+         var cartesProjets = <?php echo json_encode($imagesJS); ?>;
+      </script>
 
 <?php get_footer(); ?>

@@ -1,4 +1,4 @@
-(function($) {
+ (function($) {
     // Variables globales pour stocker les valeurs sélectionnées
     var selectedProjectId = '';
     var selectedStudentId = '';
@@ -48,10 +48,101 @@
                     }, function(response) {
                         if (response.success) {
                             var data = response.data;
+                            // Debug: show normalized URLs and existence checks from server
+                            try {
+                                if (data.debug_images) console.info('ctrltim: debug_images', data.debug_images);
+                                if (data.debug_image_main) console.info('ctrltim: debug_image_main', data.debug_image_main);
+                            } catch(e) {}
                             wp.customize('titre_projet').set(data.titre_projet || '');
                             wp.customize('description_projet').set(data.description_projet || '');
                             wp.customize('video_projet').set(data.video_projet || '');
                             wp.customize('image_projet').set(data.image_projet || '');
+                            // Charger les images du carrousel (jusqu'à 5) et mettre à jour l'UI des contrôles
+                            var images = data.images_projet || [];
+                            for (var i = 1; i <= 5; i++) {
+                                var key = 'image_projet_' + i;
+                                var url = images[i-1] || '';
+                                // Mettre à jour la setting (synchronise la valeur côté PHP)
+                                try { wp.customize(key).set(url); } catch(e) {}
+
+                                // Mettre à jour l'aperçu dans le contrôle (thumbnail)
+                                try {
+                                    var ctrl = wp.customize.control(key);
+                                    if (ctrl && ctrl.container) {
+                                        var $container = ctrl.container;
+                                        // mettre à jour la valeur de l'input interne (si présent)
+                                        var $input = $container.find('input[type="text"], input[type="hidden"]').first();
+                                        try { if ($input && $input.length) { $input.val(url).trigger('change'); } } catch(e) {}
+                                        // s'assurer que la setting WP Customizer est aussi définie
+                                        try { wp.customize(key).set(url); } catch(e) {}
+
+                                        // trouver ou créer l'élément img de preview
+                                        var $img = $container.find('img');
+                                        if ((!$img || !$img.length)) {
+                                            // rechercher une zone miniature courante
+                                            var $thumb = $container.find('.thumbnail, .customize-control-thumbnail, .customize-control-media');
+                                            if ($thumb && $thumb.length) {
+                                                $img = $thumb.find('img');
+                                                if (!$img || !$img.length) {
+                                                    $img = $('<img>').prependTo($thumb);
+                                                }
+                                            } else {
+                                                // dernier recours : ajouter une img en haut du container
+                                                $img = $('<img>').prependTo($container);
+                                            }
+                                        }
+
+                                        if (url) {
+                                            // Assurer une URL absolue pour éviter les chemins relatifs qui cassent en preview
+                                            var fullUrl = url;
+                                            try {
+                                                if (fullUrl.indexOf('http') !== 0 && fullUrl.indexOf('//') !== 0 && fullUrl.indexOf('data:') !== 0) {
+                                                    fullUrl = window.location.origin.replace(/\/$/, '') + (fullUrl.indexOf('/') === 0 ? '' : '/') + fullUrl;
+                                                }
+                                            } catch (e) {
+                                                fullUrl = url;
+                                            }
+
+                                            // Mettre l'aperçu et gérer les erreurs 404 en fallback
+                                            $img.off('error.customizer load.customizer');
+                                            $img.on('error.customizer', function() {
+                                                console.warn('Image projet introuvable (404) :', fullUrl);
+                                                $(this).hide();
+                                                $container.find('.remove-image, .button-remove').hide();
+                                            });
+                                            $img.on('load.customizer', function() {
+                                                $(this).show();
+                                                $container.find('.placeholder, .customize-control-empty, .no-image').hide();
+                                                $container.find('.remove-image, .button-remove').show();
+                                            });
+
+                                            // Appliquer la source (le handler 'load' ou 'error' gèrera l'affichage)
+                                            $img.attr('src', fullUrl).show();
+                                            $container.find('.remove-image, .button-remove').show();
+
+                                            // Also set background on common thumbnail wrappers in case the control uses CSS background
+                                            try {
+                                                var $thumbWrap = $container.find('.thumbnail, .customize-control-thumbnail, .attachment-preview, .preview');
+                                                if ($thumbWrap && $thumbWrap.length) {
+                                                    $thumbWrap.css('background-image', 'url("' + fullUrl + '")');
+                                                    $thumbWrap.addClass('has-image');
+                                                }
+                                            } catch(e) {}
+
+                                            // Ensure the WP Customizer setting is set and control.setting updated if available
+                                            try {
+                                                wp.customize(key).set(fullUrl);
+                                                if (ctrl && ctrl.setting && typeof ctrl.setting.set === 'function') {
+                                                    try { ctrl.setting.set(fullUrl); } catch(e) {}
+                                                }
+                                            } catch(e) {}
+                                        } else {
+                                            try { $img.attr('src', '').hide(); } catch(e) {}
+                                            $container.find('.remove-image, .button-remove').hide();
+                                        }
+                                    }
+                                } catch (e) {}
+                            }
                             wp.customize('lien_projet').set(data.lien || '');
                             wp.customize('cours_projet').set(data.cours || '');
                             wp.customize('cat_exposition').set(data.cat_exposition || '');
@@ -73,6 +164,22 @@
                     wp.customize('description_projet').set('');
                     wp.customize('video_projet').set('');
                     wp.customize('image_projet').set('');
+                    // Vider aussi les images du carrousel et l'aperçu des contrôles
+                    for (var i = 1; i <= 5; i++) {
+                        var key = 'image_projet_' + i;
+                        try { wp.customize(key).set(''); } catch(e) {}
+                        try {
+                            var ctrl = wp.customize.control(key);
+                            if (ctrl && ctrl.container) {
+                                var $container = ctrl.container;
+                                var $img = $container.find('img');
+                                if ($img && $img.length) {
+                                    $img.attr('src', '').hide();
+                                }
+                                $container.find('.remove-image, .button-remove').hide();
+                            }
+                        } catch(e) {}
+                    }
                     wp.customize('lien_projet').set('');
                     wp.customize('cours_projet').set('');
                     wp.customize('cat_exposition').set('');

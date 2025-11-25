@@ -39,10 +39,10 @@
   // données initiales (utiliser les images du thème comme espaces réservés)
   const THEME = (window.CTRL_TIM && window.CTRL_TIM.themeUrl) ? window.CTRL_TIM.themeUrl : '';
   const affiches = [
-    THEME + '/images/hero-logo.svg',
-    THEME + '/images/affiche1.svg',
-    THEME + '/images/affiche2.svg',
-    THEME + '/images/affiche3.svg'
+    // THEME + '/images/hero-logo.svg',
+    // THEME + '/images/affiche1.svg',
+    // THEME + '/images/affiche2.svg',
+    // THEME + '/images/affiche3.svg'
   ];
 
   // aide pour ajouter une nouvelle carte arrière

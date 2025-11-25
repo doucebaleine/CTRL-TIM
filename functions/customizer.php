@@ -355,7 +355,7 @@ function ctrltim_enregistrer_customizer($wp_customize) {
     ));
 
 
-    // SECTION ARTISTES
+    // SECTION ARTISTES //
     $wp_customize->add_section('ctrltim_artistes', array(
         'title' => __('Gestion des Artistes', 'ctrltim'),
         'priority' => 37,
@@ -400,7 +400,7 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         'section'  => 'ctrltim_artistes',
         'settings' => 'artist_5_profile_pic',
     )));
-
+///////////////
 
 
 

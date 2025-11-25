@@ -1063,6 +1063,7 @@ body {
   margin: 0.5rem;
   height: 250px;
   flex-shrink: 0;
+  border-radius: 10px;
 }
 @media screen and (max-width: 700px) {
   .artistes__boiteArtistes__artisteSingle__imgArtiste {
@@ -1071,7 +1072,7 @@ body {
 }
 .artistes__boiteArtistes__artisteSingle__infoArtiste {
   width: 250px;
-  border-radius: 20px;
+  border-radius: 10px;
   margin: 1.5rem;
   background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, rgba(52, 59, 85, 0.4392156863) 100%);
   backdrop-filter: blur(3.75px);
@@ -1091,6 +1092,9 @@ body {
   .artistes__boiteArtistes__artisteSingle p {
     font-size: 15px;
   }
+}
+.artistes__boiteArtistes__artisteSingle p a {
+  color: #58b5ff;
 }
 
 .pageGalerie {

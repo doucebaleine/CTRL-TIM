@@ -2,21 +2,23 @@ body{
   background: var(--couleurBackground);
 }
 
-.mainArtistes{
-  margin-top: 8rem;
-}
+/*.mainArtistes{
+  margin-top: 4rem;
+}*/
 
 .artistes{
   
-  margin-top: 3rem;
+ // margin-top: 3rem;
   padding: 1.5rem;
   h2{
+    @media screen and (max-width: 700px) {
+      font-size: 9vw;
+    }
     color: var(--couleur-titre-pale);
     font-family: "Jersey 15";
-    //font-size: 40px;
-    //font-style: normal;
-    //font-weight: 400;
-    //line-height: normal;
+    font-size:4vw;
+    font-weight: 400;
+    line-height: normal;
     text-align: center;
     }
   &__boiteArtistes{
@@ -32,33 +34,36 @@ body{
         align-items: center;
         margin: 1rem;
 
-      &__imgArtiste{
-        margin: 0.5rem;
-        width: 250px;
-        height: 300px;
-        flex-shrink: 0;
-        background-color: #CCC;
+        &__imgArtiste{
+          @media screen and (max-width: 700px) {
+            height: 30vw;
+          }
+          margin: 0.5rem;
+          height: 250px;
+          flex-shrink: 0;
+          }
+        &__infoArtiste{
+          @media screen and (max-width: 700px) {
+            width: 150px;
+          }
+          width: 250px;
+          border-radius: 20px;
+          margin: 1.5rem;
+          background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, #343b5570 100%);
+          backdrop-filter: blur(3.75px);
         }
-      &__infoArtiste{
-        width: 250px;
-        height: 300px;
-        border-radius: 20px;
-        margin: 1.5rem;
-        background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, #343b5570 100%);
-        backdrop-filter: blur(3.75px);
-      }
-      p{
-          margin:1rem;
-          color:var(--couleur-texte-pale);
-          font-family: "Bai Jamjuree";
-          font-size: 20px;
-        }
+        p{
+          @media screen and (max-width: 700px) {
+            font-size: 15px;
+          }
+            margin:1rem;
+            color:var(--couleur-texte-pale);
+            font-family: "Bai Jamjuree";
+            font-size: 20px;
+          }
     }
 
   }
 
-  
+//end artistes
 }
-
-
-

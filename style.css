@@ -1027,18 +1027,24 @@ body {
   background: var(--couleurBackground);
 }
 
-.mainArtistes {
-  margin-top: 8rem;
-}
-
+/*.mainArtistes{
+  margin-top: 4rem;
+}*/
 .artistes {
-  margin-top: 3rem;
   padding: 1.5rem;
 }
 .artistes h2 {
   color: var(--couleur-titre-pale);
   font-family: "Jersey 15";
+  font-size: 4vw;
+  font-weight: 400;
+  line-height: normal;
   text-align: center;
+}
+@media screen and (max-width: 700px) {
+  .artistes h2 {
+    font-size: 9vw;
+  }
 }
 .artistes__boiteArtistes {
   display: flex;
@@ -1055,24 +1061,36 @@ body {
 }
 .artistes__boiteArtistes__artisteSingle__imgArtiste {
   margin: 0.5rem;
-  width: 250px;
-  height: 300px;
+  height: 250px;
   flex-shrink: 0;
-  background-color: #CCC;
+}
+@media screen and (max-width: 700px) {
+  .artistes__boiteArtistes__artisteSingle__imgArtiste {
+    height: 30vw;
+  }
 }
 .artistes__boiteArtistes__artisteSingle__infoArtiste {
   width: 250px;
-  height: 300px;
   border-radius: 20px;
   margin: 1.5rem;
   background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, rgba(52, 59, 85, 0.4392156863) 100%);
   backdrop-filter: blur(3.75px);
+}
+@media screen and (max-width: 700px) {
+  .artistes__boiteArtistes__artisteSingle__infoArtiste {
+    width: 150px;
+  }
 }
 .artistes__boiteArtistes__artisteSingle p {
   margin: 1rem;
   color: var(--couleur-texte-pale);
   font-family: "Bai Jamjuree";
   font-size: 20px;
+}
+@media screen and (max-width: 700px) {
+  .artistes__boiteArtistes__artisteSingle p {
+    font-size: 15px;
+  }
 }
 
 .pageGalerie {

@@ -354,6 +354,56 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         ),
     ));
 
+
+    // SECTION ARTISTES
+    $wp_customize->add_section('ctrltim_artistes', array(
+        'title' => __('Gestion des Artistes', 'ctrltim'),
+        'priority' => 37,
+    ));
+
+    // Artist 1
+    $wp_customize->add_setting( 'artist_1_profile_pic' );
+    $wp_customize->add_control( new WP_Customize_Image_Control($wp_customize,'artist_1_profile_pic_control',array(
+        'label'    => __( 'Artist 1 – Profile Picture', 'ctrltim' ),
+        'section'  => 'ctrltim_artistes',
+        'settings' => 'artist_1_profile_pic',
+    )));
+
+    // Artist 2
+    $wp_customize->add_setting( 'artist_2_profile_pic' );
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize,'artist_2_profile_pic_control',array(
+        'label'    => __( 'Artist 2 – Profile Picture', 'ctrltim' ),
+        'section'  => 'ctrltim_artistes',
+        'settings' => 'artist_2_profile_pic',
+    )));
+
+    // Artist 3
+    $wp_customize->add_setting( 'artist_3_profile_pic' );
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize,'artist_3_profile_pic_control',array(
+        'label'    => __( 'Artist 3 – Profile Picture', 'ctrltim' ),
+        'section'  => 'ctrltim_artistes',
+        'settings' => 'artist_3_profile_pic',
+    )));
+
+    // artist 4
+    $wp_customize->add_setting( 'artist_4_profile_pic' );
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize,'artist_4_profile_pic_control',array(
+        'label'    => __( 'Artist 4 – Profile Picture', 'ctrltim' ),
+        'section'  => 'ctrltim_artistes',
+        'settings' => 'artist_4_profile_pic',
+    )));
+
+    // artist 5
+    $wp_customize->add_setting( 'artist_5_profile_pic' );
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize,'artist_5_profile_pic_control',array(
+        'label'    => __( 'Artist 5 – Profile Picture', 'ctrltim' ),
+        'section'  => 'ctrltim_artistes',
+        'settings' => 'artist_5_profile_pic',
+    )));
+
+
+
+
     // (Le contrôle 'Exécuter l\'action' a été retiré — les médias sont gérés via la sauvegarde du Customizer)
 }
 add_action('customize_register', 'ctrltim_enregistrer_customizer');

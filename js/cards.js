@@ -1,15 +1,39 @@
 (function () {
-  // Comportement simple de pile : fermer la carte du haut -> la supprimer -> décaler les autres vers le haut -> ajouter une nouvelle carte arrière
   const pile = document.querySelector('.pile-affiches');
   if (!pile) return;
 
-  function creerCarte(id, src, estHaut) {
+  const THEME = (window.CTRL_TIM && window.CTRL_TIM.themeUrl) ? window.CTRL_TIM.themeUrl : '';
+
+  // Normaliser cartesProjets (peut être un tableau de strings ou d'objets {src, lien})
+  const projetsNorm = Array.isArray(cartesProjets) ? cartesProjets.map(item => {
+    if (typeof item === 'string') return { src: item, lien: null };
+    // attendre {src: "...", lien: "..."}
+    return { src: item.src || '', lien: item.lien || null };
+  }) : [];
+
+  // construire affiches comme tableau d'objets {src, lien}
+  const affiches = [
+    { src: THEME + '/images/hero-logo.svg', lien: null },
+    ...projetsNorm
+  ];
+
+  // index cyclique pour parcourir affiches dans l'ordre
+  let indexAffiche = 0;
+
+  function creerCarte(id, srcObj, estHaut) {
+    // srcObj peut être une string (rare, on normalise avant) ou un objet {src,lien}
+    const src = (typeof srcObj === 'string') ? srcObj : (srcObj && srcObj.src) ? srcObj.src : '';
+    const lien = (typeof srcObj === 'object') ? (srcObj.lien || null) : null;
+
     const carte = document.createElement('div');
     carte.className = 'carte-affiche';
     if (estHaut) carte.classList.add('affiche-haut');
     else if (id === 1) carte.classList.add('affiche-milieu');
     else carte.classList.add('affiche-arriere');
+
+    // set data-id et data-lien pour référence
     carte.dataset.id = id;
+    if (lien) carte.dataset.lien = lien;
 
     const btn = document.createElement('button');
     btn.className = 'bouton-fermer-affiche';
@@ -21,7 +45,17 @@
     img.src = src;
     img.alt = '';
     img.style.objectFit = 'cover';
-    // secours si une image échoue à se charger
+
+    // clic sur l'image -> navigation vers data-lien (si présent)
+    img.addEventListener('click', function (e) {
+      e.stopPropagation();
+      // priorité : lien stocké sur la carte; sinon on cherche un attribut data-lien sur l'image
+      const lienCarte = carte.dataset.lien || img.dataset.lien;
+      if (lienCarte) {
+        window.location.href = lienCarte;
+      }
+    });
+
     img.addEventListener('error', function () {
       console.warn('Image d\'affiche échouée à se charger, utilisation du secours:', src);
       img.src = (THEME || '') + '/images/logo.svg';
@@ -36,35 +70,51 @@
     return carte;
   }
 
-  // données initiales (utiliser les images du thème comme espaces réservés)
-  const THEME = (window.CTRL_TIM && window.CTRL_TIM.themeUrl) ? window.CTRL_TIM.themeUrl : '';
-  const affiches = [
-    THEME + '/images/hero-logo.svg',
-    THEME + '/images/affiche1.svg',
-    THEME + '/images/affiche2.svg',
-    THEME + '/images/affiche3.svg'
-  ];
+  // Forcer le logo pour la première carte affichée (si existante)
+  const premiereCarteImg = pile.querySelector('.affiche-haut img');
+  if (premiereCarteImg) {
+    premiereCarteImg.src = THEME + '/images/hero-logo.svg';
+    // si la carte php avait un data-lien, on garde; sinon on s'assure qu'elle n'a pas de lien.
+  }
 
-  // aide pour ajouter une nouvelle carte arrière
+  // S'assurer que les images statiques existantes ont le gestionnaire de click
+  pile.querySelectorAll('.carte-affiche').forEach(divCarte => {
+    const img = divCarte.querySelector('img');
+    if (!img) return;
+    // si le div a un data-lien (venant du PHP), on veut que le clic sur img navigue
+    const lien = divCarte.dataset.lien || null;
+    if (lien) {
+      // attacher dataset à l'image pour compatibilité future
+      img.dataset.lien = lien;
+    }
+    // attacher le listener (idempotent si rechargé)
+    img.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const logoPath = THEME + '/images/hero-logo.svg';
+      if (img.src.includes('hero-logo.svg')) {
+        return; // ne rien faire
+      }
+      const lienImg = divCarte.dataset.lien || img.dataset.lien;
+      if (lienImg) window.location.href = lienImg;
+    });
+  });
+
   function ajouterNouvelleArriere() {
-    const src = affiches[Math.floor(Math.random() * affiches.length)];
-    const nouvelleCarte = creerCarte(Date.now(), src, false);
+    const srcObj = affiches[indexAffiche];
+    indexAffiche = (indexAffiche + 1) % affiches.length; // boucle infinie
+
+    const nouvelleCarte = creerCarte(Date.now(), srcObj, false);
     nouvelleCarte.classList.add('nouvelle-arriere');
     pile.appendChild(nouvelleCarte);
-    // forcer la disposition puis animer
     requestAnimationFrame(() => {
       nouvelleCarte.classList.add('apparaitre');
-      // après apparaitre supprimer la classe d'aide
       setTimeout(() => nouvelleCarte.classList.remove('nouvelle-arriere', 'apparaitre'), 450);
     });
   }
 
   function fermerHaut(haut) {
     if (!haut) return;
-    // détacher l'élément de fermeture à un positionnement fixe pour que son animation
-    // ne change pas la largeur du document et cause une barre de défilement horizontale.
     detacherVersFixe(haut);
-    // puis déclencher l'animation de fermeture
     haut.classList.add('fermeture');
     haut.addEventListener('transitionend', function gestionnaire() {
       haut.removeEventListener('transitionend', gestionnaire);
@@ -74,13 +124,9 @@
     });
   }
 
-  // Déplacer l'élément à un positionnement fixe au même emplacement visuel
-  // pour que son animation de transformation n'affecte pas la disposition/défilement largeur.
   function detacherVersFixe(el) {
     const rect = el.getBoundingClientRect();
-    // préserver les transformations actuelles en supprimant temporairement la transformation
     const prevTransform = window.getComputedStyle(el).transform;
-    // définir taille explicite & positionnement fixe
     el.style.position = 'fixed';
     el.style.left = rect.left + 'px';
     el.style.top = rect.top + 'px';
@@ -88,9 +134,7 @@
     el.style.height = rect.height + 'px';
     el.style.margin = '0';
     el.style.zIndex = 99999;
-    // effacer la transformation pour que les transitions CSS s'appliquent depuis l'état visuel actuel
     el.style.transform = prevTransform === 'none' ? 'none' : prevTransform;
-    // forcer la disposition
     void el.offsetWidth;
   }
 
@@ -100,16 +144,13 @@
     const carte = btn.closest('.carte-affiche');
     if (!carte) return;
     const haut = pile.querySelector('.affiche-haut');
-    // si la carte cliquée est déjà haut, la fermer
     if (carte === haut) {
       fermerHaut(haut);
       return;
     }
-    // sinon tourner les classes pour que la carte cliquée devienne haut, animer puis fermer
     const milieu = pile.querySelector('.affiche-milieu');
     const arriere = pile.querySelector('.affiche-arriere');
     if (carte.classList.contains('affiche-milieu')) {
-      // haut -> arriere, milieu -> haut, arriere -> milieu
       if (haut) { haut.classList.remove('affiche-haut'); haut.classList.add('affiche-arriere'); }
       if (milieu) { milieu.classList.remove('affiche-milieu'); milieu.classList.add('affiche-haut', 'animer-vers-haut'); }
       if (arriere) { arriere.classList.remove('affiche-arriere'); arriere.classList.add('affiche-milieu'); }
@@ -117,7 +158,6 @@
       return;
     }
     if (carte.classList.contains('affiche-arriere')) {
-      // tourner : haut->milieu, milieu->arriere, arriere->haut
       if (haut) { haut.classList.remove('affiche-haut'); haut.classList.add('affiche-milieu'); }
       if (milieu) { milieu.classList.remove('affiche-milieu'); milieu.classList.add('affiche-arriere'); }
       carte.classList.remove('affiche-arriere'); carte.classList.add('affiche-haut', 'animer-vers-haut');
@@ -140,15 +180,14 @@
   pile.querySelectorAll('img').forEach(img => {
     img.style.objectFit = 'cover';
     img.addEventListener('error', function () {
-      console.warn('Image d\'affiche statique échouée à se charger, utilisation du secours:', img.src);
       img.src = (THEME || '') + '/images/logo.svg';
       img.classList.add('image-affiche-secours');
     });
   });
 
-  // Sécurité : si l'utilisateur clique sur l'arrière-plan de la pile, fermer le haut aussi
+  // sécurité : clique sur l'arrière-plan
   pile.addEventListener('click', function (e) {
-    if (e.target === pile) return; // ignorer l'arrière-plan
+    if (e.target === pile) return;
   });
 
 })();

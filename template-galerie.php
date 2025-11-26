@@ -33,7 +33,7 @@ Template Name: Galerie
       </h3>
       <p class="pageGalerie__filter__description">
         <span class="pageGalerie__filter__debutDescription">Explorez l’ensemble des projets réalisés par les étudiants de la Technique d’intégration multimédia. Jeux</span>            
-        <span class="pageGalerie__filter__lirePlus pageGalerie__filter__description">vidéo, sites web, créations interactives et projets artistiques : découvrez la diversité et le talent qui animent chaque cohorte du TIM.</span>
+        <span class="pageGalerie__filter__lirePlus">vidéo, sites web, créations interactives et projets artistiques : découvrez la diversité et le talent qui animent chaque cohorte du TIM.</span>
         <span id="btnLirePlus">...Lire plus</span>
       </p>
       

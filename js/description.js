@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click", () => {
       buttons.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      texteLirePlus.classList.toggle("open");
+      texteLirePlus.classList.remove("open");
       btnText.textContent = "Lire plus";
 
       const key = normalize(btn.textContent);

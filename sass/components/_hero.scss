@@ -33,6 +33,7 @@ h2{
 
 .description-exposition-principale{
     padding-top: 50px;
+    padding-bottom: 50px;
 }
 
 @media screen and (max-width: 600px) {
@@ -58,3 +59,11 @@ h2{
   }
 }
 
+@media (min-width: 600px) and (max-width: 900px) {
+  .acceuil__TextePrincipal{
+    width: 100%;
+  }
+  .acceuil__TextePrincipal__Titre h1{
+    font-size: clamp(5rem, 10vw + 5rem, 10rem);
+  }
+}

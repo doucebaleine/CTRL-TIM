@@ -506,7 +506,7 @@ body::before {
 .carte-affiche {
   position: absolute;
   aspect-ratio: 560/380;
-  width: min(80vw, 560px);
+  width: 40vw;
   border-radius: 10px;
   --border-grad: linear-gradient(90deg,#D167FF,#62B8FF);
   background: linear-gradient(180deg, rgba(18, 18, 30, 0.9), rgba(12, 12, 22, 0.9));
@@ -614,6 +614,9 @@ body::before {
   .pile-affiches {
     width: 0;
     display: block;
+  }
+  .carte-affiche {
+    width: 80vw;
   }
 }
 .pied-page-site {
@@ -793,6 +796,7 @@ h2 {
 
 .description-exposition-principale {
   padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 @media screen and (max-width: 600px) {
@@ -808,6 +812,14 @@ h2 {
   .galerieBoiteGenerale {
     width: 100%;
     height: 35%;
+  }
+  .acceuil__TextePrincipal__Titre h1 {
+    font-size: clamp(5rem, 10vw + 5rem, 10rem);
+  }
+}
+@media (min-width: 600px) and (max-width: 900px) {
+  .acceuil__TextePrincipal {
+    width: 100%;
   }
   .acceuil__TextePrincipal__Titre h1 {
     font-size: clamp(5rem, 10vw + 5rem, 10rem);
@@ -864,6 +876,7 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 22px;
+  align-items: center;
 }
 
 .bouton-menu {
@@ -882,6 +895,7 @@ h2 {
   background: linear-gradient(90deg, #D167FF, #62B8FF);
   color: #07101e;
   box-shadow: -8px 6px 0px 0px rgb(45, 20, 80);
+  padding: 12px 24px;
 }
 
 /* rendre visuellement et fonctionnellement non cliquable l'élément primaire/current */
@@ -890,6 +904,7 @@ h2 {
   pointer-events: none;
   cursor: default;
   opacity: 0.95;
+  width: 60%;
   transition: opacity 160ms ease, transform 160ms ease;
 }
 
@@ -906,7 +921,7 @@ h2 {
 
 ul.menu-principal {
   list-style: none;
-  text-align: end;
+  text-align: center;
   display: contents;
 }
 
@@ -986,6 +1001,7 @@ ul.menu-principal {
   .nav-hors-canvas {
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 }
 /* Barre de recherche centrée en haut */
@@ -1485,7 +1501,7 @@ footer {
   display: none;
 }
 .pageGalerie__filter__description {
-  color: var(--couleur-texte-sous-titre);
+  color: var(--couleur-texte-pale);
 }
 .pageGalerie__filter__subtitle {
   background-image: var(--galerie-projet-bordure-arcade);
@@ -1765,17 +1781,19 @@ footer {
   .pageGalerie__galerieProjets__projets__projet:hover {
     transform: translateY(-40px) scale(1.03);
   }
-  .pageGalerie__galerieProjets__projets__projet .pageGalerie__filter__lirePlus {
+  .pageGalerie__filter__lirePlus {
     display: none;
   }
-  .pageGalerie__galerieProjets__projets__projet .pageGalerie__filter__lirePlus.open {
+  .pageGalerie__filter__lirePlus.open {
     display: inline;
   }
-  .pageGalerie__galerieProjets__projets__projet .pageGalerie__filter__lirePlus.open + #btnLirePlus {
+  .pageGalerie__filter__lirePlus.open + #btnLirePlus {
     display: block;
   }
-  .pageGalerie__galerieProjets__projets__projet .pageGalerie__filter #btnLirePlus {
-    display: inline;
+  .pageGalerie__filter #btnLirePlus {
+    display: block;
+    text-decoration: underline;
+    color: #58b5ff;
   }
 }
 .pageProjet {

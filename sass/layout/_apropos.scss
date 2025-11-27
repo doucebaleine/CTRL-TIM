@@ -1,74 +1,73 @@
-body{
+body {
   background: var(--couleurBackground);
 }
 
-/*.mainArtistes{
-  margin-top: 4rem;
-}*/
+.mainArtistes {
+  margin-top: 4vmax;
+  margin-bottom: 3vmax;
 
-.artistes{
-  
- // margin-top: 3rem;
-  padding: 1.5rem;
-  h2{
-    @media screen and (max-width: 700px) {
-      font-size: 9vw;
+  @media screen and (max-width: 700px) {
+    margin-bottom: 28vmax;
+  }
+
+  .artistes {
+    padding: 1.5rem;
+
+    h2 {
+      @media screen and (max-width: 700px) {
+        font-size: 9vw;
+      }
+      color: var(--couleur-titre-pale);
+      font-family: "Jersey 15";
+      font-size: 4vw;
+      font-weight: 400;
+      text-align: center;
     }
-    color: var(--couleur-titre-pale);
-    font-family: "Jersey 15";
-    font-size:4vw;
-    font-weight: 400;
-    line-height: normal;
-    text-align: center;
-    }
-  &__boiteArtistes{
+
+    &__boiteArtistes {
       display: flex;
-      flex-direction: row;
       flex-wrap: wrap;
-      align-content: center;
       justify-content: center;
 
-      &__artisteSingle{
+      &__artisteSingle {
         display: flex;
-        flex-direction: row;
         align-items: center;
         margin: 1rem;
 
-        &__imgArtiste{
+        &__imgArtiste {
           @media screen and (max-width: 700px) {
             height: 30vw;
           }
+          height: 17vw;
           margin: 0.5rem;
-          height: 250px;
-          flex-shrink: 0;
           border-radius: 10px;
-          }
-        &__infoArtiste{
+        }
+
+        &__infoArtiste {
           @media screen and (max-width: 700px) {
             width: 150px;
           }
           width: 250px;
-          border-radius: 10px;
           margin: 1.5rem;
+          border-radius: 10px;
           background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, #343b5570 100%);
           backdrop-filter: blur(3.75px);
         }
-        p{
+
+        p {
           @media screen and (max-width: 700px) {
             font-size: 15px;
           }
-            margin:1rem;
-            color:var(--couleur-texte-pale);
-            font-family: "Bai Jamjuree";
-            font-size: 20px;
+          margin: 1rem;
+          color: var(--couleur-texte-pale);
+          font-family: "Bai Jamjuree";
+          font-size: 20px;
 
-            a{
-              color: #58b5ff;
-            }
+          a {
+            color: #58b5ff;
           }
+        }
+      }
     }
-
   }
-
-//end artistes
 }

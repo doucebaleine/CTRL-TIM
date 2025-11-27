@@ -12,6 +12,8 @@
   display:flex;
   align-items:center;
   justify-content:space-evenly;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .icone-sociale{
@@ -51,7 +53,7 @@
 .recherche-pied-page{
   width:60%;
   max-width:720px;
-  min-width:300px;
+  min-width:0;
   height:34px;
   border-radius:22px;
   display:flex;
@@ -93,12 +95,13 @@
 /* petits écrans : empiler le pied de page */
 @media (max-width:900px){
   .interieur-pied-page{
-    align-items:center
+    align-items:center;
+    flex-direction: column;
   }
   .centre-pied-page{
-    width:100%
+    width:100%;
   }
   .recherche-pied-page{
-    width:90%
+    width:90%;
   }
 }

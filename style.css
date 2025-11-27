@@ -1350,73 +1350,72 @@ body {
   background: var(--couleurBackground);
 }
 
-/*.mainArtistes{
-  margin-top: 4rem;
-}*/
-.artistes {
+main.mainArtistes {
+  min-height: 100%;
+  height: auto !important;
+  overflow: visible !important;
+  display: block;
+}
+
+.mainArtistes .artistes {
   padding: 1.5rem;
 }
-.artistes h2 {
+.mainArtistes .artistes h2 {
   color: var(--couleur-titre-pale);
   font-family: "Jersey 15";
   font-size: 4vw;
   font-weight: 400;
-  line-height: normal;
   text-align: center;
 }
 @media screen and (max-width: 700px) {
-  .artistes h2 {
+  .mainArtistes .artistes h2 {
     font-size: 9vw;
   }
 }
-.artistes__boiteArtistes {
+.mainArtistes .artistes__boiteArtistes {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  align-content: center;
   justify-content: center;
 }
-.artistes__boiteArtistes__artisteSingle {
+.mainArtistes .artistes__boiteArtistes__artisteSingle {
   display: flex;
-  flex-direction: row;
   align-items: center;
   margin: 1rem;
 }
-.artistes__boiteArtistes__artisteSingle__imgArtiste {
+.mainArtistes .artistes__boiteArtistes__artisteSingle__imgArtiste {
+  height: 17vw;
   margin: 0.5rem;
-  height: 250px;
-  flex-shrink: 0;
   border-radius: 10px;
 }
 @media screen and (max-width: 700px) {
-  .artistes__boiteArtistes__artisteSingle__imgArtiste {
+  .mainArtistes .artistes__boiteArtistes__artisteSingle__imgArtiste {
     height: 30vw;
   }
 }
-.artistes__boiteArtistes__artisteSingle__infoArtiste {
-  width: 250px;
-  border-radius: 10px;
+.mainArtistes .artistes__boiteArtistes__artisteSingle__infoArtiste {
+  width: 17vw;
   margin: 1.5rem;
+  border-radius: 10px;
   background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, rgba(52, 59, 85, 0.4392156863) 100%);
   backdrop-filter: blur(3.75px);
 }
 @media screen and (max-width: 700px) {
-  .artistes__boiteArtistes__artisteSingle__infoArtiste {
-    width: 150px;
+  .mainArtistes .artistes__boiteArtistes__artisteSingle__infoArtiste {
+    width: 26vw;
   }
 }
-.artistes__boiteArtistes__artisteSingle p {
+.mainArtistes .artistes__boiteArtistes__artisteSingle p {
   margin: 1rem;
   color: var(--couleur-texte-pale);
   font-family: "Bai Jamjuree";
   font-size: 20px;
 }
 @media screen and (max-width: 700px) {
-  .artistes__boiteArtistes__artisteSingle p {
+  .mainArtistes .artistes__boiteArtistes__artisteSingle p {
     font-size: 15px;
   }
 }
-.artistes__boiteArtistes__artisteSingle p a {
+.mainArtistes .artistes__boiteArtistes__artisteSingle p a {
   color: #58b5ff;
 }
 
@@ -2012,4 +2011,4 @@ body {
     width: 40px;
     height: 40px;
   }
-}/*# sourceMappingURL=style.css.map */
+}

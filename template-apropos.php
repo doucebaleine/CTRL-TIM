@@ -78,9 +78,5 @@
 
 
    </main>
-   <footer>
-     <?php get_footer(); ?>
-   </footer>
-</body>
 
-</html>
+   <?php get_footer(); ?>

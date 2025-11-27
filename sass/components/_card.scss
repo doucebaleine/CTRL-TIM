@@ -1,5 +1,4 @@
 .pile-affiches {
-    width: 900px;
     height: 400px;
     pointer-events: auto;
     display: flex;
@@ -9,8 +8,8 @@
 
 .carte-affiche {
   position: absolute;
-  width: 560px;
-  height: 380px;
+  aspect-ratio: 560 / 380;
+  width: 40vw; 
   border-radius: 10px;
   --border-grad: linear-gradient(90deg,#D167FF,#62B8FF);
   background: linear-gradient(180deg, rgba(18, 18, 30, 0.9), rgba(12, 12, 22, 0.9));
@@ -32,6 +31,7 @@
   border-radius: 10px;
   display: block;
   object-fit: cover;
+  cursor: pointer;
 }
 
 .carte-affiche::after {
@@ -63,7 +63,7 @@
   position: absolute;
   top: 8px;
   right: 10px;
-  background: rgb(67 67 67 / 50%);
+  background: rgba(67, 67, 67, 0.50%);
   color: #fff;
   border: none;
   width: 32px;
@@ -78,7 +78,7 @@
 
   /* Survol & focus : assombrir l'arrière-plan pour augmenter le contraste */
   &:hover {
-    background: rgb(67 67 67 / 85%);
+    background: rgba(67, 67, 67, 0.85%);
   }
 
   &:active {
@@ -89,7 +89,7 @@
   &:focus-visible {
     outline: 2px solid rgba(209,103,255,0.9);
     outline-offset: 2px;
-    background: rgb(67 67 67 / 65%);
+    background: rgba(67, 67, 67, 0.65%);
   }
 }
 
@@ -121,4 +121,11 @@
     width: 0;
     display: block; 
   }
+  .carte-affiche {
+    width: 80vw; 
+  }
+}
+
+@media (max-width:600px){
+  
 }

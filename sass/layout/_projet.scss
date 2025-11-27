@@ -1,14 +1,12 @@
 .pageProjet {
-    background-color: var(--couleurBackground);
     width: 100%;
 
     &__titre {
         width: 100%;
-        min-height: 50vh;
+        min-height: 20vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #0B0E21;
         position: relative;
         padding: 4rem 0;
 
@@ -18,39 +16,29 @@
             margin: 0 auto;
             padding: 2rem;
             position: relative;
-
-            &::before,
-            &::after {
-                content: '';
-                position: absolute;
-                width: 2px;
-                height: 100%;
-            }
-
-            &::before {
-                left: 0;
-            }
-
-            &::after {
-                right: 0;
-            }
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         &__boiteTitre {
-            width: 100%;
+            width: 70%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 2rem;
+            border-radius: 11px;
+            border: 2px solid var(--couleurBordure);
+            background: radial-gradient(50% 50% at 50% 50%, #0e1431 0%, #12193c 100%) ;
+            padding-bottom: 2rem;
 
             &__texte {
+
                 h2 {
                     color: #FFFFFF;
                     font-family: 'Jersey 15', sans-serif;
                     font-size: clamp(48px, 8vw, 78px);
                     text-align: center;
                     text-transform: uppercase;
-                    margin: 0;
                 }
             }
 
@@ -59,12 +47,11 @@
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: center;
-                gap: 1rem;
+                gap: 2rem;
 
                 &__contenant {
                     padding: 0.75rem 1.5rem;
                     border-radius: 8px;
-                    background-color: #0B0E21;
                     position: relative;
 
                     span {
@@ -114,7 +101,6 @@
         margin: 0 auto;
         padding: 2rem;
         box-sizing: border-box;
-        background-color: #0B0E21;
     }
 
     /* colonne gauche : image principale */
@@ -218,7 +204,6 @@
         margin: 0 auto;
         padding: 0 1rem;
         box-sizing: border-box;
-        background-color: #0B0E21;
         overflow: hidden;
         
         &__nav {
@@ -287,7 +272,6 @@
                 visibility: hidden;
                 transform: scale(0.98);
                 transition: all 0.3s ease;
-                padding: 1rem;
 
                 &--active {
                     opacity: 1;
@@ -310,7 +294,7 @@
         &__boutons {
             display: flex;
             justify-content: center;
-            margin-top: 1rem;
+            margin-bottom: 2rem;
             gap: 1rem;
         }
 

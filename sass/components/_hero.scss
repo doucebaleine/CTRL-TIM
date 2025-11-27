@@ -1,21 +1,13 @@
-/* Disposition héros : titre à gauche et description */
-.page-accueil{
-  display: grid;
-  grid-template-columns: 1fr 540px;
-  gap: 2rem;
-  align-items: center;
-  min-height: calc(100vh - 120px);
-  position: relative;
-  z-index: 2;
+.acceuil__TextePrincipal{
+  width: 50%;
 }
 
-.titre h1{
-  color: var(--couleur-titre-pale);
-  font-family: var(--policeTitre);
-  font-size: 7.5rem;
-  line-height: 0.9;
-  text-transform: uppercase;
-  letter-spacing: 6px;
+.acceuil__TextePrincipal__Titre{
+  width: 70%;
+}
+
+.galerieBoiteGenerale{
+  width: 50%;
 }
 
 .titre { 
@@ -35,27 +27,43 @@ h2{
 }
 
 .effet-titre{
-    position: absolute;
-    top: 180px;
-    width: 446px;
-}
-
-.effet-titre-deux{
-    position: absolute;
-    top: 230px;
-    width: 446px;
+  margin-top: 10px;
+  width: 100%;
 }
 
 .description-exposition-principale{
     padding-top: 50px;
+    padding-bottom: 50px;
 }
 
-@media (max-width:900px){
+@media screen and (max-width: 600px) {
   .effet-titre{
     top: 100px;
+  }
+
+  .acceuil__TextePrincipal{
+    width: 100%;
+  }
+
+  .acceuil__TextePrincipal__Titre{
+    width: 100%;
+  }
+
+  .galerieBoiteGenerale{
+    width: 100%;
+    height: 35%;
+  }
+
+  .acceuil__TextePrincipal__Titre h1{
+    font-size: clamp(5rem, 10vw + 5rem, 10rem);
+  }
 }
 
-  .effet-titre-deux{
-    top: 155px;
+@media (min-width: 600px) and (max-width: 900px) {
+  .acceuil__TextePrincipal{
+    width: 100%;
+  }
+  .acceuil__TextePrincipal__Titre h1{
+    font-size: clamp(5rem, 10vw + 5rem, 10rem);
   }
 }

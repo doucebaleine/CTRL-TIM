@@ -47,7 +47,8 @@
 .nav-hors-canvas{ 
   display:flex; 
   flex-direction:column; 
-  gap:22px 
+  gap:22px;
+  align-items: center;
 
 }
 .bouton-menu{ 
@@ -66,6 +67,7 @@
   background: linear-gradient(90deg,#D167FF,#62B8FF);
   color: #07101e;
   box-shadow: -8px 6px 0px 0px rgba(45, 20, 80, 25);
+  padding: 12px 24px;
 }
 
 /* rendre visuellement et fonctionnellement non cliquable l'élément primaire/current */
@@ -74,6 +76,7 @@
   pointer-events: none;
   cursor: default;
   opacity: 0.95;
+  width: 60%;
   transition: opacity 160ms ease, transform 160ms ease;
 }
 .bouton-menu.primaire:hover,
@@ -89,7 +92,7 @@
 
 ul.menu-principal {
     list-style: none;
-    text-align: end;
+    text-align: center;
     display: contents;
 }
 
@@ -202,5 +205,6 @@ ul.menu-principal {
   .nav-hors-canvas {
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 }

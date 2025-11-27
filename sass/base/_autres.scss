@@ -31,3 +31,9 @@ h1{
 .menuBoiteGlobale{
     cursor: pointer;
 }
+
+@media screen and (max-width: 900px) {
+    main{
+        height: 120vh;
+    }
+}

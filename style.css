@@ -476,6 +476,11 @@ h1 {
   cursor: pointer;
 }
 
+@media screen and (max-width: 900px) {
+  main {
+    height: 120vh;
+  }
+}
 /* /////////////////////////////////
 Les composants
 //////////////////////////////////// */
@@ -2011,4 +2016,4 @@ main.mainArtistes {
     width: 40px;
     height: 40px;
   }
-}
+}/*# sourceMappingURL=style.css.map */

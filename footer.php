@@ -3,18 +3,18 @@
     <footer class="pied-page-site">
         <div class="interieur-pied-page">
             <div class="colonne-pied-page gauche" aria-hidden="true">
-                <a class="icone-sociale icone-haut" href="#" aria-label="YouTube">
+                <a class="icone-sociale icone-haut" href="https://www.youtube.com/@TIMaisonneuve" aria-label="YouTube">
                     <img src="<?php echo esc_url( get_template_directory_uri() . '/images/youtube.svg' ); ?>" alt="YouTube" aria-hidden="true" />
                 </a>
 
                 <div class="rangee-icones" role="group" aria-label="Réseaux sociaux">
-                    <a class="icone-sociale" href="#" aria-label="Instagram">
+                    <a class="icone-sociale" href="https://www.instagram.com/maisonneuvetim/" aria-label="Instagram">
                         <img src="<?php echo esc_url( get_template_directory_uri() . '/images/instagram.svg' ); ?>" alt="Instagram" aria-hidden="true" />
                     </a>
-                    <a class="icone-sociale" href="#" aria-label="Facebook">
+                    <a class="icone-sociale" href="https://www.facebook.com/maisonneuvetim/?locale=fr_CA" aria-label="Facebook">
                         <img src="<?php echo esc_url( get_template_directory_uri() . '/images/facebook.svg' ); ?>" alt="Facebook" aria-hidden="true" />
                     </a>
-                    <a class="icone-sociale" href="#" aria-label="LinkedIn">
+                    <a class="icone-sociale" href="https://www.linkedin.com/in/tim-coll%C3%A8ge-de-maisonneuve-9407b7131/?locale=fr_FR" aria-label="LinkedIn">
                         <img src="<?php echo esc_url( get_template_directory_uri() . '/images/linkedin.svg' ); ?>" alt="LinkedIn" aria-hidden="true" />
                     </a>
                 </div>
@@ -34,11 +34,11 @@
             </div>
 
             <div class="colonne-pied-page droite" aria-hidden="true">
-                <a class="icone-sociale" href="#" aria-label="Site web">
+                <a class="icone-sociale" href="https://www.cmaisonneuve.qc.ca/programme/integration-multimedia/" aria-label="Site web">
                     <img src="<?php echo esc_url( get_template_directory_uri() . '/images/site-icon.svg' ); ?>" alt="Site" aria-hidden="true" />
                 </a>
                 <p>Site web</p>
-                <a class="icone-sociale" href="#" aria-label="Localisation">
+                <a class="icone-sociale" href="https://www.cmaisonneuve.qc.ca/programme/integration-multimedia/" aria-label="Localisation">
                     <img src="<?php echo esc_url( get_template_directory_uri() . '/images/location-icon.svg' ); ?>" alt="Localisation" aria-hidden="true" />
                 </a>
                 <p>Localisation</p>

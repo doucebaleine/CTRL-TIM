@@ -37,9 +37,11 @@
                 <a class="icone-sociale" href="#" aria-label="Site web">
                     <img src="<?php echo esc_url( get_template_directory_uri() . '/images/site-icon.svg' ); ?>" alt="Site" aria-hidden="true" />
                 </a>
+                <p>Site web</p>
                 <a class="icone-sociale" href="#" aria-label="Localisation">
                     <img src="<?php echo esc_url( get_template_directory_uri() . '/images/location-icon.svg' ); ?>" alt="Localisation" aria-hidden="true" />
                 </a>
+                <p>Localisation</p>
             </div>
         </div>
     </footer>

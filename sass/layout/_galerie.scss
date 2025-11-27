@@ -23,9 +23,11 @@
     padding: 0 80px 0 80px;
     margin: 0 auto 0px;
     line-height: 1.6;
-    
+    #btnLirePlus {
+      display: none;
+    }
     &__description {
-      color: var(--couleur-texte-sous-titre);
+      color: var(--couleur-texte-pale);
     }
 
     &__subtitle {
@@ -44,7 +46,7 @@
     flex-shrink: 0;
     border-radius: 11px;
     border: 2px solid var(--couleurBordure);
-    background: radial-gradient(50% 50% at 50% 50%, #0e1431 0%, #12193c 100%) ;
+    background: radial-gradient(50% 50% at 50% 50%, #0e1431 0%, #12193c 100%);
     overflow: hidden;
 
     &__filter-btn {
@@ -59,7 +61,7 @@
       width: 10vw;
       text-align: center;
       font-family: var(--policeTexte);
-      font-size: clamp(0.875rem, 1vw + 0.5rem, 1.25rem);
+      font-size: clamp(0.75rem, 1vw + 0.5rem, 1.25rem);
       line-height: normal;
 
       &:hover {
@@ -67,7 +69,7 @@
       }
 
       &.active {
-        background: var(--couleurGradientBlueViolet, linear-gradient(90deg, #d26eff, #58b5ff));;
+        background: var(--couleurGradientBlueViolet, linear-gradient(90deg, #d26eff, #58b5ff));
         color: var(--galerie-filter-btn-texte-active);
         border-radius: 8px;
         margin: 8px;
@@ -365,5 +367,19 @@
         transform: translateY(-40px) scale(1.03);
       }
     }
+  }
+  .pageGalerie__filter__lirePlus {
+    display: none;    
+  }
+  .pageGalerie__filter__lirePlus.open {
+    display: inline;    
+  }
+  .pageGalerie__filter__lirePlus.open + #btnLirePlus {
+    display: block;    
+  }
+  .pageGalerie__filter #btnLirePlus {
+    display: block;
+    text-decoration: underline;
+    color: #58b5ff;
   }
 }

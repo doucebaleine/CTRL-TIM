@@ -458,7 +458,7 @@ header {
 }
 
 main {
-  height: 1080px;
+  height: 100vh;
   padding: 2em;
 }
 
@@ -496,7 +496,6 @@ body::before {
 }
 
 .pile-affiches {
-  width: 900px;
   height: 400px;
   pointer-events: auto;
   display: flex;
@@ -506,8 +505,8 @@ body::before {
 
 .carte-affiche {
   position: absolute;
-  width: 560px;
-  height: 380px;
+  aspect-ratio: 560/380;
+  width: 40vw;
   border-radius: 10px;
   --border-grad: linear-gradient(90deg,#D167FF,#62B8FF);
   background: linear-gradient(180deg, rgba(18, 18, 30, 0.9), rgba(12, 12, 22, 0.9));
@@ -529,6 +528,7 @@ body::before {
   border-radius: 10px;
   display: block;
   object-fit: cover;
+  cursor: pointer;
 }
 
 .carte-affiche::after {
@@ -560,7 +560,7 @@ body::before {
   position: absolute;
   top: 8px;
   right: 10px;
-  background: rgba(67, 67, 67, 0.5);
+  background: rgba(67, 67, 67, 0.005);
   color: #fff;
   border: none;
   width: 32px;
@@ -576,7 +576,7 @@ body::before {
   /* focus clavier pour l'accessibilité */
 }
 .bouton-fermer-affiche:hover {
-  background: rgba(67, 67, 67, 0.85);
+  background: rgba(67, 67, 67, 0.0085);
 }
 .bouton-fermer-affiche:active {
   transform: translateY(1px) scale(0.98);
@@ -584,7 +584,7 @@ body::before {
 .bouton-fermer-affiche:focus-visible {
   outline: 2px solid rgba(209, 103, 255, 0.9);
   outline-offset: 2px;
-  background: rgba(67, 67, 67, 0.65);
+  background: rgba(67, 67, 67, 0.0065);
 }
 
 /* animation de fermeture */
@@ -615,6 +615,9 @@ body::before {
     width: 0;
     display: block;
   }
+  .carte-affiche {
+    width: 80vw;
+  }
 }
 .pied-page-site {
   bottom: 0;
@@ -644,6 +647,12 @@ body::before {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.colonne-pied-page.droite p {
+  color: #ffffff;
+  font-size: 0.6rem;
+  text-align: center;
 }
 
 .rangee-icones {
@@ -730,11 +739,11 @@ body::before {
 
 .barreRecherche input {
   flex: 1;
+  width: fit-content;
   background: transparent;
   border: none;
   outline: none;
   color: var(--couleur-texte-pale);
-  padding: 6px 4px;
 }
 
 .iconeRecherche {
@@ -746,28 +755,23 @@ body::before {
   .barreRecherche {
     width: 70%;
   }
+  .barreRecherche input {
+    width: fit-content;
+  }
   .logo {
     left: 12px;
   }
 }
-/* Disposition héros : titre à gauche et description */
-.page-accueil {
-  display: grid;
-  grid-template-columns: 1fr 540px;
-  gap: 2rem;
-  align-items: center;
-  min-height: calc(100vh - 120px);
-  position: relative;
-  z-index: 2;
+.acceuil__TextePrincipal {
+  width: 50%;
 }
 
-.titre h1 {
-  color: var(--couleur-titre-pale);
-  font-family: var(--policeTitre);
-  font-size: 7.5rem;
-  line-height: 0.9;
-  text-transform: uppercase;
-  letter-spacing: 6px;
+.acceuil__TextePrincipal__Titre {
+  width: 70%;
+}
+
+.galerieBoiteGenerale {
+  width: 50%;
 }
 
 .titre {
@@ -787,27 +791,39 @@ h2 {
 }
 
 .effet-titre {
-  position: absolute;
-  top: 180px;
-  width: 446px;
-}
-
-.effet-titre-deux {
-  position: absolute;
-  top: 230px;
-  width: 446px;
+  margin-top: 10px;
+  width: 100%;
 }
 
 .description-exposition-principale {
   padding-top: 50px;
+  padding-bottom: 50px;
 }
 
-@media (max-width: 900px) {
+@media screen and (max-width: 600px) {
   .effet-titre {
     top: 100px;
   }
-  .effet-titre-deux {
-    top: 155px;
+  .acceuil__TextePrincipal {
+    width: 100%;
+  }
+  .acceuil__TextePrincipal__Titre {
+    width: 100%;
+  }
+  .galerieBoiteGenerale {
+    width: 100%;
+    height: 35%;
+  }
+  .acceuil__TextePrincipal__Titre h1 {
+    font-size: clamp(5rem, 10vw + 5rem, 10rem);
+  }
+}
+@media (min-width: 600px) and (max-width: 900px) {
+  .acceuil__TextePrincipal {
+    width: 100%;
+  }
+  .acceuil__TextePrincipal__Titre h1 {
+    font-size: clamp(5rem, 10vw + 5rem, 10rem);
   }
 }
 /* Styles du menu hors-canvas */
@@ -877,7 +893,7 @@ h2 {
 .bouton-menu.primaire,
 .bouton-menu.current-menu-item {
   background: linear-gradient(90deg, #D167FF, #62B8FF);
-  color: #07101e;
+  color: #0b0e21;
   box-shadow: -8px 6px 0px 0px rgb(45, 20, 80);
 }
 
@@ -894,6 +910,12 @@ h2 {
 .bouton-menu.current-menu-item:hover {
   opacity: 0.95;
   transform: none;
+}
+
+/* Forcer le texte en noir sur le lien de l'élément courant
+   quand la classe WordPress `current-menu-item` est appliquée au <li> */
+.menu-hors-canvas .menu-principal .current-menu-item > a.bouton-menu {
+  color: #0b0e21;
 }
 
 /* animation temporaire lorsque primaire se déplace vers un nouvel élément */
@@ -997,11 +1019,14 @@ ul.menu-principal {
   border-radius: 14px;
   background: #141633;
   border: 2px solid #2e306a;
+  justify-content: center;
+  align-items: center;
 }
 
 .barreRecherche input {
   flex: 1;
   background: transparent;
+  width: 100%;
   border: none;
   outline: none;
   color: #737cb5;
@@ -1095,12 +1120,6 @@ input[type=search]::-ms-reveal {
   height: 0;
 }
 
-/* Small screens: reduce padding but keep space for clear button */
-@media (max-width: 480px) {
-  .barreRecherche input {
-    padding-right: 56px;
-  }
-}
 .search-history-item {
   padding: 8px 16px;
   color: #b6c2e0;
@@ -1288,6 +1307,11 @@ input[type=search]::-ms-reveal {
     transform: none;
   }
 }
+@media screen and (max-width: 600px) {
+  .barreRecherche input {
+    padding-right: 0px;
+  }
+}
 /* /////////////////////////////////
 Les layouts
 //////////////////////////////////// */
@@ -1319,136 +1343,78 @@ footer {
     display: block;
   }
 }
-.aproposMain {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+body {
+  background: var(--couleurBackground);
 }
 
-.titreApropos {
-  color: --couleur-titre-pale;
-  text-align: center;
-  font-family: "Jersey 15";
-  font-size: 4rem;
-  text-align: center;
+/*.mainArtistes{
+  margin-top: 4rem;
+}*/
+.artistes {
+  padding: 1.5rem;
 }
-
-.infosaPropos h3 {
+.artistes h2 {
   color: var(--couleur-titre-pale);
   font-family: "Jersey 15";
-  font-size: 3rem;
-  margin: 2rem;
+  font-size: 4vw;
+  font-weight: 400;
+  line-height: normal;
+  text-align: center;
 }
-.infosaPropos__textBut {
-  border-radius: 20px;
-  margin: 1.5rem;
-  background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, rgba(52, 59, 85, 0.4392156863) 100%);
-  backdrop-filter: blur(3.75px);
+@media screen and (max-width: 700px) {
+  .artistes h2 {
+    font-size: 9vw;
+  }
 }
-.infosaPropos__textBut p {
-  color: var(--couleur-texte-pale);
-  font-family: "Bai Jamjuree";
-  font-size: 1.5rem;
-  margin: 2rem;
-  padding: 1rem;
-}
-
-.profsPivots {
-  width: 100%;
-}
-.profsPivots h3 {
-  color: var(--couleur-titre-pale);
-  font-family: "Jersey 15";
-  font-size: 3rem;
-  margin: 2rem;
-}
-.profsPivots__profs {
+.artistes__boiteArtistes {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-content: center;
   justify-content: center;
 }
-.profsPivots__profs__prof1 {
+.artistes__boiteArtistes__artisteSingle {
   display: flex;
   flex-direction: row;
   align-items: center;
   margin: 1rem;
 }
-.profsPivots__profs__prof1__img_prof1 {
+.artistes__boiteArtistes__artisteSingle__imgArtiste {
   margin: 0.5rem;
-  width: 14rem;
-  height: 15rem;
+  height: 250px;
   flex-shrink: 0;
-  background-color: #CCC;
+  border-radius: 10px;
 }
-.profsPivots__profs__prof1__infoProf1 {
-  width: 15rem;
-  height: 15rem;
-  border-radius: 20px;
+@media screen and (max-width: 700px) {
+  .artistes__boiteArtistes__artisteSingle__imgArtiste {
+    height: 30vw;
+  }
+}
+.artistes__boiteArtistes__artisteSingle__infoArtiste {
+  width: 250px;
+  border-radius: 10px;
   margin: 1.5rem;
   background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, rgba(52, 59, 85, 0.4392156863) 100%);
   backdrop-filter: blur(3.75px);
 }
-.profsPivots__profs__prof1 p {
+@media screen and (max-width: 700px) {
+  .artistes__boiteArtistes__artisteSingle__infoArtiste {
+    width: 150px;
+  }
+}
+.artistes__boiteArtistes__artisteSingle p {
   margin: 1rem;
   color: var(--couleur-texte-pale);
   font-family: "Bai Jamjuree";
+  font-size: 20px;
 }
-.profsPivots__profs__prof2 {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 1rem;
+@media screen and (max-width: 700px) {
+  .artistes__boiteArtistes__artisteSingle p {
+    font-size: 15px;
+  }
 }
-.profsPivots__profs__prof2__img_prof2 {
-  margin: 0.5rem;
-  width: 14rem;
-  height: 15rem;
-  flex-shrink: 0;
-  background-color: #CCC;
-}
-.profsPivots__profs__prof2__infoProf2 {
-  width: 15rem;
-  height: 15rem;
-  border-radius: 20px;
-  margin: 1.5rem;
-  background: radial-gradient(63.25% 63.25% at 50% 50%, #172041 74.04%, rgba(52, 59, 85, 0.4392156863) 100%);
-  backdrop-filter: blur(3.75px);
-}
-.profsPivots__profs__prof2 p {
-  margin: 1rem;
-  color: var(--couleur-texte-pale);
-  font-family: "Bai Jamjuree";
-  position: relative;
-}
-
-.liensApropos {
-  width: 100%;
-}
-.liensApropos h3 {
-  color: var(--couleur-titre-pale);
-  font-family: "Jersey 15";
-  font-size: 3rem;
-  margin: 2rem;
-}
-.liensApropos__listelinks {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1.5rem;
-  padding: 1.5rem;
-  list-style-type: none;
-}
-.liensApropos__listelinks :hover {
-  color: aqua;
-}
-.liensApropos__listelinks a {
-  color: var(--couleur-texte-pale);
-  font-family: "Bai Jamjuree";
-  font-size: 2rem;
-  margin: 1rem;
+.artistes__boiteArtistes__artisteSingle p a {
+  color: #58b5ff;
 }
 
 .pageGalerie {
@@ -1476,8 +1442,11 @@ footer {
   margin: 0 auto 0px;
   line-height: 1.6;
 }
+.pageGalerie__filter #btnLirePlus {
+  display: none;
+}
 .pageGalerie__filter__description {
-  color: var(--couleur-texte-sous-titre);
+  color: var(--couleur-texte-pale);
 }
 .pageGalerie__filter__subtitle {
   background-image: var(--galerie-projet-bordure-arcade);
@@ -1508,7 +1477,7 @@ footer {
   width: 10vw;
   text-align: center;
   font-family: var(--policeTexte);
-  font-size: clamp(0.875rem, 1vw + 0.5rem, 1.25rem);
+  font-size: clamp(0.75rem, 1vw + 0.5rem, 1.25rem);
   line-height: normal;
 }
 .pageGalerie__filter-bar__filter-btn:hover {
@@ -1757,9 +1726,22 @@ footer {
   .pageGalerie__galerieProjets__projets__projet:hover {
     transform: translateY(-40px) scale(1.03);
   }
+  .pageGalerie__filter__lirePlus {
+    display: none;
+  }
+  .pageGalerie__filter__lirePlus.open {
+    display: inline;
+  }
+  .pageGalerie__filter__lirePlus.open + #btnLirePlus {
+    display: block;
+  }
+  .pageGalerie__filter #btnLirePlus {
+    display: block;
+    text-decoration: underline;
+    color: #58b5ff;
+  }
 }
 .pageProjet {
-  background-color: var(--couleurBackground);
   width: 100%;
   /* contenu principal : 2 colonnes (image | infos) */
   /* colonne gauche : image principale */
@@ -1768,11 +1750,10 @@ footer {
 }
 .pageProjet__titre {
   width: 100%;
-  min-height: 50vh;
+  min-height: 20vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #0B0E21;
   position: relative;
   padding: 4rem 0;
 }
@@ -1782,25 +1763,19 @@ footer {
   margin: 0 auto;
   padding: 2rem;
   position: relative;
-}
-.pageProjet__titre .crochets::before, .pageProjet__titre .crochets::after {
-  content: "";
-  position: absolute;
-  width: 2px;
-  height: 100%;
-}
-.pageProjet__titre .crochets::before {
-  left: 0;
-}
-.pageProjet__titre .crochets::after {
-  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .pageProjet__titre__boiteTitre {
-  width: 100%;
+  width: 70%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  border-radius: 11px;
+  border: 2px solid var(--couleurBordure);
+  background: radial-gradient(50% 50% at 50% 50%, #0e1431 0%, #12193c 100%);
+  padding-bottom: 2rem;
 }
 .pageProjet__titre__boiteTitre__texte h2 {
   color: #FFFFFF;
@@ -1808,19 +1783,17 @@ footer {
   font-size: clamp(48px, 8vw, 78px);
   text-align: center;
   text-transform: uppercase;
-  margin: 0;
 }
 .pageProjet__titre__boiteTitre__etudiants {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem;
+  gap: 2rem;
 }
 .pageProjet__titre__boiteTitre__etudiants__contenant {
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
-  background-color: #0B0E21;
   position: relative;
 }
 .pageProjet__titre__boiteTitre__etudiants__contenant span {
@@ -1856,7 +1829,6 @@ footer {
   margin: 0 auto;
   padding: 2rem;
   box-sizing: border-box;
-  background-color: #0B0E21;
 }
 .pageProjet__contenu__affiche {
   display: flex;
@@ -1945,7 +1917,6 @@ footer {
   margin: 0 auto;
   padding: 0 1rem;
   box-sizing: border-box;
-  background-color: #0B0E21;
   overflow: hidden;
 }
 .pageProjet__carrousel__nav {
@@ -2008,7 +1979,6 @@ footer {
   visibility: hidden;
   transform: scale(0.98);
   transition: all 0.3s ease;
-  padding: 1rem;
 }
 .pageProjet__carrousel__images__conteneur--active {
   opacity: 1;
@@ -2027,7 +1997,7 @@ footer {
 .pageProjet__carrousel__boutons {
   display: flex;
   justify-content: center;
-  margin-top: 1rem;
+  margin-bottom: 2rem;
   gap: 1rem;
 }
 @media (max-width: 900px) {

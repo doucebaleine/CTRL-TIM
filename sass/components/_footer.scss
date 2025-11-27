@@ -28,6 +28,13 @@
   flex-direction:column;
   align-items:center;
 }
+
+.colonne-pied-page.droite p{
+  color:#ffffff;
+  font-size: 0.6rem;
+  text-align: center;
+}
+
 .rangee-icones{
   display:flex;
   gap:14px;
@@ -84,20 +91,14 @@
 }
 
 /* petits écrans : empiler le pied de page */
-@media screen and (max-width: 600px) {
+@media (max-width:900px){
   .interieur-pied-page{
-    align-items:center;
-    flex-direction:column;
-    gap:20px;
+    align-items:center
   }
   .centre-pied-page{
     width:100%
   }
   .recherche-pied-page{
     width:90%
-  }
-
-  .boite-logo-pied-page{
-    margin-top: 10px;
   }
 }

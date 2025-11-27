@@ -47,8 +47,7 @@
 .nav-hors-canvas{ 
   display:flex; 
   flex-direction:column; 
-  gap:22px;
-  align-items: center;
+  gap:22px 
 
 }
 .bouton-menu{ 
@@ -65,9 +64,8 @@
 .bouton-menu.primaire,
 .bouton-menu.current-menu-item {
   background: linear-gradient(90deg,#D167FF,#62B8FF);
-  color: #07101e;
+  color: #0b0e21;
   box-shadow: -8px 6px 0px 0px rgba(45, 20, 80, 25);
-  padding: 12px 24px;
 }
 
 /* rendre visuellement et fonctionnellement non cliquable l'élément primaire/current */
@@ -76,13 +74,18 @@
   pointer-events: none;
   cursor: default;
   opacity: 0.95;
-  width: 60%;
   transition: opacity 160ms ease, transform 160ms ease;
 }
 .bouton-menu.primaire:hover,
 .bouton-menu.current-menu-item:hover {
   opacity: 0.95;
   transform: none;
+}
+
+/* Forcer le texte en noir sur le lien de l'élément courant
+   quand la classe WordPress `current-menu-item` est appliquée au <li> */
+.menu-hors-canvas .menu-principal .current-menu-item > a.bouton-menu {
+  color: #0b0e21;
 }
 
 /* animation temporaire lorsque primaire se déplace vers un nouvel élément */
@@ -92,7 +95,7 @@
 
 ul.menu-principal {
     list-style: none;
-    text-align: center;
+    text-align: end;
     display: contents;
 }
 
@@ -205,6 +208,5 @@ ul.menu-principal {
   .nav-hors-canvas {
     display: flex;
     justify-content: center;
-    align-items: center;
   }
 }

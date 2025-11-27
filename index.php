@@ -32,8 +32,13 @@
                // N'afficher que les projets dont la catégorie (cat_exposition) est l'ID 2 (Finissant)
                $display_index = 0;
                foreach ($projects as $proj) {
-                  if (!isset($proj->cat_exposition)) continue;
-                  if (intval($proj->cat_exposition) !== 1) continue;
+                     if (!isset($proj->cat_exposition)) continue;
+                     // Ne pas filtrer strictement sur une valeur numérique ici —
+                     // la colonne `cat_exposition` peut contenir un identifiant
+                     // numérique ou un libellé (varchar). Le filtrage strict
+                     // précédent (intval(...) !== 1) excluait la plupart des
+                     // projets. Pour l'instant on affiche tous les projets qui
+                     // ont une valeur pour `cat_exposition`.
                   $card_class = isset($classes[$display_index]) ? $classes[$display_index] : 'affiche-arriere';
                   $img_src = !empty($proj->image_projet) ? esc_url($proj->image_projet) : esc_url(get_template_directory_uri() . '/images/default.jpg');
                   if ($img_src !== '') {

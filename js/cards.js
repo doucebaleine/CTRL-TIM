@@ -67,6 +67,14 @@
 
     carte.appendChild(btn);
     carte.appendChild(img);
+    // clic sur la carte entière -> navigation si data-lien présent (ignorer le bouton fermer)
+    carte.addEventListener('click', function (e) {
+      if (e.target.closest('.bouton-fermer-affiche')) return;
+      const lienCarte = carte.dataset.lien || (carte.querySelector('img') && carte.querySelector('img').dataset.lien);
+      if (lienCarte) {
+        window.location.href = lienCarte;
+      }
+    });
     return carte;
   }
 
@@ -96,6 +104,14 @@
       }
       const lienImg = divCarte.dataset.lien || img.dataset.lien;
       if (lienImg) window.location.href = lienImg;
+    });
+    // clic sur la div carte (autour de l'image) -> navigation si data-lien présent
+    divCarte.addEventListener('click', function (e) {
+      if (e.target.closest('.bouton-fermer-affiche')) return;
+      const lienDiv = divCarte.dataset.lien || (divCarte.querySelector('img') && divCarte.querySelector('img').dataset.lien);
+      if (lienDiv) {
+        window.location.href = lienDiv;
+      }
     });
   });
 

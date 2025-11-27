@@ -73,6 +73,7 @@ function ctrltim_enqueue_scripts(){
     wp_enqueue_script('ctrltim-menu', get_template_directory_uri() . '/js/menu.js', array(), filemtime(get_template_directory() . '/js/menu.js'), true);
     wp_enqueue_script('ctrltim-cards', get_template_directory_uri() . '/js/cards.js', array(), filemtime(get_template_directory() . '/js/cards.js'), true);
     wp_enqueue_script('ctrltim-filter', get_template_directory_uri() . '/js/filter.js', array(), filemtime(get_template_directory() . '/js/filter.js'), true);
+    wp_enqueue_script('ctrltim-description', get_template_directory_uri() . '/js/description.js', array(), filemtime(get_template_directory() . '/js/description.js'), true);
     wp_enqueue_script('ctrltim-galerie', get_template_directory_uri() . '/js/galerie.js', array(), filemtime(get_template_directory() . '/js/galerie.js'), true);
     wp_enqueue_script('ctrltim-carrousel', get_template_directory_uri() . '/js/carrousel.js', array(), filemtime(get_template_directory() . '/js/carrousel.js'), true);
     wp_enqueue_script('ctrltim-search-history', get_template_directory_uri() . '/js/search-history.js', array(), filemtime(get_template_directory() . '/js/search-history.js'), true);

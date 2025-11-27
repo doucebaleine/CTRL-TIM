@@ -8,7 +8,6 @@ Template Name: Galerie
 
 <?php get_header(); ?>
 
-<body>
   <main class="pageGalerie">
     <h1 class="pageGalerie__titre">Galerie</h1>
 
@@ -136,8 +135,5 @@ Template Name: Galerie
       </div>
     </section>
   </main>
-  <script src="<?php echo get_template_directory_uri(); ?>/js/description.js"></script>
-  <script src="<?php echo get_template_directory_uri(); ?>/js/galerie.js"></script>
-</body>
 
 <?php get_footer(); ?>

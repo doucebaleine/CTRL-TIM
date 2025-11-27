@@ -75,9 +75,9 @@
                         padding: 2px; // Épaisseur de la bordure
                         background: linear-gradient(180deg, #D167FF 0%, #62B8FF 100%);
                         border-radius: 10px; // Même valeur que le parent
-                        -webkit-mask: 
-                            linear-gradient(#fff 0 0) content-box, 
-                            linear-gradient(#fff 0 0);
+                        -webkit-mask:
+                        linear-gradient(#fff, #fff) content-box,
+                        linear-gradient(#fff, #fff);
                         -webkit-mask-composite: xor;
                         mask-composite: exclude;
                         pointer-events: none;

@@ -54,7 +54,7 @@
                      home_url('/index.php/projet/')
                   )) . '">';
                   echo '<button class="bouton-fermer-affiche" aria-label="Fermer">✕</button>';
-                  echo '<img src="' . $img_src . '" alt="' . $alt . '" />';
+                  echo '<img src="' . $img_src . '" alt="btnFermerImage" />';
                   echo '</div>';
                   $display_index++;
                }

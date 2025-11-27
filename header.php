@@ -15,7 +15,7 @@
 		<div class="logo">
 			<a href="<?php echo esc_url(home_url('/')); ?>" class="logo-link" aria-label="Accueil">
 				<div class="logo-icon" aria-hidden="true">
-					<img src="<?php echo esc_url( get_template_directory_uri() . '/images/logo.svg' ); ?>" alt="<?php bloginfo('name'); ?>" />
+					<img src="<?php echo esc_url( get_template_directory_uri() . '/images/logo.svg' ); ?>" alt="logo" />
 				</div>
 			</a>
 		</div>

@@ -43,19 +43,18 @@ STRUCTURE DU SITE
 /* Header */
 :root{
     /* --header-couleur-bg: */
-    --header-couleur-texte: var(var(--couleur-texte-pale));
-    --header-font-size: var(var(--font-size-large));
-    --barreRecherche-couleur-texte: var(var(--couleur-texte-pale));
-    --barreRecherche-couleur-bg: var(var(--couleurBoiteGrise));
-    --barreRecherche-couleur-icone: var(var(--couleurGradientBlueViolet));
-
+    --header-couleur-texte: var(--couleur-texte-pale);
+    --header-font-size: var(--font-size-large);
+    --barreRecherche-couleur-texte: var(--couleur-texte-pale);
+    --barreRecherche-couleur-bg: var(--couleurBoiteGrise);
+    --barreRecherche-couleur-icone: var(--couleurGradientBlueViolet);
 }
 
 /* Navigation */
 :root{
-    --nav-couleur-texte:var(var(--couleur-texte-pale));
-    --nav-font-size: var(var(--font-size-large));
-    --nav-couleur-bg:var(var(--couleurBackground));
+    --nav-couleur-texte:var(--couleur-texte-pale);
+    --nav-font-size: var(--font-size-large);
+    --nav-couleur-bg:var(--couleurBackground);
 }
 
 /* Galerie */
@@ -76,9 +75,9 @@ STRUCTURE DU SITE
 
 /* Footer */
 :root{
-    --footer-couleur-bg: var(var(--couleurBackground));
-    --footer-couleur-texte: var(var(--couleur-texte-pale));
-    --footer-font-size: var(var(--font-size-md));
+    --footer-couleur-bg: var(--couleurBackground);
+    --footer-couleur-texte: var(--couleur-texte-pale);
+    --footer-font-size: var(--font-size-md);
 }
 
 /*-------------------------------------------------

@@ -64,7 +64,7 @@
 .bouton-menu.primaire,
 .bouton-menu.current-menu-item {
   background: linear-gradient(90deg,#D167FF,#62B8FF);
-  color: #07101e;
+  color: #0b0e21;
   box-shadow: -8px 6px 0px 0px rgba(45, 20, 80, 25);
 }
 
@@ -80,6 +80,12 @@
 .bouton-menu.current-menu-item:hover {
   opacity: 0.95;
   transform: none;
+}
+
+/* Forcer le texte en noir sur le lien de l'élément courant
+   quand la classe WordPress `current-menu-item` est appliquée au <li> */
+.menu-hors-canvas .menu-principal .current-menu-item > a.bouton-menu {
+  color: #0b0e21;
 }
 
 /* animation temporaire lorsque primaire se déplace vers un nouvel élément */

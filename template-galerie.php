@@ -32,8 +32,11 @@ Template Name: Galerie
       Tous
       </h3>
       <p class="pageGalerie__filter__description">
-        Explorez l’ensemble des projets réalisés par les étudiants de la Technique d’intégration multimédia. Jeux vidéo, sites web, créations interactives et projets artistiques : découvrez la diversité et le talent qui animent chaque cohorte du TIM.
+        <span class="pageGalerie__filter__debutDescription">Explorez l’ensemble des projets réalisés par les étudiants de la Technique d’intégration multimédia. Jeux</span>            
+        <span class="pageGalerie__filter__lirePlus">vidéo, sites web, créations interactives et projets artistiques : découvrez la diversité et le talent qui animent chaque cohorte du TIM.</span>
+        <span id="btnLirePlus">...Lire plus</span>
       </p>
+      
     </div>
 
     <section class="pageGalerie__dropdown">
@@ -108,7 +111,7 @@ Template Name: Galerie
              data-category="<?php echo esc_attr($data_category); ?>"
              data-filters="<?php echo esc_attr($data_filters); ?>">
           <a class="pageGalerie__galerieProjets__projets__projet__link" 
-             href="<?php echo esc_url(add_query_arg('project_id', intval($p->id), home_url('/projet/'))); ?>">
+             href="<?php echo esc_url(add_query_arg('project_id', intval($p->id), home_url('/index.php/projet/'))); ?>">
             <img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($titre); ?>">
             <div class="pageGalerie__galerieProjets__projets__projet__overlay"></div>
             <div class="pageGalerie__galerieProjets__projets__projet__info">

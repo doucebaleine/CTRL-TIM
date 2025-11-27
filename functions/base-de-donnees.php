@@ -17,7 +17,7 @@ function ctrltim_creer_tables() {
         images_projet text DEFAULT NULL,
         lien varchar(500),
         cours varchar(255),
-    cat_exposition varchar(50) DEFAULT '',
+        cat_exposition varchar(50) DEFAULT '',
         filtres text DEFAULT NULL,
         etudiants_associes text DEFAULT NULL,
         date_creation datetime DEFAULT CURRENT_TIMESTAMP,
@@ -498,18 +498,114 @@ function ctrltim_ajax_charger_donnees_projet() {
             $etudiants_html = '<p><em>Aucun étudiant associé pour le moment</em></p>';
         }
 
+        // Normaliser les URLs d'images pour le Customizer : accepter attachment IDs, uploads, chemins relatifs
+        $raw_images = json_decode($project->images_projet, true) ?: array();
+        $norm_images = array();
+        $debug_images = array();
+        $uploads = wp_get_upload_dir();
+        foreach ($raw_images as $img) {
+            if (empty($img)) continue;
+            $normalized = '';
+            // attachment ID
+            if (is_numeric($img)) {
+                $url = wp_get_attachment_url(intval($img));
+                if ($url) { $normalized = esc_url($url); }
+            }
+            // absolute URL or protocol-relative
+            if (empty($normalized) && preg_match('#^(https?:)?//#i', $img)) {
+                $normalized = esc_url($img);
+            }
+            // wp-content/uploads path
+            if (empty($normalized) && (strpos($img, 'wp-content/uploads') !== false || strpos($img, '/wp-content/uploads') !== false)) {
+                $path = ($img[0] === '/') ? $img : '/' . ltrim($img, '/');
+                $normalized = esc_url(home_url($path));
+            }
+            // theme images folder
+            if (empty($normalized) && (strpos($img, 'images/') !== false || strpos($img, '/images/') !== false)) {
+                $rel = ltrim($img, '/');
+                $normalized = esc_url(get_template_directory_uri() . '/' . $rel);
+            }
+            // fallback: assume filename in uploads
+            if (empty($normalized)) {
+                $normalized = esc_url(trailingslashit($uploads['baseurl']) . ltrim($img, '/'));
+            }
+
+            // push normalized
+            $norm_images[] = $normalized;
+
+            // Debug: check if resource exists
+            $exists = false;
+            $http_code = null;
+            // Try to map URL to local file if possible
+            $local_path = '';
+            $base_upload_url = rtrim($uploads['baseurl'], '/') . '/';
+            if (strpos($normalized, $base_upload_url) === 0) {
+                $local_path = str_replace($uploads['baseurl'], $uploads['basedir'], $normalized);
+            } elseif (strpos($normalized, rtrim(get_template_directory_uri(), '/')) === 0) {
+                $local_path = str_replace(rtrim(get_template_directory_uri(), '/'), get_template_directory(), $normalized);
+            } elseif (strpos($normalized, home_url('/')) === 0) {
+                $rel = substr($normalized, strlen(home_url('/')));
+                $local_path = ABSPATH . ltrim($rel, '/');
+            }
+
+            if ($local_path && file_exists($local_path)) {
+                $exists = true;
+            } else {
+                // fallback to HTTP HEAD request for absolute URLs
+                if (preg_match('#^(https?:)?//#i', $normalized)) {
+                    $resp = wp_safe_remote_head($normalized, array('timeout' => 3));
+                    if (!is_wp_error($resp)) {
+                        $http_code = wp_remote_retrieve_response_code($resp);
+                        if ($http_code >= 200 && $http_code < 400) $exists = true;
+                    }
+                }
+            }
+
+            $debug_images[] = array(
+                'raw' => $img,
+                'normalized' => $normalized,
+                'exists' => $exists,
+                'http_code' => $http_code,
+                'local_path' => $local_path,
+            );
+        }
+
+        // Normaliser l'image principale
+        $img_main = $project->image_projet;
+        $norm_img_main = '';
+        if (!empty($img_main)) {
+            if (is_numeric($img_main)) {
+                $u = wp_get_attachment_url(intval($img_main));
+                if ($u) $norm_img_main = esc_url($u);
+            } elseif (preg_match('#^(https?:)?//#i', $img_main)) {
+                $norm_img_main = esc_url($img_main);
+            } elseif (strpos($img_main, 'wp-content/uploads') !== false || strpos($img_main, '/wp-content/uploads') !== false) {
+                $path = ($img_main[0] === '/') ? $img_main : '/' . ltrim($img_main, '/');
+                $norm_img_main = esc_url(home_url($path));
+            } elseif (strpos($img_main, 'images/') !== false || strpos($img_main, '/images/') !== false) {
+                $rel = ltrim($img_main, '/');
+                $norm_img_main = esc_url(get_template_directory_uri() . '/' . $rel);
+            } else {
+                $uploads = wp_get_upload_dir();
+                $norm_img_main = esc_url(trailingslashit($uploads['baseurl']) . ltrim($img_main, '/'));
+            }
+        }
+
         $data = array(
             'titre_projet' => $project->titre_projet,
             'description_projet' => $project->description_projet,
             'video_projet' => $project->video_projet,
-            'image_projet' => $project->image_projet,
-            'images_projet' => json_decode($project->images_projet, true) ?: array(),
+            'image_projet' => $norm_img_main,
+            'images_projet' => $norm_images,
             'lien' => $project->lien,
             'cours' => $project->cours,
             'cat_exposition' => $project->cat_exposition,
             'filtres' => json_decode($project->filtres, true) ?: array(),
             'etudiants_associes' => $etudiants_html
         );
+        // Add debug info to help diagnose missing thumbnails in Customizer
+        $data['debug_images'] = isset($debug_images) ? $debug_images : array();
+        $data['debug_image_main'] = isset($debug_image_main) ? $debug_image_main : null;
         
         wp_send_json_success($data);
     } else {

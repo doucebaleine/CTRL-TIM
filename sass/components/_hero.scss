@@ -19,11 +19,12 @@ h2{
 }
 
 .description-exposition-principale p{
-  max-width: 540px;
+  max-width: 545px;
   padding: 1.2rem 1.4rem;
   color: var(--couleur-texte-pale);
   border-radius: 6px;
   background: linear-gradient(90deg, #2A305A 0%, rgba(5, 7, 20, 0.1) 100%);
+  font-size: 1.3em;
 }
 
 .effet-titre{

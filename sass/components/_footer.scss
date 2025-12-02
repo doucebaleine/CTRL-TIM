@@ -33,8 +33,14 @@
 
 .colonne-pied-page.droite p{
   color:#ffffff;
-  font-size: 0.6rem;
+  font-size: 75%;
   text-align: center;
+}
+
+.colonne-pied-page.droite {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .rangee-icones{

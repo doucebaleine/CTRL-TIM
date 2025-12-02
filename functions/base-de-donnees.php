@@ -200,7 +200,7 @@ function ctrltim_get_all_etudiants() {
 // Fonction pour récupérer tous les médias sociaux (implémentation principale)
 function ctrltim_get_all_medias() {
     global $wpdb;
-    return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_medias_sociaux ORDER BY nom ASC");
+    return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_medias_sociaux ORDER BY id ASC");
 }
 
 // Fonction pour récupérer toutes les catégories (implémentation principale)

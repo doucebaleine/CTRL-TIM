@@ -22,6 +22,15 @@
   display:flex;
   align-items:center;
   justify-content:center;
+  overflow: hidden;
+}
+
+.icone-sociale img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  max-width: none;
 }
 
 /* Colonne gauche : icône unique en haut au-dessus d'une rangée de trois icônes */

@@ -40,11 +40,11 @@ Template Name: Galerie
 
     <section class="pageGalerie__dropdown">
       <div class="pageGalerie__dropdown__select">
-        <span class="pageGalerie__dropdown__selected">All</span>
+        <span class="pageGalerie__dropdown__selected">Tous</span>
         <div class="pageGalerie__dropdown__caret"></div>
       </div>
       <ul class="pageGalerie__dropdown__menu">
-        <li class="active" data-filter="all">All</li>
+        <li class="active" data-filter="all">Tous</li>
         <li data-filter="jeux">Jeux Video</li>
         <li data-filter="3d">3D</li>
         <li data-filter="web">Web</li>

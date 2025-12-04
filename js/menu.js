@@ -11,6 +11,9 @@
   var fondHorsCanvas = $sel('#fondHorsCanvas');
   var sentinelleHaut = menuHorsCanvas && menuHorsCanvas.querySelector('.sentinelle-haut');
   var sentinelleBas = menuHorsCanvas && menuHorsCanvas.querySelector('.sentinelle-bas');
+  var menuAnnees = menuHorsCanvas && menuHorsCanvas.querySelector('.menu-annees');
+  var anneeBtn = menuAnnees && menuAnnees.querySelector('.annee-bouton');
+  var anneeListe = menuAnnees && menuAnnees.querySelector('.annee-liste');
 
   function piegeFocus(container) {
     if (!container) return;
@@ -97,6 +100,49 @@
 
   // fermer sur Échap
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') fermerMenu(); });
+
+  // Dropdown année (sélecteur des sites précédents)
+  if (anneeBtn && menuAnnees) {
+    anneeBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var ouvert = menuAnnees.classList.toggle('ouvert');
+      anneeBtn.setAttribute('aria-expanded', ouvert ? 'true' : 'false');
+      if (ouvert && anneeListe) {
+        var first = anneeListe.querySelector('a');
+        if (first) first.focus({preventScroll:true});
+      }
+    });
+
+    // Sélection d'une année: mise à jour du libellé et navigation via href
+    if (anneeListe) {
+      anneeListe.addEventListener('click', function(e) {
+        var a = e.target.closest('a.annee-item');
+        if (!a) return;
+        try { anneeBtn.textContent = a.textContent; } catch(_) {}
+        // Fermer le menu avant navigation
+        menuAnnees.classList.remove('ouvert');
+        anneeBtn.setAttribute('aria-expanded', 'false');
+        // Fermer le hors-canvas aussi (la page changera de toute façon si URL externe)
+        setTimeout(fermerMenu, 0);
+      });
+    }
+
+    // Fermer le dropdown si clic ailleurs dans le panneau
+    menuHorsCanvas.addEventListener('click', function(e){
+      if (!menuAnnees.contains(e.target)) {
+        menuAnnees.classList.remove('ouvert');
+        if (anneeBtn) anneeBtn.setAttribute('aria-expanded','false');
+      }
+    });
+
+    // Fermer avec Échap quand le dropdown est ouvert
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && menuAnnees.classList.contains('ouvert')) {
+        menuAnnees.classList.remove('ouvert');
+        if (anneeBtn) anneeBtn.setAttribute('aria-expanded','false');
+      }
+    });
+  }
 
   // Lorsque l'utilisateur clique dans la nav hors-canvas, déplacer la classe 'primaire'
   if (menuHorsCanvas) {

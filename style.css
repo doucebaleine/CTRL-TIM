@@ -459,7 +459,8 @@ header {
 
 main {
   height: 100vh;
-  padding: 2em;
+  padding-left: 4vw;
+  padding-right: 4vw;
 }
 
 h1 {
@@ -478,7 +479,8 @@ h1 {
 
 @media screen and (max-width: 900px) {
   main {
-    height: 120vh;
+    height: 130vh;
+    padding-top: 4vh;
   }
 }
 /* /////////////////////////////////
@@ -658,8 +660,14 @@ body::before {
 
 .colonne-pied-page.droite p {
   color: #ffffff;
-  font-size: 0.6rem;
+  font-size: 0.7vw;
   text-align: center;
+}
+
+.colonne-pied-page.droite {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .rangee-icones {
@@ -729,6 +737,16 @@ body::before {
   }
   .recherche-pied-page {
     width: 90%;
+  }
+}
+@media (max-width: 700px) {
+  .colonne-pied-page.droite p {
+    font-size: 3vw;
+  }
+}
+@media (min-width: 701px) and (max-width: 900px) {
+  .colonne-pied-page.droite p {
+    font-size: 2vw;
   }
 }
 .interieur-entete {
@@ -845,6 +863,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  padding-right: 4vw;
 }
 
 /* fond couvrant le reste de la page pendant que le menu est ouvert */
@@ -885,6 +904,50 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 22px;
+}
+
+.menu-annees {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.annee-bouton {
+  cursor: pointer;
+}
+
+.annee-liste {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  min-width: 220px;
+  background: rgba(14, 12, 28, 0.98);
+  border: 1px solid #2e306a;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  padding: 8px;
+  list-style: none;
+  margin: 0;
+  z-index: 21000;
+}
+
+.menu-annees.ouvert .annee-liste {
+  display: block;
+}
+
+.annee-item {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--couleur-texte-pale);
+  text-decoration: none;
+  font-family: var(--policeTitre);
+  font-size: 1.3rem;
+}
+
+.annee-item:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .bouton-menu {
@@ -987,6 +1050,12 @@ ul.menu-principal {
   .bouton-fermer-menu {
     top: 60px;
   }
+  .menu-hors-canvas {
+    inset: 0 0 0 25%;
+  }
+  .annee-item {
+    font-size: 1.1rem;
+  }
 }
 /* Lorsque le menu est ouvert, désactiver les interactions et les effets de survol en dehors du menu
    en désactivant pointer-events sur les régions principales de la page. Le fond ci-dessus capture
@@ -1043,8 +1112,6 @@ ul.menu-principal {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  /* leave room for the clear button on the right */
-  padding-right: 64px;
 }
 
 input::placeholder {
@@ -1172,14 +1239,14 @@ input[type=search]::-ms-reveal {
 }
 
 .resultats-recherche h1 {
-  font-size: 2.1rem;
+  font-size: 2rem;
   margin-bottom: 2rem;
   text-align: center;
+  font-weight: normal;
 }
 
 .mot-cle-recherche {
   color: #62B8FF;
-  font-weight: 700;
 }
 
 .liste-resultats {
@@ -1209,7 +1276,6 @@ input[type=search]::-ms-reveal {
   font-size: 1.25rem;
   font-family: var(--policeTitre);
   text-decoration: none;
-  font-weight: 600;
   transition: color 0.2s;
 }
 
@@ -1220,8 +1286,6 @@ input[type=search]::-ms-reveal {
 .type-resultat {
   font-size: 0.95rem;
   color: #D167FF;
-  font-weight: 700;
-  margin-left: 0.5rem;
 }
 
 .desc-resultat {
@@ -1318,6 +1382,28 @@ input[type=search]::-ms-reveal {
 @media screen and (max-width: 600px) {
   .barreRecherche input {
     padding-right: 0px;
+  }
+  /* Afficher le bouton Effacer comme un "X" compact en mobile */
+  .barreRecherche .search-clear {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    text-indent: -9999px; /* masquer le texte "Effacer" */
+    overflow: hidden;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 6px;
+  }
+  .barreRecherche .search-clear::after {
+    content: "✕";
+    display: block;
+    text-indent: 0;
+    font-size: 18px;
+    line-height: 28px;
+    text-align: center;
+    color: #9aa0d6;
   }
 }
 /* /////////////////////////////////

@@ -563,13 +563,13 @@ body::before {
 /* Bouton fermer */
 .bouton-fermer-affiche {
   position: absolute;
-  top: 8px;
-  right: 10px;
-  background: rgba(67, 67, 67, 0.005);
+  top: 15px;
+  right: 15px;
+  background: rgba(45, 51, 108, 0.9);
   color: #fff;
   border: none;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 16px;
@@ -581,7 +581,7 @@ body::before {
   /* focus clavier pour l'accessibilité */
 }
 .bouton-fermer-affiche:hover {
-  background: rgba(67, 67, 67, 0.0085);
+  background: rgba(164, 0, 0, 0.9);
 }
 .bouton-fermer-affiche:active {
   transform: translateY(1px) scale(0.98);

@@ -23,7 +23,7 @@
             <div class="centre-pied-page">
                 <form class="recherche-pied-page barreRecherche" role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>" autocomplete="off">
                     <img class="iconeRecherche" src="<?php echo esc_url( get_template_directory_uri() . '/images/search-icon.svg' ); ?>" alt="Recherche" aria-hidden="true" />
-                    <input type="search" name="s" placeholder="Recherche..." aria-label="Recherche" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+                    <input type="search" name="s" placeholder="Recherche" aria-label="Recherche" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
                 </form>
 
                 <div class="boite-logo-pied-page">

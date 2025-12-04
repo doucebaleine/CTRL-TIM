@@ -33,7 +33,7 @@
 
 .colonne-pied-page.droite p{
   color:#ffffff;
-  font-size: 75%;
+  font-size: 0.7vw;
   text-align: center;
 }
 
@@ -110,4 +110,16 @@
   .recherche-pied-page{
     width:90%;
   }
+}
+
+@media (max-width:700px){
+  .colonne-pied-page.droite p {
+    font-size: 3vw;
+}
+}
+
+@media (min-width:701px ) and (max-width:900px){
+  .colonne-pied-page.droite p {
+    font-size: 2vw;
+}
 }

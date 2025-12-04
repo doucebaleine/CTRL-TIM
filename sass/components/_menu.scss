@@ -9,6 +9,7 @@
   display:flex;
   align-items:center;
   justify-content:flex-end;
+  padding-right: 4vw;
 }
 
 /* fond couvrant le reste de la page pendant que le menu est ouvert */
@@ -49,6 +50,42 @@
   flex-direction:column; 
   gap:22px 
 
+}
+.menu-annees {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+.annee-bouton {
+  cursor: pointer;
+}
+.annee-liste {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  min-width: 220px;
+  background: rgba(14,12,28,0.98);
+  border: 1px solid #2e306a;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  padding: 8px;
+  list-style: none;
+  margin: 0;
+  z-index: 21000;
+}
+.menu-annees.ouvert .annee-liste { display: block; }
+.annee-item {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--couleur-texte-pale);
+  text-decoration: none;
+  font-family: var(--policeTitre);
+  font-size: 1.3rem;
+}
+.annee-item:hover {
+  background: rgba(255,255,255,0.05);
 }
 .bouton-menu{ 
   display:inline-block; 
@@ -181,6 +218,10 @@ ul.menu-principal {
   .bouton-fermer-menu {
     top: 60px;
   }
+  .menu-hors-canvas {
+    inset: 0 0 0 25%;
+  }
+  .annee-item { font-size: 1.1rem; }
 }
 
 /* Lorsque le menu est ouvert, désactiver les interactions et les effets de survol en dehors du menu

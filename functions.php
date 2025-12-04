@@ -85,6 +85,17 @@ function ctrltim_enqueue_scripts(){
 }
 add_action('wp_enqueue_scripts','ctrltim_enqueue_scripts');
 
+// Liste des sites d'exposition par année (modifiable via filtre)
+function ctrltim_get_expo_sites() {
+    $sites = array(
+        array('label' => 'Expo-TIM',     'url' => home_url('/')),
+        // Remplacez les URL ci-dessous par les liens réels des éditions précédentes
+        array('label' => '2026 SixTim',  'url' => '#'),
+        array('label' => '2025 TIM-404', 'url' => '#'),
+    );
+    return apply_filters('ctrltim_expo_sites', $sites);
+}
+
 /**
  * Récupère et renvoie/affiche un fichier SVG depuis /images/svg/<name>.svg
  * $name sans extension, $atts tableau d'attributs à injecter dans la balise <svg>
@@ -201,19 +212,49 @@ add_action('pre_get_posts', function($query) {
                 $custom_results[] = $post;
             }
 
-            // Recherche dans les étudiants
+            // Recherche dans les étudiants, mais afficher le projet auquel ils sont assignés
                 $etudiants = $wpdb->get_results($wpdb->prepare(
                     'SELECT * FROM ' . $wpdb->prefix . 'ctrltim_etudiants WHERE nom LIKE %s',
                     '%' . $wpdb->esc_like($search) . '%'
                 ));
             foreach ($etudiants as $etudiant) {
-                $post = (object)[
-                    'ID' => 800000 + intval($etudiant->id),
-                    'post_title' => $etudiant->nom,
-                    'post_content' => $etudiant->description ?? '',
-                    'post_type' => 'ctrltim_etudiant',
-                    'guid' => home_url('/?etudiant_id=' . intval($etudiant->id)),
-                ];
+                $etudiant_id = intval($etudiant->id);
+                // Trouver un projet qui contient cet étudiant dans etudiants_associes (stocké en JSON/CSV selon implémentation)
+                $projet_associe = null;
+                // Chercher via LIKE sur JSON/CSV; sécuriser les bornes avec guillemets si JSON
+                $like_patterns = array(
+                    '%,"' . $etudiant_id . '",%', // au milieu d'un tableau JSON
+                    '"' . $etudiant_id . '"',     // seul élément
+                    '%,' . $etudiant_id . ',%',    // CSV au milieu
+                    $etudiant_id                   // CSV seul élément
+                );
+                foreach ($like_patterns as $pat) {
+                    $projet_associe = $wpdb->get_row($wpdb->prepare(
+                        'SELECT * FROM ' . $wpdb->prefix . 'ctrltim_projets WHERE etudiants_associes LIKE %s LIMIT 1',
+                        is_string($pat) ? $pat : strval($pat)
+                    ));
+                    if ($projet_associe) break;
+                }
+
+                // Si trouvé, créer un résultat de type projet pointant vers la fiche projet
+                if ($projet_associe) {
+                    $post = (object)[
+                        'ID' => 900000 + intval($projet_associe->id),
+                        'post_title' => $projet_associe->titre_projet,
+                        'post_content' => $projet_associe->description_projet ?? '',
+                        'post_type' => 'ctrltim_projet',
+                        'guid' => home_url('/?projet_id=' . intval($projet_associe->id)),
+                    ];
+                } else {
+                    // Fallback: si aucun projet n'est associé, garder l'entrée étudiant
+                    $post = (object)[
+                        'ID' => 800000 + $etudiant_id,
+                        'post_title' => $etudiant->nom,
+                        'post_content' => $etudiant->description ?? '',
+                        'post_type' => 'ctrltim_etudiant',
+                        'guid' => home_url('/?etudiant_id=' . $etudiant_id),
+                    ];
+                }
                 $custom_results[] = $post;
             }
 

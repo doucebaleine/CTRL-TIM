@@ -15,7 +15,8 @@ header{
 
 main{
     height: 100vh;
-    padding: 2em;
+    padding-left: 4vw;
+    padding-right: 4vw;
 }
 
 h1{
@@ -33,7 +34,8 @@ h1{
 }
 
 @media screen and (max-width: 900px) {
-    main{
-        height: 140vh;
+    main {
+        height: 130vh;
+        padding-top: 4vh;
     }
 }

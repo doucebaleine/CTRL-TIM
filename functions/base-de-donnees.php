@@ -285,7 +285,7 @@ function ctrltim_sauvegarder_donnees() {
         );
         
         $wpdb->insert($wpdb->prefix . 'ctrltim_projets', $project_data);
-        ctrltim_vider_champs(['projet_a_modifier', 'titre_projet', 'description_projet', 'video_projet', 'image_projet', 'lien_projet', 'cours_projet', 'filtre_jeux', 'filtre_3d', 'filtre_video', 'filtre_web']);
+        // ctrltim_vider_champs(['projet_a_modifier', 'titre_projet', 'description_projet', 'video_projet', 'image_projet', 'lien_projet', 'cours_projet', 'filtre_jeux', 'filtre_3d', 'filtre_video', 'filtre_web']);
     }
     
     // CAS 2: MODIFIER un projet existant (ID sélectionné + titre rempli)
@@ -315,7 +315,7 @@ function ctrltim_sauvegarder_donnees() {
             );
             
             // Ne pas vider 'projet_a_modifier' après une mise à jour — conserver la sélection
-            ctrltim_vider_champs(['titre_projet', 'description_projet', 'video_projet', 'image_projet', 'image_projet_1', 'image_projet_2', 'image_projet_3', 'image_projet_4', 'image_projet_5', 'lien_projet', 'cours_projet', 'filtre_jeux', 'filtre_3d', 'filtre_video', 'filtre_web']);
+            // ctrltim_vider_champs(['titre_projet', 'description_projet', 'video_projet', 'image_projet', 'image_projet_1', 'image_projet_2', 'image_projet_3', 'image_projet_4', 'image_projet_5', 'lien_projet', 'cours_projet', 'filtre_jeux', 'filtre_3d', 'filtre_video', 'filtre_web']);
         }
     }
     
@@ -769,13 +769,26 @@ function ctrltim_ajax_save_project_field() {
     );
 
     if ($updated !== false) {
-        wp_send_json_success('Champ sauvegardé');
+        // Also sync the theme_mod so the Customizer and DB stay consistent
+        if (!empty($field)) {
+            try {
+                set_theme_mod($field, $sanitized);
+            } catch (Exception $e) {
+                // ignore set_theme_mod errors, respond with success for DB update
+            }
+        }
+
+        wp_send_json_success(array('message' => 'Champ sauvegardé', 'value' => $sanitized));
     } else {
         // Peut être 0 si la valeur est identique — renvoyer success également
         if ($wpdb->last_error) {
             wp_send_json_error('Erreur BD: ' . $wpdb->last_error);
         } else {
-            wp_send_json_success('Aucune modification nécessaire');
+            // Ensure theme_mod is in sync even if DB reported 0 rows affected
+            if (!empty($field)) {
+                try { set_theme_mod($field, $sanitized); } catch (Exception $e) {}
+            }
+            wp_send_json_success(array('message' => 'Aucune modification nécessaire', 'value' => $sanitized));
         }
     }
 }

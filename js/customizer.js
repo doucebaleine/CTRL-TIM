@@ -19,6 +19,18 @@
         }
     }
 
+    // Debounce utility to avoid flooding the server with requests
+    function debounce(fn, wait) {
+        var timeout;
+        return function() {
+            var ctx = this, args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(function() {
+                fn.apply(ctx, args);
+            }, wait || 300);
+        };
+    }
+
     wp.customize.bind('ready', function() {
         // Suivre les changements d'étudiant sélectionné
         wp.customize('etudiants_selectionnes', function(control) {
@@ -369,6 +381,35 @@
                 }
             });
         }
+
+        // Sauvegarde en temps réel d'un champ de projet (ex: cours_projet)
+        // Utilise debounce pour limiter les requêtes lors de la saisie
+        wp.customize('cours_projet', function(control) {
+            var sendSave = debounce(function(val) {
+                if (!selectedProjectId || selectedProjectId === '') return;
+                $.post(ctrlTimData.ajaxurl, {
+                    action: 'save_project_field',
+                    project_id: selectedProjectId,
+                    field: 'cours_projet',
+                    value: val,
+                    nonce: ctrlTimData.nonce
+                }, function(resp) {
+                    if (!resp || !resp.success) {
+                        // Optional: show non-intrusive warning in console
+                        console.warn('Erreur sauvegarde cours_projet:', resp && resp.data ? resp.data : resp);
+                    } else {
+                        // success — nothing else to do, Customizer setting is already updated
+                        // Optionally trigger a small visual confirmation (not implemented)
+                    }
+                });
+            }, 600);
+
+            control.bind(function(value) {
+                // Ne pas sauvegarder si aucun projet sélectionné
+                if (!selectedProjectId || selectedProjectId === '') return;
+                sendSave(value);
+            });
+        });
 
         // When the Customizer is saved (Publish), refresh selects so new entries appear
         wp.customize.bind('saved', function() {

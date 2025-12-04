@@ -67,8 +67,28 @@ if ($project_id && function_exists('ctrltim_get_projet_by_id')) {
 
     <div class="pageProjet__contenu__information">
         <div class="pageProjet__contenu__information__description">
-            <h4>Description</h4>
+            <h3>Description</h3>
+ 
             <p><?php echo $project ? wp_kses_post($project->description_projet) : get_the_excerpt(); ?></p>
+ 
+            <p>Ce projet a été réalisé dans le cadre du cours de <?php echo $project ? esc_html($project->cours) : ''; ?></p>
+ 
+        </div>
+ 
+ 
+ 
+        <div class="pageProjet__contenu__information__lien">
+ 
+            <?php
+ 
+            // Lien du projet
+ 
+            if ($project && !empty($project->lien)) {
+ 
+                echo '<a href="' . esc_url($project->lien) . '" target="_blank" rel="noopener noreferrer">' . esc_html($project->lien) . '</a>';
+ 
+            }
+            ?>
         </div>
 
         <div class="pageProjet__contenu__information__video">

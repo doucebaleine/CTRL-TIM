@@ -200,7 +200,7 @@ function ctrltim_get_all_etudiants() {
 // Fonction pour récupérer tous les médias sociaux (implémentation principale)
 function ctrltim_get_all_medias() {
     global $wpdb;
-    return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_medias_sociaux ORDER BY nom ASC");
+    return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ctrltim_medias_sociaux ORDER BY id ASC");
 }
 
 // Fonction pour récupérer toutes les catégories (implémentation principale)
@@ -285,7 +285,7 @@ function ctrltim_sauvegarder_donnees() {
         );
         
         $wpdb->insert($wpdb->prefix . 'ctrltim_projets', $project_data);
-        ctrltim_vider_champs(['projet_a_modifier', 'titre_projet', 'description_projet', 'video_projet', 'image_projet', 'lien_projet', 'cours_projet', 'filtre_jeux', 'filtre_3d', 'filtre_video', 'filtre_web']);
+        // ctrltim_vider_champs(['projet_a_modifier', 'titre_projet', 'description_projet', 'video_projet', 'image_projet', 'lien_projet', 'cours_projet', 'filtre_jeux', 'filtre_3d', 'filtre_video', 'filtre_web']);
     }
     
     // CAS 2: MODIFIER un projet existant (ID sélectionné + titre rempli)
@@ -315,7 +315,7 @@ function ctrltim_sauvegarder_donnees() {
             );
             
             // Ne pas vider 'projet_a_modifier' après une mise à jour — conserver la sélection
-            ctrltim_vider_champs(['titre_projet', 'description_projet', 'video_projet', 'image_projet', 'image_projet_1', 'image_projet_2', 'image_projet_3', 'image_projet_4', 'image_projet_5', 'lien_projet', 'cours_projet', 'filtre_jeux', 'filtre_3d', 'filtre_video', 'filtre_web']);
+            // ctrltim_vider_champs(['titre_projet', 'description_projet', 'video_projet', 'image_projet', 'image_projet_1', 'image_projet_2', 'image_projet_3', 'image_projet_4', 'image_projet_5', 'lien_projet', 'cours_projet', 'filtre_jeux', 'filtre_3d', 'filtre_video', 'filtre_web']);
         }
     }
     
@@ -714,6 +714,85 @@ add_action('wp_ajax_manage_project_students', 'ctrltim_ajax_manage_project_stude
 
 // Hook pour sauvegarder les données
 add_action('customize_save_after', 'ctrltim_sauvegarder_donnees');
+
+// AJAX pour sauvegarder un champ unique d'un projet (utilisé pour enregistrement en temps réel)
+function ctrltim_ajax_save_project_field() {
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'ctrltim_nonce')) {
+        wp_send_json_error('Accès refusé', 403);
+        return;
+    }
+
+    global $wpdb;
+    $project_id = isset($_POST['project_id']) ? intval($_POST['project_id']) : 0;
+    $field = isset($_POST['field']) ? sanitize_text_field($_POST['field']) : '';
+    $value = isset($_POST['value']) ? $_POST['value'] : '';
+
+    if (!$project_id || empty($field)) {
+        wp_send_json_error('Paramètres manquants');
+        return;
+    }
+
+    // Liste blanche des champs modifiables via AJAX
+    $allowed = array(
+        'titre_projet' => 'titre_projet',
+        'description_projet' => 'description_projet',
+        'video_projet' => 'video_projet',
+        'image_projet' => 'image_projet',
+        'lien_projet' => 'lien',
+        'cours_projet' => 'cours',
+        'cat_exposition' => 'cat_exposition'
+    );
+
+    if (!isset($allowed[$field])) {
+        wp_send_json_error('Champ non autorisé');
+        return;
+    }
+
+    $col = $allowed[$field];
+
+    // Sanitize selon le champ
+    if (in_array($col, array('titre_projet', 'cours', 'cat_exposition', 'description_projet'))) {
+        $sanitized = sanitize_text_field($value);
+        if ($col === 'description_projet') $sanitized = sanitize_textarea_field($value);
+    } elseif ($col === 'lien' || $col === 'video_projet' || $col === 'image_projet') {
+        $sanitized = esc_url_raw($value);
+    } else {
+        $sanitized = sanitize_text_field($value);
+    }
+
+    $updated = $wpdb->update(
+        $wpdb->prefix . 'ctrltim_projets',
+        array($col => $sanitized),
+        array('id' => $project_id),
+        array('%s'),
+        array('%d')
+    );
+
+    if ($updated !== false) {
+        // Also sync the theme_mod so the Customizer and DB stay consistent
+        if (!empty($field)) {
+            try {
+                set_theme_mod($field, $sanitized);
+            } catch (Exception $e) {
+                // ignore set_theme_mod errors, respond with success for DB update
+            }
+        }
+
+        wp_send_json_success(array('message' => 'Champ sauvegardé', 'value' => $sanitized));
+    } else {
+        // Peut être 0 si la valeur est identique — renvoyer success également
+        if ($wpdb->last_error) {
+            wp_send_json_error('Erreur BD: ' . $wpdb->last_error);
+        } else {
+            // Ensure theme_mod is in sync even if DB reported 0 rows affected
+            if (!empty($field)) {
+                try { set_theme_mod($field, $sanitized); } catch (Exception $e) {}
+            }
+            wp_send_json_success(array('message' => 'Aucune modification nécessaire', 'value' => $sanitized));
+        }
+    }
+}
+add_action('wp_ajax_save_project_field', 'ctrltim_ajax_save_project_field');
 
 // AJAX pour gérer un média social (utilisé par le Customizer pour actions rapides)
 function ctrltim_ajax_manage_media() {

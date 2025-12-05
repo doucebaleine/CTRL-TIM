@@ -26,8 +26,6 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  /* leave room for the clear button on the right */
-  padding-right: 64px;
 }
 
 input::placeholder {
@@ -146,13 +144,13 @@ input[type="search"]::-ms-reveal {
   color: var(--couleur-texte-pale);
 }
 .resultats-recherche h1 {
-  font-size: 2.1rem;
+  font-size: 2rem;
   margin-bottom: 2rem;
   text-align: center;
+  font-weight: normal;
 }
 .mot-cle-recherche {
   color: #62B8FF;
-  font-weight: 700;
 }
 .liste-resultats {
   list-style: none;
@@ -178,7 +176,6 @@ input[type="search"]::-ms-reveal {
   font-size: 1.25rem;
   font-family: var(--policeTitre);
   text-decoration: none;
-  font-weight: 600;
   transition: color 0.2s;
 }
 .lien-resultat:hover {
@@ -187,8 +184,6 @@ input[type="search"]::-ms-reveal {
 .type-resultat {
   font-size: 0.95rem;
   color: #D167FF;
-  font-weight: 700;
-  margin-left: 0.5rem;
 }
 .desc-resultat {
   font-size: 1rem;
@@ -271,5 +266,27 @@ input[type="search"]::-ms-reveal {
 @media screen and (max-width: 600px) {
   .barreRecherche input{
     padding-right: 0px;
+  }
+  /* Afficher le bouton Effacer comme un "X" compact en mobile */
+  .barreRecherche .search-clear {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    text-indent: -9999px; /* masquer le texte "Effacer" */
+    overflow: hidden;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 6px;
+  }
+  .barreRecherche .search-clear::after {
+    content: '✕';
+    display: block;
+    text-indent: 0;
+    font-size: 18px;
+    line-height: 28px;
+    text-align: center;
+    color: #9aa0d6;
   }
 }

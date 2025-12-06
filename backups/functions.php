@@ -124,5 +124,8 @@ function theme_svg_url( $name ) {
 
 // EOF - le reste des helpers est dans functions/base-de-donnees.php
 
+/**
+ * Charge l'arrière-plan avec effet spotlight
+ */
 
 

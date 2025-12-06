@@ -1,4 +1,5 @@
 <?php get_header(); ?>
+<?php get_arrierePlan(); ?>
     <!-- header déplacé dans header.php -->
    <main>
       <!-- TITRE DE L'EXPOSITION -->

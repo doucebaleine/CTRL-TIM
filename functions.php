@@ -267,5 +267,6 @@ add_action('template_redirect', function() {
     }
 });
 
-
-
+function get_arrierePlan() {
+    include(get_template_directory() . '/arriere-plan.php');
+}

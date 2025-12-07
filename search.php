@@ -15,6 +15,10 @@
                     // 1) Récupérer titre et description
                     $proj_title = $proj->titre_projet ?? '';
                     $proj_desc  = $proj->description_projet ?? '';
+                    $nom_categorie = '';
+                    if (!empty($proj->cat_exposition)) {
+                        $nom_categorie = ctrltim_get_nom_categorie($proj->cat_exposition);
+                    }
 
                     // 2) Récupérer les étudiants associés VIA ta fonction officielle
                     $etudiants = ctrltim_get_etudiants_for_projet($proj->id);
@@ -32,11 +36,10 @@
                     if (!empty($search_query)) {
 
                         $title_match    = mb_stripos($proj_title, $search_query) !== false;
-                        $desc_match     = mb_stripos($proj_desc, $search_query) !== false;
                         $student_match  = mb_stripos($etudiants_noms, $search_query) !== false;
 
                         // Si rien ne correspond → ignorer ce projet
-                        if (!($title_match || $desc_match || $student_match)) {
+                        if (!($title_match || $student_match)) {
                             continue;
                         }
                     }
@@ -73,7 +76,10 @@
                     echo '<a class="lien-resultat" href="' . esc_url($project_link) . '">
                                 <span class="titre-resultat">' . esc_html($proj_title) . '</span>
                             </a>';
-                    echo '<span class="type-resultat">[Projet]</span>';
+                    
+                    $slug_categorie = strtolower(str_replace(' ', '-', $nom_categorie));
+
+                    echo '<span class="type-resultat cat-' . esc_attr($slug_categorie) . '">[' . esc_html($nom_categorie) . ']</span>';
 
                     if (!empty($proj_desc)) {
                         echo '<div class="desc-resultat">' . esc_html(wp_trim_words($proj_desc, 20)) . '</div>';
@@ -82,7 +88,7 @@
                     echo '</li>';
                 }
             }
-            
+
             if (!$results_found) {
                 echo '<p class="aucun-resultat">Aucun résultat trouvé.</p>';
             }

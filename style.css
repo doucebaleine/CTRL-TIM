@@ -1896,15 +1896,13 @@ main.mainArtistes {
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   position: relative;
+  animation: animScale 3s ease-in-out infinite;
 }
 .pageProjet__titre__boiteTitre__etudiants__contenant span {
   color: #FFFFFF;
   font-family: var(--policeTexte);
   font-size: 1rem;
   font-weight: 500;
-}
-.pageProjet__titre__boiteTitre__etudiants__contenant:hover::before {
-  opacity: 0.8;
 }
 .pageProjet__titre__boiteTitre__etudiants__contenant::before {
   content: "";
@@ -1917,9 +1915,6 @@ main.mainArtistes {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
-}
-.pageProjet__titre__boiteTitre__etudiants__contenant:hover::before {
-  opacity: 0.8;
 }
 .pageProjet__contenu {
   width: 100%;

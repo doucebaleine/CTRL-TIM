@@ -2114,6 +2114,26 @@ main.mainArtistes {
   margin-bottom: 2rem;
   gap: 1rem;
 }
+.pageProjet__carrousel__boutons__input {
+  display: none;
+}
+.pageProjet__carrousel__boutons__label {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(4, 8, 20, 0.6);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.pageProjet__carrousel__boutons__label:hover {
+  background: linear-gradient(90deg, #D167FF, #62B8FF);
+  transform: scale(1.3);
+}
+.pageProjet__carrousel__boutons__input:checked + .pageProjet__carrousel__boutons__label {
+  background: linear-gradient(90deg, #D167FF, #62B8FF);
+  box-shadow: 0 0 10px rgba(209, 103, 255, 0.5);
+  transform: scale(1.2);
+}
 @media (max-width: 900px) {
   .pageProjet__carrousel__images {
     height: 320px;

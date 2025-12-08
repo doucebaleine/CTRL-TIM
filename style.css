@@ -484,6 +484,90 @@ h1 {
 /* /////////////////////////////////
 Les composants
 //////////////////////////////////// */
+.spotlight-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgb(11, 14, 33);
+  z-index: -1;
+}
+
+/* Repeating text background */
+.text-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.text-row {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 20px;
+}
+
+.text-row:nth-child(even) {
+  margin-left: -150px;
+}
+
+.text-background span {
+  font-family: "Black Han Sans", sans-serif;
+  color: #1A1C37;
+  font-size: 48px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  white-space: nowrap;
+  -webkit-text-stroke: 0.5px #3A3F76;
+  text-stroke: 0.5px #3A3F76;
+  opacity: 0.6;
+}
+
+.spotlight-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(11, 14, 33, 0.8);
+  mask-image: radial-gradient(circle at 50% 50%, transparent 0%, transparent 150px, black 250px);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0%, transparent 150px, black 250px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(102, 123, 198, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 999000;
+  transition: all 0.1s ease-out;
+}
+
+.cursor-glow {
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(102, 123, 198, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+  transition: all 0.1s ease-out;
+}
+
+body {
+  cursor: none;
+}
+
 /* Arrière-plan SVG derrière le filigrane de la page (body::before est utilisé pour le texte du filigrane) */
 body::before {
   content: "";

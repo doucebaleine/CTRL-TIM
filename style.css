@@ -1834,6 +1834,14 @@ main.mainArtistes {
     color: #58b5ff;
   }
 }
+@keyframes animScale {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
 .pageProjet {
   width: 100%;
   /* contenu principal : 2 colonnes (image | infos) */
@@ -1956,6 +1964,24 @@ main.mainArtistes {
   margin: 0;
   font-family: var(--policeTexte);
 }
+.pageProjet__contenu__information__lien__btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(90deg, #D167FF, #62B8FF);
+  color: #0b0e21;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-family: var(--policeTexte);
+  cursor: pointer;
+  border: none;
+  box-shadow: -8px 6px 0px 0px rgba(45, 20, 80, 0.25);
+  transition: all 0.3s ease;
+}
+.pageProjet__contenu__information__lien__btn:hover {
+  transform: translate(-4px, 4px);
+  box-shadow: -4px 2px 0px 0px rgba(45, 20, 80, 0.25);
+}
 .pageProjet__contenu__information__video {
   background: #161B3E;
   padding: 1rem;
@@ -2015,13 +2041,12 @@ main.mainArtistes {
 .pageProjet__carrousel__nav {
   position: absolute;
   top: 50%;
-  left: 0;
-  width: 50%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   transform: translateY(-50%);
-  transform: translateX(50%);
+  transform: translateX(0%);
   pointer-events: none;
 }
 .pageProjet__carrousel__nav__btn {
@@ -2034,10 +2059,11 @@ main.mainArtistes {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 45px;
-  height: 45px;
+  width: 120px;
+  height: 120px;
   transition: background 0.3s ease, transform 0.2s ease;
   z-index: 10;
+  animation: animScale 2s ease-in-out infinite;
 }
 .pageProjet__carrousel__nav__btn:hover {
   transform: scale(1.05);
@@ -2049,10 +2075,10 @@ main.mainArtistes {
   font-size: 18px;
 }
 .pageProjet__carrousel__nav__btn--prev {
-  margin-left: 10px;
+  margin-left: 2rem;
 }
 .pageProjet__carrousel__nav__btn--next {
-  margin-right: 10px;
+  margin-right: 2rem;
 }
 .pageProjet__carrousel__images {
   position: relative;

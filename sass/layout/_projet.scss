@@ -1,3 +1,12 @@
+@keyframes animScale {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.08);
+    }
+}
+
 .pageProjet {
     width: 100%;
 
@@ -143,6 +152,28 @@
             }
         }
 
+        &__lien {
+            &__btn {
+                display: inline-block;
+                padding: 0.75rem 1.5rem;
+                background: linear-gradient(90deg, #D167FF, #62B8FF);
+                color: #0b0e21;
+                text-decoration: none;
+                border-radius: 8px;
+                font-weight: 600;
+                font-family: var(--policeTexte);
+                cursor: pointer;
+                border: none;
+                box-shadow: -8px 6px 0px 0px rgba(45, 20, 80, 0.25);
+                transition: all 0.3s ease;
+
+                &:hover {
+                    transform: translate(-4px, 4px);
+                    box-shadow: -4px 2px 0px 0px rgba(45, 20, 80, 0.25);
+                }
+            }
+        }
+
         &__video {
             background: #161B3E;
             padding: 1rem;
@@ -209,13 +240,13 @@
         &__nav {
             position: absolute;
             top: 50%;
-            left: 0;
-            width: 50%;
+            // left: 0;
+            width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             transform: translateY(-50%);
-            transform: translateX(50%);
+            transform: translateX(0%);
             pointer-events: none;
 
             &__btn {
@@ -228,10 +259,11 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 45px;
-                height: 45px;
+                width: 120px;
+                height: 120px;
                 transition: background 0.3s ease, transform 0.2s ease;
                 z-index: 10;
+                animation: animScale 2s ease-in-out infinite;
 
                 &:hover {
                     transform: scale(1.05);
@@ -245,11 +277,11 @@
                 }
 
                 &--prev {
-                    margin-left: 10px;
+                    margin-left: 2rem;
                 }
 
                 &--next {
-                    margin-right: 10px;
+                    margin-right: 2rem;
                 }
             }
         }

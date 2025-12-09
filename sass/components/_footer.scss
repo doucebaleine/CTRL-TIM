@@ -1,11 +1,12 @@
 // Pied de page du site
 .pied-page-site{
+  position: relative;
   bottom: 0;
   width: 100%;
   background: linear-gradient(180deg,#0B0E21,#070713);
   color: #222640;
   padding-top: 20px;
-  z-index: 9999;
+  z-index: 5;
 }
 
 .interieur-pied-page{

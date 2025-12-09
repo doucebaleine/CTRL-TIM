@@ -1,5 +1,5 @@
 (function () {
-  const pile = document.querySelector('.pile-affiches');
+  const pile = document.querySelector('.accueil__exposition__galerie__affiches');
   if (!pile) return;
 
   const THEME = (window.CTRL_TIM && window.CTRL_TIM.themeUrl) ? window.CTRL_TIM.themeUrl : '';

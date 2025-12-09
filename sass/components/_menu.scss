@@ -54,28 +54,69 @@
 .menu-annees {
   position: relative;
   display: flex;
-  justify-content: flex-end;
+  justify-content: end;
+  margin-right: 15%;
 }
 .annee-bouton {
   cursor: pointer;
+  position: relative;
+  padding-right: 44px; /* espace pour la flèche */
+  transition: transform 180ms ease, opacity 180ms ease;
+  /* Dégradé de bordure autour du bouton */
+  border: 2px solid transparent;
+  background-image: linear-gradient(#0a0814, #0a0814), linear-gradient(90deg,#D167FF,#62B8FF);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border-radius: 8px;
+}
+.annee-bouton::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-right: 3px solid #9aa0d6;
+  border-bottom: 3px solid #9aa0d6;
+  transform: translateY(-50%) rotate(45deg);
+  transition: transform 200ms ease, opacity 180ms ease;
+}
+.menu-annees.ouvert .annee-bouton::after {
+  transform: translateY(-50%) rotate(-135deg); /* flèche vers le haut */
+}
+.annee-bouton:hover {
+  opacity: 1;
+  transform: translateY(-1px);
 }
 .annee-liste {
   display: none;
   position: absolute;
-  right: 0;
-  top: calc(100% + 10px);
+  left: 25%;
+  top: 100%;
   min-width: 220px;
   background: rgba(14,12,28,0.98);
-  border: 1px solid #2e306a;
+  /* Dégradé de bordure pour distinguer le dropdown */
+  border: 2px solid transparent;
+  background-image: linear-gradient(rgba(14,12,28,0.98), rgba(14,12,28,0.98)), linear-gradient(90deg,#D167FF,#62B8FF);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   padding: 8px;
   list-style: none;
   margin: 0;
   z-index: 21000;
+  transform: translateY(-6px);
+  opacity: 0;
+  transition: transform 180ms cubic-bezier(.2,.9,.2,1), opacity 180ms ease;
 }
-.menu-annees.ouvert .annee-liste { display: block; }
+.menu-annees.ouvert .annee-liste {
+  display: block;
+  transform: translateY(0);
+  opacity: 1;
+}
 .annee-item {
+  text-align: center;
   display: block;
   padding: 10px 12px;
   border-radius: 8px;
@@ -83,14 +124,26 @@
   text-decoration: none;
   font-family: var(--policeTitre);
   font-size: 1.3rem;
+  transition: background 160ms ease, transform 160ms ease;
 }
 .annee-item:hover {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.08);
+  transform: translateX(4px);
+}
+
+/* petite animation d'apparition des items */
+.menu-annees.ouvert .annee-liste li {
+  animation: fadePop 220ms cubic-bezier(.2,.9,.2,1);
+}
+
+@keyframes fadePop {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
 }
 .bouton-menu{ 
   display:inline-block; 
   padding:12px 24px; 
-  border-radius: 5px;
+  border: none;
   background:transparent; 
   color:var(--couleur-texte-pale); 
   text-decoration:none; 
@@ -98,11 +151,13 @@
   font-family:var(--policeTitre) 
 }
 
+
 .bouton-menu.primaire,
 .bouton-menu.current-menu-item {
   background: linear-gradient(90deg,#D167FF,#62B8FF);
   color: #0b0e21;
   box-shadow: -8px 6px 0px 0px rgba(45, 20, 80, 25);
+  border-radius: 8px;
 }
 
 /* rendre visuellement et fonctionnellement non cliquable l'élément primaire/current */

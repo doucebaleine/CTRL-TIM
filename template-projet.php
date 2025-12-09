@@ -76,7 +76,7 @@ if ($project_id && function_exists('ctrltim_get_projet_by_id')) {
             <?php
             // Lien du projet
             if ($project && !empty($project->lien)) {
-                echo '<a href="' . esc_url($project->lien) . '" target="_blank" rel="noopener noreferrer">' . esc_html($project->lien) . '</a>';
+                echo '<a href="' . esc_url($project->lien) . '" target="_blank" rel="noopener noreferrer" class="pageProjet__contenu__information__lien__btn">Lien du projet</a>';
             }
             ?>
         </div>

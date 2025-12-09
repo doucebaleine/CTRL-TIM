@@ -44,10 +44,12 @@
 
                 h2 {
                     color: #FFFFFF;
+                    font-weight: normal;
                     font-family: 'Jersey 15', sans-serif;
                     font-size: clamp(48px, 8vw, 78px);
                     text-align: center;
                     text-transform: uppercase;
+                    animation: animScale 3s ease-in-out infinite;
                 }
             }
 
@@ -62,7 +64,6 @@
                     padding: 0.75rem 1.5rem;
                     border-radius: 8px;
                     position: relative;
-                    animation: animScale 3s ease-in-out infinite;
 
                     span {
                         color: #FFFFFF;
@@ -234,55 +235,59 @@
         position: relative;
         width: 100%;
         margin: 0 auto;
-        padding: 0 1rem;
+        padding: 2rem;
         box-sizing: border-box;
-        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         
         &__nav {
             position: absolute;
             top: 50%;
-            // left: 0;
+            left: 50%;
             width: 100%;
+            max-width: 1200px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transform: translateY(-50%);
-            transform: translateX(0%);
+            transform: translate(-50%, -50%);
             pointer-events: none;
+            padding: 0;
 
             &__btn {
                 pointer-events: all;
-                background: rgba(0, 0, 0, 0.4);
+                background: rgba(11, 14, 33, 0.8);
                 border: none;
-                border-radius: 50%;
+                border-radius: 8px;
                 color: white;
                 cursor: pointer;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 120px;
-                height: 120px;
-                transition: background 0.3s ease, transform 0.2s ease;
+                width: 50px;
+                height: 50px;
+                transition: all 0.3s ease;
                 z-index: 10;
-                animation: animScale 2s ease-in-out infinite;
+                animation: animScale 3s ease-in-out infinite;
 
                 &:hover {
-                    transform: scale(1.05);
-                    box-shadow: 0 12px 28px rgba(2,6,23,0.6);
-                    background: linear-gradient(180deg, rgba(11,14,33,0.95), rgba(11,14,33,0.75));
+                    transform: scale(1.1);
+                    background: rgba(11, 14, 33, 0.95);
+                    box-shadow: 0 4px 12px rgba(209, 103, 255, 0.3);
                 }
 
                 svg, &__icon {
                     color: #fff;
-                    font-size: 18px;
+                    font-size: 24px;
                 }
 
                 &--prev {
-                    margin-left: 2rem;
+                    margin-left: 0;
                 }
 
                 &--next {
-                    margin-right: 2rem;
+                    margin-right: 0;
                 }
             }
         }
@@ -290,8 +295,8 @@
         &__images {
             position: relative;
             width: 100%;
-            max-width: 800px;
-            height: 520px;
+            max-width: 1280px;
+            height: 720px;
             margin: 0 auto;
             overflow: hidden;
 
@@ -338,7 +343,7 @@
                 width: 12px;
                 height: 12px;
                 border-radius: 50%;
-                background: rgba(4,8,20,0.6);
+                background: var(--couleurCrochets);
                 cursor: pointer;
                 transition: all 0.3s ease;
 
@@ -358,12 +363,20 @@
         // responsive adjustments
         @media (max-width: 900px) {
             &__images {
-                height: 320px;
-                padding: 0 1rem;
+                height: 280px;
+                max-width: 100%;
             }
-            &__nav &__btn {
-                width: 40px;
-                height: 40px;
+            &__nav {
+                padding: 0 0.5rem;
+                
+                &__btn {
+                    width: 40px;
+                    height: 40px;
+                    
+                    svg, &__icon {
+                        font-size: 18px;
+                    }
+                }
             }
         }
     }

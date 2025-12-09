@@ -15,7 +15,7 @@ Template Name: Galerie
     <div class="pageGalerie__filter-bar">
       <button class="pageGalerie__filter-bar__filter-btn active">Tous</button>
       <?php
-  $cats = function_exists('ctrltim_get_all_categories') ? ctrltim_get_all_categories() : array();
+        $cats = function_exists('ctrltim_get_all_categories') ? ctrltim_get_all_categories() : array();
         if (!empty($cats)) {
             foreach ($cats as $c) {
                 // Use the category name as the button label so filter.js (which matches by text) works correctly

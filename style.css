@@ -381,9 +381,9 @@ STRUCTURE DU SITE
 
 /* Galerie */
 :root {
-  --galerie-projet-bordure-arcade:linear-gradient(270deg, #78aeff 0%, #77e8ff 100%);
-  --galerie-projet-bordure-finissants:linear-gradient(270deg, #7C96FF 0%, #A470FF 100%);
-  --galerie-projet-bordure-graphisme:linear-gradient(270deg, #AD7EFF 0%, #FF7DFD 100%);
+  --galerie-projet-bordure-arcade:linear-gradient(270deg, #7C96FF 0%, #A470FF 100%);
+  --galerie-projet-bordure-finissants:linear-gradient(270deg, #AD7EFF 0%, #FF7DFD 100%);
+  --galerie-projet-bordure-graphisme:linear-gradient(270deg, #78aeff 0%, #77e8ff 100%);
   --galerie-filter-btn-texte: #ccc;
   --galerie-filter-btn-texte-active: #0e153a;
   --galerie-dropdown-select-couleur: linear-gradient(#0e1431, #0e1431);
@@ -1814,6 +1814,16 @@ main.mainArtistes {
     display: block;
     text-decoration: underline;
     color: #58b5ff;
+  }
+}
+@media (min-width: 900px) and (max-width: 1500px) {
+  .pageGalerie__filter-bar__filter-btn {
+    width: 15vw;
+  }
+}
+@media screen and (min-width: 1500px) {
+  .pageGalerie__filter-bar__filter-btn {
+    width: 10vw;
   }
 }
 .pageProjet {

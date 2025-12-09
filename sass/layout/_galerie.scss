@@ -383,3 +383,16 @@
     color: #58b5ff;
   }
 }
+
+@media (min-width: 900px) and (max-width: 1500px) {
+  .pageGalerie__filter-bar__filter-btn {
+    width: 15vw;
+  }
+}
+
+@media screen and (min-width: 1500px) {
+  .pageGalerie__filter-bar__filter-btn {
+    width: 10vw;
+  }
+}
+

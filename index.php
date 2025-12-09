@@ -85,7 +85,7 @@
    <h2>CATÉGORIES</h2>
    <section class="accueil__categories">
       <div class="accueil__categories__finissants">
-         <a href="<?php echo esc_url(home_url('/index.php/galerie/')); ?>">
+         <a href="<?php echo esc_url(add_query_arg('category', 'Finissant•e•s', home_url('/index.php/galerie/'))); ?>">
             <div class="accueil__categories__finissants__anim" aria-hidden="true">
                <img src="<?php echo esc_url(get_template_directory_uri() . '/images/anim_finissants.gif'); ?>" alt="animation finissants" />
             </div>
@@ -93,7 +93,7 @@
          </a>
       </div>
       <div class="accueil__categories__arcade">
-         <a href="<?php echo esc_url(home_url('/index.php/galerie')); ?>">
+         <a href="<?php echo esc_url(add_query_arg('category', 'Arcade', home_url('/index.php/galerie/'))); ?>">
             <div class="accueil__categories__arcade__anim" aria-hidden="true">
                <img src="<?php echo esc_url(get_template_directory_uri() . '/images/anim_arcade.gif'); ?>" alt="animation arcade" />
             </div>
@@ -101,7 +101,7 @@
          </a>
       </div>
       <div class="accueil__categories__graphisme">
-         <a href="<?php echo esc_url(home_url('/index.php/galerie')); ?>">
+         <a href="<?php echo esc_url(add_query_arg('category', 'Graphisme', home_url('/index.php/galerie/'))); ?>">
             <div class="accueil__categories__graphisme__anim" aria-hidden="true">
                <img src="<?php echo esc_url(get_template_directory_uri() . '/images/anim_graphisme.gif'); ?>" alt="animation graphisme" />
             </div>

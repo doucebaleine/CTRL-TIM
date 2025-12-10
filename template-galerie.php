@@ -8,14 +8,33 @@ Template Name: Galerie
 
 <?php get_header(); ?>
 
+
   <main class="pageGalerie">
     <h1 class="pageGalerie__titre">Galerie</h1>
 
     <div class="pageGalerie__filter-bar">
       <button class="pageGalerie__filter-bar__filter-btn active">Tous</button>
       <?php
-  $cats = function_exists('ctrltim_get_all_categories') ? ctrltim_get_all_categories() : array();
+        $cats = function_exists('ctrltim_get_all_categories') ? ctrltim_get_all_categories() : array();
         if (!empty($cats)) {
+            // Définir l'ordre souhaité des catégories
+            $ordre_categories = array('Finissant•e•s', 'Arcade', 'Graphisme');
+            
+            // Trier les catégories selon l'ordre défini
+            usort($cats, function($a, $b) use ($ordre_categories) {
+                $nom_a = isset($a->nom) ? $a->nom : (isset($a->name) ? $a->name : '');
+                $nom_b = isset($b->nom) ? $b->nom : (isset($b->name) ? $b->name : '');
+                
+                $pos_a = array_search($nom_a, $ordre_categories);
+                $pos_b = array_search($nom_b, $ordre_categories);
+                
+                // Si la catégorie n'est pas dans l'ordre défini, la mettre à la fin
+                if ($pos_a === false) $pos_a = 999;
+                if ($pos_b === false) $pos_b = 999;
+                
+                return $pos_a - $pos_b;
+            });
+            
             foreach ($cats as $c) {
                 // Use the category name as the button label so filter.js (which matches by text) works correctly
                 $label = isset($c->nom) ? $c->nom : (isset($c->name) ? $c->name : '');
@@ -40,11 +59,11 @@ Template Name: Galerie
 
     <section class="pageGalerie__dropdown">
       <div class="pageGalerie__dropdown__select">
-        <span class="pageGalerie__dropdown__selected">All</span>
+        <span class="pageGalerie__dropdown__selected">Tous</span>
         <div class="pageGalerie__dropdown__caret"></div>
       </div>
       <ul class="pageGalerie__dropdown__menu">
-        <li class="active" data-filter="all">All</li>
+        <li class="active" data-filter="all">Tous</li>
         <li data-filter="jeux">Jeux Video</li>
         <li data-filter="3d">3D</li>
         <li data-filter="web">Web</li>
@@ -57,6 +76,12 @@ Template Name: Galerie
 
         <?php
         $projets = function_exists('ctrltim_get_all_projets') ? ctrltim_get_all_projets() : array();
+        
+        // Shuffle projects to display them randomly
+        if (!empty($projets)) {
+            shuffle($projets);
+        }
+        
         if (!empty($projets)) :
           foreach ($projets as $p) :
             $img = !empty($p->image_projet) ? $p->image_projet : get_template_directory_uri() . '/images/default.jpg';

@@ -830,7 +830,7 @@ h2 {
   padding-bottom: 50px;
 }
 
-h2 {
+.categories__titre {
   text-align: center;
   margin-bottom: 1rem;
   padding-top: 5rem;
@@ -2006,7 +2006,11 @@ main.mainArtistes {
 .pageGalerie__galerieProjets__projets__projet__link {
   color: var(--couleur-texte-pale);
   display: block;
-  pointer-events: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-app-region: no-drag;
+  user-select: none;
+  cursor: default;
   width: 100%;
   height: 100%;
   line-height: 0;

@@ -48,6 +48,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!buttons.length || !description || !subtitle) return; // Safety check
 
+  // Fonction pour mettre à jour la description et le subtitle
+  function updateDescription(key) {
+    description.textContent = descriptions[key] || "Explorez nos projets.";
+    texteLirePlus.textContent = lirePlus[key] || "";
+    subtitle.textContent = subtitles[key] || "Projets.";
+    texteLirePlus.classList.remove("open");
+    btnText.textContent = "Lire plus";
+  }
+
+  // Récupérer la catégorie depuis l'URL si présente
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlCategory = urlParams.get('category');
+  if (urlCategory) {
+    const normalizedCategory = normalize(urlCategory);
+    updateDescription(normalizedCategory);
+    // Activer le bouton correspondant
+    buttons.forEach(btn => {
+      if (normalize(btn.textContent) === normalizedCategory) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+  }
+  
   // Button click logic
   buttons.forEach(btn => {
     btn.addEventListener("click", () => {

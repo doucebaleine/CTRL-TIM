@@ -70,6 +70,7 @@ function ctrltim_enqueue_styles() {
 add_action('wp_enqueue_scripts', 'ctrltim_enqueue_styles');
 
 function ctrltim_enqueue_scripts(){
+    wp_enqueue_script('ctrltim-arriere-plan', get_template_directory_uri() . '/js/arriere-plan.js', array(), filemtime(get_template_directory() . '/js/arriere-plan.js'), true);
     wp_enqueue_script('ctrltim-menu', get_template_directory_uri() . '/js/menu.js', array(), filemtime(get_template_directory() . '/js/menu.js'), true);
     wp_enqueue_script('ctrltim-cards', get_template_directory_uri() . '/js/cards.js', array(), filemtime(get_template_directory() . '/js/cards.js'), true);
     wp_enqueue_script('ctrltim-filter', get_template_directory_uri() . '/js/filter.js', array(), filemtime(get_template_directory() . '/js/filter.js'), true);
@@ -306,5 +307,8 @@ add_action('template_redirect', function() {
     }
 });
 
+function get_arrierePlan() {
+    include(get_template_directory() . '/arriere-plan.php');
+}
 
 

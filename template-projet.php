@@ -4,6 +4,7 @@
     */
     // projet
     get_header();
+    get_arrierePlan();
 ?>
 
 <?php

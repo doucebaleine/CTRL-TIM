@@ -6,6 +6,7 @@
 ?>
 
    <?php get_header(); ?>
+   <?php get_arrierePlan(); ?>
    
    <main class="mainArtistes">
 

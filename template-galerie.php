@@ -7,6 +7,7 @@ Template Name: Galerie
 ?>
 
 <?php get_header(); ?>
+<?php get_arrierePlan(); ?>
 
 
   <main class="pageGalerie">

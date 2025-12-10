@@ -1,4 +1,5 @@
 <?php get_header(); ?>
+<?php get_arrierePlan(); ?>
 <main>
     <section class="resultats-recherche">
         <h1>Résultats de recherche pour : <span class="mot-cle-recherche"><?php echo esc_html(get_search_query()); ?></span></h1>

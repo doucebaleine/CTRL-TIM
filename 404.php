@@ -1,4 +1,5 @@
 <?php get_header(); ?>
+<?php get_arrierePlan(); ?>
 <main class="page-404">
   <section class="contenu-404">
     <div class="erreur-404-emoji" aria-hidden="true">😕</div>

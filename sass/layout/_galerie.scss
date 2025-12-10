@@ -201,6 +201,11 @@
       &.active {
         cursor: grabbing;
         transform: scale(1.02);
+        
+        // Désactiver les clics pendant le drag
+        .pageGalerie__galerieProjets__projets__projet__link {
+          pointer-events: none;
+        }
       }
 
       &__projet {
@@ -220,7 +225,6 @@
         &__link{
           color: var(--couleur-texte-pale);
           display: block;
-          // pointer-events: none;
           -webkit-user-select: none;
           -webkit-user-drag: none;
           -webkit-app-region: no-drag;

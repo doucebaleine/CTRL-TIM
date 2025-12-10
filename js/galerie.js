@@ -6,11 +6,13 @@ document.addEventListener('DOMContentLoaded', function() {
     let isDown = false;
     let startX;
     let scrollLeft;
+    let hasMoved = false;
+    const DRAG_THRESHOLD = 5; // pixels avant de considérer comme un drag
 
     // Desktop events
     slider.addEventListener('mousedown', (e) => {
         isDown = true;
-        slider.classList.add('active');
+        hasMoved = false;
         startX = e.pageX - slider.offsetLeft;
         scrollLeft = slider.scrollLeft;
     });
@@ -27,16 +29,26 @@ slider.addEventListener('mouseup', () => {
 
 slider.addEventListener('mousemove', (e) => {
   if (!isDown) return;
-  e.preventDefault();
+  
   const x = e.pageX - slider.offsetLeft;
   const walk = x - startX;
-  slider.scrollLeft = scrollLeft - walk;
+  
+  // Ajouter la classe active seulement si le mouvement dépasse le seuil
+  if (Math.abs(walk) > DRAG_THRESHOLD && !hasMoved) {
+    hasMoved = true;
+    slider.classList.add('active');
+  }
+  
+  if (hasMoved) {
+    e.preventDefault();
+    slider.scrollLeft = scrollLeft - walk;
+  }
 });
 
 // Mobile touch events
 slider.addEventListener('touchstart', (e) => {
   isDown = true;
-  slider.classList.add('active');
+  hasMoved = false;
   startX = e.touches[0].pageX - slider.offsetLeft;
   scrollLeft = slider.scrollLeft;
 });
@@ -48,8 +60,18 @@ slider.addEventListener('touchend', () => {
 
     slider.addEventListener('touchmove', (e) => {
         if (!isDown) return;
+        
         const x = e.touches[0].pageX - slider.offsetLeft;
         const walk = x - startX;
-        slider.scrollLeft = scrollLeft - walk;
+        
+        // Ajouter la classe active seulement si le mouvement dépasse le seuil
+        if (Math.abs(walk) > DRAG_THRESHOLD && !hasMoved) {
+            hasMoved = true;
+            slider.classList.add('active');
+        }
+        
+        if (hasMoved) {
+            slider.scrollLeft = scrollLeft - walk;
+        }
     });
 });

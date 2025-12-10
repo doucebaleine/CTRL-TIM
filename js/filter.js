@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
       width: 100%;
       text-align: center;
       color: #ffffffff;
-      font-size: 2vw;
+      font-size: clamp(1.5rem, 1vw + 1rem, 1.75rem);
     `;
     message.textContent = 'Aucun projet trouvé';
     

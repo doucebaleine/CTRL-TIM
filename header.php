@@ -22,13 +22,13 @@
 		</div>
 
 		  <form class="barreRecherche" role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>" autocomplete="off">
-			  <img class="iconeRecherche" src="<?php echo esc_url( get_template_directory_uri() . '/images/search-icon.svg' ); ?>" aria-hidden="true" />
+			  <img class="iconeRecherche" src="<?php echo esc_url( get_template_directory_uri() . '/images/search-icon.svg' ); ?>" alt="iconeRecherche" aria-hidden="true" />
 			<input type="search" name="s" placeholder="Recherche" aria-label="Recherche" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
 			<button type="button" class="search-clear" aria-label="Effacer l'historique">Effacer</button>
 		  </form>
 
 		<button class="menu-burger" aria-label="Ouvrir le menu" aria-expanded="false">
-			<img class="icone-burger" src="<?php echo esc_url( get_template_directory_uri() . '/images/menu-burger.svg' ); ?>" aria-hidden="true" />
+			<img class="icone-burger" src="<?php echo esc_url( get_template_directory_uri() . '/images/menu-burger.svg' ); ?>" alt="icone-burger" aria-hidden="true" />
 		</button>
 	</div>
 </header>
@@ -40,7 +40,7 @@
 <div id="menuHorsCanvas" class="menu-hors-canvas" aria-hidden="true" role="dialog" aria-label="Menu principal">
 	<div tabindex="0" class="sentinelle-focus sentinelle-haut" aria-hidden="true"></div>
 	<button class="bouton-fermer-menu" aria-label="Fermer le menu">
-		<img class="iconeFermerMenu" src="<?php echo esc_url( get_template_directory_uri() . '/images/close-icon.svg' ); ?>" aria-hidden="true" />
+		<img class="iconeFermerMenu" src="<?php echo esc_url( get_template_directory_uri() . '/images/close-icon.svg' ); ?>" alt="iconeFermerMenu" aria-hidden="true" />
 	</button>
 		<nav class="nav-hors-canvas" aria-label="Navigation principale">
 			<?php

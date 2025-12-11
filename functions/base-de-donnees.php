@@ -506,37 +506,29 @@ function ctrltim_ajax_charger_donnees_projet() {
         foreach ($raw_images as $img) {
             if (empty($img)) continue;
             $normalized = '';
-            // attachment ID
             if (is_numeric($img)) {
                 $url = wp_get_attachment_url(intval($img));
                 if ($url) { $normalized = esc_url($url); }
             }
-            // absolute URL or protocol-relative
             if (empty($normalized) && preg_match('#^(https?:)?//#i', $img)) {
                 $normalized = esc_url($img);
             }
-            // wp-content/uploads path
             if (empty($normalized) && (strpos($img, 'wp-content/uploads') !== false || strpos($img, '/wp-content/uploads') !== false)) {
                 $path = ($img[0] === '/') ? $img : '/' . ltrim($img, '/');
                 $normalized = esc_url(home_url($path));
             }
-            // theme images folder
             if (empty($normalized) && (strpos($img, 'images/') !== false || strpos($img, '/images/') !== false)) {
                 $rel = ltrim($img, '/');
                 $normalized = esc_url(get_template_directory_uri() . '/' . $rel);
             }
-            // fallback: assume filename in uploads
             if (empty($normalized)) {
                 $normalized = esc_url(trailingslashit($uploads['baseurl']) . ltrim($img, '/'));
             }
 
-            // push normalized
             $norm_images[] = $normalized;
 
-            // Debug: check if resource exists
             $exists = false;
             $http_code = null;
-            // Try to map URL to local file if possible
             $local_path = '';
             $base_upload_url = rtrim($uploads['baseurl'], '/') . '/';
             if (strpos($normalized, $base_upload_url) === 0) {
@@ -551,7 +543,6 @@ function ctrltim_ajax_charger_donnees_projet() {
             if ($local_path && file_exists($local_path)) {
                 $exists = true;
             } else {
-                // fallback to HTTP HEAD request for absolute URLs
                 if (preg_match('#^(https?:)?//#i', $normalized)) {
                     $resp = wp_safe_remote_head($normalized, array('timeout' => 3));
                     if (!is_wp_error($resp)) {
@@ -603,7 +594,6 @@ function ctrltim_ajax_charger_donnees_projet() {
             'filtres' => json_decode($project->filtres, true) ?: array(),
             'etudiants_associes' => $etudiants_html
         );
-        // Add debug info to help diagnose missing thumbnails in Customizer
         $data['debug_images'] = isset($debug_images) ? $debug_images : array();
         $data['debug_image_main'] = isset($debug_image_main) ? $debug_image_main : null;
         
@@ -769,12 +759,10 @@ function ctrltim_ajax_save_project_field() {
     );
 
     if ($updated !== false) {
-        // Also sync the theme_mod so the Customizer and DB stay consistent
         if (!empty($field)) {
             try {
                 set_theme_mod($field, $sanitized);
             } catch (Exception $e) {
-                // ignore set_theme_mod errors, respond with success for DB update
             }
         }
 
@@ -784,7 +772,6 @@ function ctrltim_ajax_save_project_field() {
         if ($wpdb->last_error) {
             wp_send_json_error('Erreur BD: ' . $wpdb->last_error);
         } else {
-            // Ensure theme_mod is in sync even if DB reported 0 rows affected
             if (!empty($field)) {
                 try { set_theme_mod($field, $sanitized); } catch (Exception $e) {}
             }
@@ -927,7 +914,6 @@ add_action('wp_ajax_manage_category', 'ctrltim_ajax_manage_category');
 ?>
 
 <?php
-// Ensure tables exist on admin load (helps when theme wasn't re-activated)
 function ctrltim_ensure_tables() {
     global $wpdb;
     $required = array(
@@ -947,7 +933,6 @@ function ctrltim_ensure_tables() {
     }
 
     if ($missing) {
-        // Try to create missing tables (will run dbDelta for all defined SQL)
         ctrltim_creer_tables();
     }
 }

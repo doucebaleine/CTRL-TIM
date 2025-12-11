@@ -4,14 +4,13 @@
 
   const THEME = (window.CTRL_TIM && window.CTRL_TIM.themeUrl) ? window.CTRL_TIM.themeUrl : '';
 
-  // Normaliser cartesProjets (peut être un tableau de strings ou d'objets {src, lien})
+  // Normaliser cartesProjets
   const projetsNorm = Array.isArray(cartesProjets) ? cartesProjets.map(item => {
     if (typeof item === 'string') return { src: item, lien: null };
-    // attendre {src: "...", lien: "..."}
     return { src: item.src || '', lien: item.lien || null };
   }) : [];
 
-  // construire affiches comme tableau d'objets {src, lien}
+  // construire affiches comme tableau d'objets
   const affiches = [
     { src: THEME + '/images/hero-logo.svg', lien: null },
     ...projetsNorm
@@ -21,7 +20,7 @@
   let indexAffiche = 0;
 
   function creerCarte(id, srcObj, estHaut) {
-    // srcObj peut être une string (rare, on normalise avant) ou un objet {src,lien}
+    // srcObj peut être une string ou un objet
     const src = (typeof srcObj === 'string') ? srcObj : (srcObj && srcObj.src) ? srcObj.src : '';
     const lien = (typeof srcObj === 'object') ? (srcObj.lien || null) : null;
 
@@ -100,7 +99,7 @@
       e.stopPropagation();
       const logoPath = THEME + '/images/hero-logo.svg';
       if (img.src.includes('hero-logo.svg')) {
-        return; // ne rien faire
+        return;
       }
       const lienImg = divCarte.dataset.lien || img.dataset.lien;
       if (lienImg) window.location.href = lienImg;

@@ -8,9 +8,7 @@
 ?>
 
 <?php
-// Try to get a project id from query string, otherwise use the first project
 $project_id = isset($_GET['project_id']) ? intval($_GET['project_id']) : 0;
-// If no id passed, try to get the first project (helper name in French)
 if (empty($project_id) && function_exists('ctrltim_get_all_projets')) {
     $all = ctrltim_get_all_projets();
     if (!empty($all) && is_array($all) && count($all) > 0) {
@@ -18,7 +16,6 @@ if (empty($project_id) && function_exists('ctrltim_get_all_projets')) {
     }
 }
 
-// Load project object using helper (keep this DB connection logic)
 $project = null;
 if ($project_id && function_exists('ctrltim_get_projet_by_id')) {
     $project = ctrltim_get_projet_by_id($project_id);
@@ -33,7 +30,6 @@ if ($project_id && function_exists('ctrltim_get_projet_by_id')) {
             </div>
             <div class="pageProjet__titre__boiteTitre__etudiants">
                 <?php
-                // If project exists, list associated students (helper returns detailed students)
                 if ($project && function_exists('ctrltim_get_etudiants_for_projet')) {
                     $students = ctrltim_get_etudiants_for_projet($project->id);
                     if (!empty($students)) {
@@ -42,7 +38,6 @@ if ($project_id && function_exists('ctrltim_get_projet_by_id')) {
                         }
                     }
                 } else {
-                    // fallback to post author or static content
                     echo '<div class="pageProjet__titre__boiteTitre__etudiants__contenant"><span>' . esc_html(get_bloginfo('name')) . '</span></div>';
                 }
                 ?>
@@ -83,14 +78,11 @@ if ($project_id && function_exists('ctrltim_get_projet_by_id')) {
         </div>
         <div class="pageProjet__contenu__information__video">
             <?php
-            // Video can be stored in project->video_projet (url or embed)
             $video_html = '';
             if ($project && !empty($project->video_projet)) {
-                // try to get oEmbed HTML
                 if (function_exists('wp_oembed_get')) {
                     $video_html = wp_oembed_get($project->video_projet);
                 }
-                // fallback: raw output
                 if (empty($video_html)) {
                     $video_html = esc_url($project->video_projet);
                 }

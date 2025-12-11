@@ -40,7 +40,6 @@ Template Name: Galerie
             });
             
       foreach ($cats as $c) {
-        // Use the category name as the button label so filter.js (which matches by text) works correctly
         $label = isset($c->nom) ? $c->nom : (isset($c->name) ? $c->name : '');
         if (empty($label)) continue;
         $is_active = ($label === $selected_category) ? ' active' : '';
@@ -82,7 +81,6 @@ Template Name: Galerie
       <?php
       $projets = function_exists('ctrltim_get_all_projets') ? ctrltim_get_all_projets() : array();
         
-        // Shuffle projects to display them randomly
         if (!empty($projets)) {
             shuffle($projets);
         }
@@ -92,7 +90,6 @@ Template Name: Galerie
           $img = !empty($p->image_projet) ? $p->image_projet : get_template_directory_uri() . '/images/default.jpg';
           $titre = !empty($p->titre_projet) ? $p->titre_projet : __('Projet sans titre', 'ctrltim');
 
-          // Get category label
           $cat_label = '';
           if (function_exists('ctrltim_get_category_label')) {
             $cat_label = ctrltim_get_category_label($p->cat_exposition);
@@ -100,7 +97,6 @@ Template Name: Galerie
             $cat_label = ctrltim_get_nom_categorie(intval($p->cat_exposition));
           }
 
-          // Get filters (from filtres JSON field)
           $filtres_array = array();
           if (!empty($p->filtres)) {
             $decoded = json_decode($p->filtres, true);
@@ -109,7 +105,6 @@ Template Name: Galerie
             }
           }
 
-          // Map filter keys to simpler values
           $filter_map = array(
             'filtre_jeux' => 'jeux',
             'filtre_3d' => '3d',
@@ -126,7 +121,6 @@ Template Name: Galerie
 
           $data_filters = !empty($mapped_filters) ? implode(',', $mapped_filters) : '';
 
-          // Prepare data-category
           $data_category = '';
           if (!empty($cat_label)) {
             $data_category = $cat_label;

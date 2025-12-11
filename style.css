@@ -496,22 +496,6 @@ h1 {
 /* /////////////////////////////////
 Les composants
 //////////////////////////////////// */
-/* Arrière-plan SVG derrière le filigrane de la page (body::before est utilisé pour le texte du filigrane) */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background-image: url("images/background.svg");
-  background-repeat: repeat;
-  background-position: center top;
-  background-size: cover;
-  pointer-events: none;
-}
-
 .pile-affiches {
   height: 400px;
   pointer-events: auto;
@@ -1351,7 +1335,7 @@ input::placeholder {
 
 /* Bouton pour effacer l'historique */
 .barreRecherche {
-  position: relative; /* déjà used, but ensure positioning */
+  position: relative;
 }
 
 .barreRecherche .search-clear {
@@ -1392,7 +1376,6 @@ input::placeholder {
   overflow-y: auto;
 }
 
-/* Position the clear button inside the search bar so it remains visible on narrow screens */
 .barreRecherche {
   position: relative;
 }
@@ -1405,7 +1388,6 @@ input::placeholder {
   z-index: 10;
 }
 
-/* Hide native clear/cancel 'X' from browsers (WebKit + Edge) so only our button shows */
 input[type=search]::-webkit-search-decoration,
 input[type=search]::-webkit-search-cancel-button,
 input[type=search]::-webkit-search-results-button,
@@ -1661,7 +1643,6 @@ input[type=search]::-ms-reveal {
   z-index: -1;
 }
 
-/* Repeating text background */
 .text-background {
   position: fixed;
   top: 0;
@@ -1691,7 +1672,6 @@ input[type=search]::-ms-reveal {
   letter-spacing: 4px;
   white-space: nowrap;
   -webkit-text-stroke: 0.5px #3A3F76;
-  text-stroke: 0.5px #3A3F76;
   opacity: 0.6;
 }
 
@@ -2013,17 +1993,17 @@ main.mainArtistes {
   width: 100%;
 }
 .pageGalerie__galerieProjets__projets {
-  height: 800px; /* done */
-  padding: 120px 0 50px 0; /* done */
-  width: 100%; /* done */
-  overflow-x: scroll; /* done */
-  overflow-y: hidden; /* done */
-  white-space: nowrap; /* done */
-  user-select: none; /* done */
-  cursor: pointer; /* done */
-  transform: scale(1); /* done */
-  will-change: transform; /* done */
-  position: relative; /* done */
+  height: 800px;
+  padding: 120px 0 50px 0;
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  user-select: none;
+  cursor: pointer;
+  transform: scale(1);
+  will-change: transform;
+  position: relative;
   transition: all 0.2s;
 }
 .pageGalerie__galerieProjets__projets.active {

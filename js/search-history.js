@@ -113,7 +113,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 // petit feedback visuel: pulse
                 clearBtn.classList.add('cleared');
                 setTimeout(() => clearBtn.classList.remove('cleared'), 300);
-                // toast
                 showToast('Historique effacé');
             });
         }

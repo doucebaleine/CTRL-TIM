@@ -1,15 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Normalize a string for consistent key matching
   const normalize = str =>
     str
-      .normalize("NFD") // split accented chars (é → e + ́)
-      .replace(/[\u0300-\u036f]/g, "") // remove accents
-      .replace(/•/g, "") // remove bullet characters
-      .replace(/\s+/g, " ") // collapse extra spaces
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/•/g, "")
+      .replace(/\s+/g, " ")
       .trim()
       .toLowerCase();
 
-  // Define descriptions and subtitles (keys are normalized)
   const descriptions = {
     "tous":
       "Explorez l’ensemble des projets réalisés par les étudiants de la Technique d’intégration multimédia. Jeux",
@@ -39,14 +37,13 @@ document.addEventListener("DOMContentLoaded", () => {
     "finissantes": "3e année"
   };
 
-  // Select UI elements
   const buttons = document.querySelectorAll(".pageGalerie__filter-bar__filter-btn");
   const description = document.querySelector(".pageGalerie__filter__debutDescription");
   const texteLirePlus = document.querySelector(".pageGalerie__filter__lirePlus");
   const subtitle = document.querySelector(".pageGalerie__filter__subtitle");
   const btnText = document.getElementById("btnLirePlus");
 
-  if (!buttons.length || !description || !subtitle) return; // Safety check
+  if (!buttons.length || !description || !subtitle) return;
 
   // Fonction pour mettre à jour la description et le subtitle
   function updateDescription(key) {
@@ -73,7 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   
-  // Button click logic
   buttons.forEach(btn => {
     btn.addEventListener("click", () => {
       buttons.forEach(b => b.classList.remove("active"));

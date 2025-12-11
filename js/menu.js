@@ -151,7 +151,6 @@
       navHors.addEventListener('click', function (e) {
         var cible = e.target.closest('a.bouton-menu');
         if (!cible || !navHors.contains(cible)) return;
-        // ignore click if target is already the current menu item or already primary
         if (cible.classList.contains('current-menu-item') || cible.classList.contains('primaire') || cible.classList.contains('primary')) {
           e.preventDefault();
           return;

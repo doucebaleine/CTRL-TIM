@@ -5,9 +5,9 @@
       <!-- TITRE DE L'EXPOSITION -->
       <section class="acceuil__TextePrincipal">
          <div class="acceuil__TextePrincipal__Titre">
-            <img class="effet-titre" src="<?php echo esc_url( get_template_directory_uri() . '/images/CTRLTIM.png' ); ?>" aria-hidden="true" />
-            <img class="effet-titre" src="<?php echo esc_url( get_template_directory_uri() . '/images/effetTitre.svg' ); ?>" aria-hidden="true" />
-            <img class="effet-titre" src="<?php echo esc_url( get_template_directory_uri() . '/images/effetTitre.svg' ); ?>" aria-hidden="true" />
+            <img class="effet-titre" src="<?php echo esc_url( get_template_directory_uri() . '/images/CTRLTIM.png' ); ?>" alt="effetTitre" aria-hidden="true" />
+            <img class="effet-titre" src="<?php echo esc_url( get_template_directory_uri() . '/images/effetTitre.svg' ); ?>" alt="effetTitre" aria-hidden="true" />
+            <img class="effet-titre" src="<?php echo esc_url( get_template_directory_uri() . '/images/effetTitre.svg' ); ?>" alt="effetTitre" aria-hidden="true" />
          </div>
          
          <div class="description-exposition-principale">

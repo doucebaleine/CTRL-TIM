@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let hasMoved = false;
     const DRAG_THRESHOLD = 5; // pixels avant de considérer comme un drag
 
-    // Desktop events
     slider.addEventListener('mousedown', (e) => {
         isDown = true;
         hasMoved = false;
@@ -45,7 +44,6 @@ slider.addEventListener('mousemove', (e) => {
   }
 });
 
-// Mobile touch events
 slider.addEventListener('touchstart', (e) => {
   isDown = true;
   hasMoved = false;

@@ -185,17 +185,17 @@
     width: 100%;
 
     &__projets {
-      height: 800px; /* done */
-      padding: 120px 0 50px 0; /* done */
-      width: 100%; /* done */
-      overflow-x: scroll; /* done */
-      overflow-y: hidden; /* done */
-      white-space: nowrap; /* done */
-      user-select: none; /* done */
-      cursor: pointer; /* done */
-      transform: scale(1); /* done */
-      will-change: transform; /* done */
-      position: relative; /* done */
+      height: 800px;
+      padding: 120px 0 50px 0; 
+      width: 100%; 
+      overflow-x: scroll; 
+      overflow-y: hidden; 
+      white-space: nowrap;
+      user-select: none;
+      cursor: pointer;
+      transform: scale(1); 
+      will-change: transform;
+      position: relative;
       transition: all 0.2s; 
 
       &.active {

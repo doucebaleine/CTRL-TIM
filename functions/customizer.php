@@ -353,7 +353,7 @@ function ctrltim_enregistrer_customizer($wp_customize) {
         ),
     ));
 
-    // SECTION MEDIAS SOCIAUX
+    // SECTION MÉDIAS SOCIAUX
     $wp_customize->add_section('ctrltim_medias_sociaux', array(
         'title' => __('Gestion des Médias sociaux', 'ctrltim'),
         'priority' => 36,
@@ -559,10 +559,8 @@ function ctrltim_script_customizer() {
         'nonce' => wp_create_nonce('ctrltim_nonce')
     ));
 
-    // Debug: log the number of social medias when the Customizer controls are loaded (admin only)
     if (current_user_can('edit_theme_options') && function_exists('ctrltim_get_all_medias')) {
         $medias = ctrltim_get_all_medias();
-        // debug removed
     }
 }
 add_action('customize_controls_enqueue_scripts', 'ctrltim_script_customizer');

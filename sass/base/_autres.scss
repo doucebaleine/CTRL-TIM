@@ -33,9 +33,22 @@ h1{
     cursor: pointer;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (min-width:701px) and (max-width:900px)  {
     main {
-        height: 130vh;
+        height: 100vh;
         padding-top: 4vh;
     }
 }
+
+@media screen and (min-width:500px) and (max-width: 700px) {
+    main {
+        height: 100vh;
+    }
+}
+
+@media screen and (min-width:400px) and (max-width: 490px) {
+    main {
+        height: 75vh;
+    }
+}
+

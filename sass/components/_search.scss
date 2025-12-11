@@ -22,7 +22,7 @@
   outline: none;
   color: #737cb5;
   font-family: var(--policeTexte);
-  font-size: 22px;
+  font-size: 2vw;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -183,8 +183,17 @@ input[type="search"]::-ms-reveal {
 }
 .type-resultat {
   font-size: 0.95rem;
-  color: #D167FF;
 }
+.cat-finissant•e•s {
+  color: #A470FF;
+}
+.cat-arcade {
+  color: #77e8ff;
+}
+.cat-graphisme {
+  color: #FF7DFD;
+}
+
 .desc-resultat {
   font-size: 1rem;
   color: #b6c2e0;
@@ -289,4 +298,14 @@ input[type="search"]::-ms-reveal {
     text-align: center;
     color: #9aa0d6;
   }
+
+  .barreRecherche input{
+  font-size: 5vw;
+}
+}
+
+@media screen and (min-width: 601px) and (max-width: 990px){
+  .barreRecherche input{
+  font-size: 3vw;
+}
 }

@@ -55,7 +55,7 @@
   position: relative;
   display: flex;
   justify-content: end;
-  margin-right: 15%;
+  margin-right: 10%;
 }
 .annee-bouton {
   cursor: pointer;
@@ -91,7 +91,7 @@
 .annee-liste {
   display: none;
   position: absolute;
-  left: 25%;
+  left: -14%;
   top: 100%;
   min-width: 220px;
   background: rgba(14,12,28,0.98);
@@ -259,7 +259,20 @@ ul.menu-principal {
   } 
   .bouton-menu{ 
     font-size:1.4rem 
+  }
+  .annee-bouton::after {
+    right: 5px;
+    top: 47%;
+    width: 5px;
+    height: 5px;
+  }
+  .annee-liste {
+    left: -10%;
+    min-width: 140px;
   } 
+  .menu-annees {
+    margin-right: 20%;
+  }
 }
 
 @media (min-width:481px) and (max-width:900px){ 

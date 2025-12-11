@@ -477,10 +477,20 @@ h1 {
   cursor: pointer;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (min-width: 701px) and (max-width: 900px) {
   main {
-    height: 130vh;
+    height: 100vh;
     padding-top: 4vh;
+  }
+}
+@media screen and (min-width: 500px) and (max-width: 700px) {
+  main {
+    height: 100vh;
+  }
+}
+@media screen and (min-width: 400px) and (max-width: 490px) {
+  main {
+    height: 75vh;
   }
 }
 /* /////////////////////////////////
@@ -955,7 +965,6 @@ h2 {
   }
   .acceuil__TextePrincipal__Titre {
     width: 100%;
-    margin-bottom: -100px;
   }
   .galerieBoiteGenerale {
     width: 100%;
@@ -1054,7 +1063,7 @@ h2 {
   position: relative;
   display: flex;
   justify-content: end;
-  margin-right: 15%;
+  margin-right: 10%;
 }
 
 .annee-bouton {
@@ -1095,7 +1104,7 @@ h2 {
 .annee-liste {
   display: none;
   position: absolute;
-  left: 25%;
+  left: -14%;
   top: 100%;
   min-width: 220px;
   background: rgba(14, 12, 28, 0.98);
@@ -1244,6 +1253,19 @@ ul.menu-principal {
   .bouton-menu {
     font-size: 1.4rem;
   }
+  .annee-bouton::after {
+    right: 5px;
+    top: 47%;
+    width: 5px;
+    height: 5px;
+  }
+  .annee-liste {
+    left: -10%;
+    min-width: 140px;
+  }
+  .menu-annees {
+    margin-right: 20%;
+  }
 }
 @media (min-width: 481px) and (max-width: 900px) {
   .contenu-menu-hors-canvas {
@@ -1312,7 +1334,7 @@ ul.menu-principal {
   outline: none;
   color: #737cb5;
   font-family: var(--policeTexte);
-  font-size: 22px;
+  font-size: 2vw;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -1489,7 +1511,18 @@ input[type=search]::-ms-reveal {
 
 .type-resultat {
   font-size: 0.95rem;
-  color: #D167FF;
+}
+
+.cat-finissant•e•s {
+  color: #A470FF;
+}
+
+.cat-arcade {
+  color: #77e8ff;
+}
+
+.cat-graphisme {
+  color: #FF7DFD;
 }
 
 .desc-resultat {
@@ -1608,6 +1641,14 @@ input[type=search]::-ms-reveal {
     line-height: 28px;
     text-align: center;
     color: #9aa0d6;
+  }
+  .barreRecherche input {
+    font-size: 5vw;
+  }
+}
+@media screen and (min-width: 601px) and (max-width: 990px) {
+  .barreRecherche input {
+    font-size: 3vw;
   }
 }
 .spotlight-background {
